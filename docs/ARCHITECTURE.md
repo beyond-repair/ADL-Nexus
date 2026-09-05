@@ -1,4 +1,4 @@
-# ADL Nexus Architecture
+# ADL Nexus Architecture — Complete
 
 ## Core Invariant
 
@@ -10,49 +10,44 @@ Every subsystem must:
 3. Accept audit and lineage requirements.
 4. Route all state-changing actions through validation.
 
-## Layer Contracts (v0.1)
+## Layer Contracts
 
-### Layer 0 — Governance Kernel
-- Identity registry
-- Claim validation
-- Permission checks
-- Audit log append-only
-- Lineage / provenance
-- Policy evaluation
+### Layer 0 — Governance Kernel (Active)
+Identity registry · Claim validation · Permission checks · Append-only audit · Lineage · Policy evaluation
 
-### Layer 1 — Memory Kernel
-- Shared key-value + vector + graph substrate
-- VSA / clean-room hooks (sovereign-clean-room)
-- Identity persistence across sessions
-- Single source of truth for all agents
+### Layer 1 — Memory Kernel (Active)
+Shared local KV + future VSA/graph substrate. Single source of truth.
 
-### Layer 2 — Agent Runtime
-- Goal → plan → tool calls → verification loop
-- Coding agent as first concrete instance
-- Local tool sandbox only in v0.1
+### Layer 2 — Agent Runtime (Active)
+Goal → plan → tool calls → verification. Coding agent is the first concrete instance.
 
-### Higher Layers (stubs only in v0.1)
-Layers 3–8 exist as registration points and documentation.  
-No production runtime claims are made for them in v0.1.
+### Layer 3 — Digital Workforce (Scaffolded)
+Role definitions: Engineer, Researcher, Writer, Analyst, Tester, Operator, Manager.
+Routing only; full autonomy not claimed.
 
-## Data Flow (Core Path)
+### Layer 4 — Development Environment (Scaffolded)
+Repository analysis, future refactoring / code-generation surface.
+
+### Layer 5 — Security Fabric (Active minimal)
+Trust scoring, policy gate, sandbox declaration. Every Core action passes through it.
+
+### Layer 6 — Simulation Fabric (Scaffolded)
+Registration point for blacksite, Cold Boot / Godot, world-model test environments.
+
+### Layer 7 — Research Fabric (Active registry)
+Hypothesis / experiment / evidence registration. CFT, Coherence Drive, Ware Constant lineage mapped.
+
+### Layer 8 — Economic Layer (Scaffolded)
+Future billing, marketplace, agent commerce hooks.
+
+## Data Flow (Core Path v0.2)
 
 ```
 Request
-  → Governance.evaluate(request)
-  → Memory.retrieve(context)
+  → Governance.evaluate()
+  → Memory.retrieve()
   → AgentRuntime.plan_and_execute()
-  → Security.validate(actions)   # minimal in v0.1
+  → Security.validate()
   → Measurement.record()
   → Memory.update()
 ```
-
-## Subsystem Registration
-
-Every external repository that becomes a subsystem must provide a `nexus-manifest.yaml` (or equivalent) declaring:
-- name
-- layer
-- claim_level
-- capabilities
-- dependencies
-- audit_hooks

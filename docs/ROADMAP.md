@@ -1,25 +1,22 @@
 # Roadmap
 
-## v0.1 (Current) — Core
-- Governance registration
-- Shared memory substrate hooks
-- Agent Runtime + coding agent
-- Repository analysis
-- Benchmark system
-- Local metrics dashboard
+## v0.1 — Core (Delivered)
+Governance, Memory, Agent Runtime, coding agent, analysis, benchmarks, dashboard placeholders.
 
-## v0.2 — Hardened Runtime
-- Security Fabric minimal enforcement
-- Full audit trail
-- First external subsystem plugins (sovereign-clean-room, forge-aegis)
+## v0.2 — Architecture Complete (Current)
+Full 9-layer scaffolding, Security gate, Research registry, Workforce roles, portfolio mapping.
 
-## v0.3 — Workforce Preview
-- Limited Digital Workforce roles (Engineer, Researcher)
-- Human supervision console
+## v0.3 — Hardened Runtime
+- Deeper VSA / sovereign-clean-room integration in Memory
+- sunder adapter as first-class Agent Runtime backend
+- forge-aegis / VigilE.S.A. stronger policy enforcement
+- First live Research Fabric experiment records (CFT kill-gates)
+
+## v0.4 — Workforce Preview
+- Engineer + Researcher roles executable under supervision
+- Human override console
 
 ## Later
-- Simulation Fabric
-- Research Fabric full evidence management
+- Simulation Fabric activation (blacksite / Cold Boot as test harnesses)
 - Economic Layer
-
-12-month end state: complete layered operating system with every beyond-repair repository classified as subsystem / plugin / benchmark / research package / archive.
+- Full 12-month operating system state

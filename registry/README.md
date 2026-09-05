@@ -1,5 +1,5 @@
 # Subsystem Registry
 
-Manifests for subsystems that plug into ADL Nexus.
+Manifests and the living portfolio map live here.
 
-Each external repository that becomes a live subsystem should place a `nexus-manifest.yaml` here (or reference one).
+See also: docs/SUBSYSTEM_MAP.md

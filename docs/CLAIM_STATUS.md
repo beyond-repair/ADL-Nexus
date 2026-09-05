@@ -3,10 +3,13 @@
 | Field | Value |
 |-------|--------|
 | Classification | RESEARCH / ENGINEERING PLATFORM |
-| Version | 0.1.0 |
-| Default claim level | **1–2** (architecture + local stubs) |
+| Version | 0.2.0 |
+| Default claim level | **2** (architecture complete + local runnable Core) |
 | Full autonomous workforce | **false** |
-| Experimental validation of Layers 3–8 | **false** |
-| Local-first Core path runnable | **target** (scaffold present) |
+| Production simulation environments | **false** |
+| Economic settlement | **false** |
+| Local-first Core path | **true** (runnable) |
+| Security gate in path | **true** (minimal) |
+| Portfolio subsystem registry | **true** |
 
-Claims advance only through the Research Fabric validation path (Layer 7) once that layer is activated.
+Claims advance only through the Research Fabric validation path once experiments are registered and evidence is attached.

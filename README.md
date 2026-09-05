@@ -2,7 +2,7 @@
 
 **Local-first autonomous engineering, governance, simulation, and workforce platform.**
 
-**Version:** 0.1.0 (Core)  
+**Version:** 0.2.0 (Architecture Complete)  
 **Owner:** beyond-repair / Atomic Dream Labs  
 **Governance:** [ADL-Governance](https://github.com/beyond-repair/ADL-Governance) + [ADL-SEEM](https://github.com/beyond-repair/ADL-SEEM)
 
@@ -11,9 +11,9 @@
 
 ---
 
-## Design Principle
+## Design Principle (Immutable)
 
-**Highest-leverage move is not to merge every repository into one giant application.**
+**The highest-leverage move is not to merge every repository into one giant application.**
 
 That would create an unmaintainable system.
 
@@ -21,7 +21,7 @@ The strongest synthesis is a **layered architecture** where each major body of w
 
 ---
 
-## Layered Architecture
+## Layered Architecture (Complete)
 
 ```
 Layer 0 — Governance Kernel
@@ -35,69 +35,36 @@ Layer 7 — Research Fabric
 Layer 8 — Economic Layer
 ```
 
-### Layer 0 — Governance Kernel
-**Sources:** ADL-Governance, AEGIS / forge-aegis, Capability Matrix, Portfolio Census, Repo Graph  
-**Responsibilities:** Identity · Claims · Permissions · Audit · Lineage · Validation · Policy  
-Every subsystem registers here. Nothing bypasses governance.
-
-### Layer 1 — Memory Kernel
-**Sources:** sovereign-clean-room, SEEM lineage, VSA / FHRR / BaNEL  
-**Responsibilities:** Memory · Recall · Compression · Knowledge Graph · Embeddings · Identity Persistence  
-Single source of truth. All agents use the same memory substrate.
-
-### Layer 2 — Agent Runtime
-**Sources:** sunder, Auto_Legion, GenieGPT, Agent-Snake  
-**Responsibilities:** Planning · Task Decomposition · Tool Usage · Execution · Verification · Learning  
-Operating system for agents.
-
-### Layer 3 — Digital Workforce
-**Sources:** Digital Double, Legion concepts  
-**Responsibilities:** Engineer · Researcher · Writer · Analyst · Tester · Operator · Manager  
-Not one AI. A managed workforce.
-
-### Layer 4 — Development Environment
-**Sources:** DevelopTool, RepoRover  
-**Responsibilities:** Repository Analysis · Refactoring · Code Generation · Documentation · Testing · Dependency Mapping  
-Agents work here. Humans supervise here.
-
-### Layer 5 — Security Fabric
-**Sources:** VigilE.S.A., Forge Aegis  
-**Responsibilities:** Sandboxing · Trust Scoring · Threat Detection · Policy Enforcement · Artifact Integrity  
-Every action passes through validation.
-
-### Layer 6 — Simulation Fabric
-**Sources:** Cold Boot systems, Blacksite systems  
-**Responsibilities:** Scenario Testing · Agent Training · Economic Simulation · World Models · Game Environments  
-Games become test environments, not separate products.
-
-### Layer 7 — Research Fabric
-**Sources:** Coherence Drive, CFT, Ware Constant phenomenology, physics repos  
-**Responsibilities:** Hypothesis Tracking · Experiment Registry · Simulation · Replication · Evidence Management  
-Claims cannot advance without validation.
-
-### Layer 8 — Economic Layer
-**Sources:** FortiTrade lessons, automation projects  
-**Responsibilities:** Billing · Marketplaces · Agent Commerce · Subscription Management · Revenue Tracking  
-Monetization lives here.
+| Layer | Name | Primary Sources | Status |
+|-------|------|-----------------|--------|
+| 0 | Governance Kernel | ADL-Governance, forge-aegis, Portfolio Census | **Active** |
+| 1 | Memory Kernel | sovereign-clean-room, SEEM, VSA/FHRR/BaNEL | **Active** |
+| 2 | Agent Runtime | sunder, Auto_Legion, seem-sunder-bridge | **Active** |
+| 3 | Digital Workforce | LegionOS, Digital Double concepts | Scaffolded |
+| 4 | Development Environment | analysis tools, future RepoRover | Scaffolded |
+| 5 | Security Fabric | VigilE.S.A., forge-aegis | **Active (minimal)** |
+| 6 | Simulation Fabric | blacksite, Cold Boot / Godot systems | Scaffolded |
+| 7 | Research Fabric | coherence-drive, CFT, Ware Constant repos | **Active (registry)** |
+| 8 | Economic Layer | FortiTrade lessons | Scaffolded |
 
 ---
 
-## Unified Workflow
+## Unified Workflow (Executable)
 
 ```
 User Request
      ↓
-Governance          (Layer 0)
+Governance          (Layer 0) — evaluate + audit
      ↓
-Memory              (Layer 1)
+Memory              (Layer 1) — retrieve context
      ↓
-Agent Runtime       (Layer 2)
+Agent Runtime       (Layer 2) — plan + tools
      ↓
-Digital Workforce   (Layer 3)
+Digital Workforce   (Layer 3) — role routing (v0.2+)
      ↓
 Execution
      ↓
-Security Validation (Layer 5)
+Security Validation (Layer 5) — trust + sandbox check
      ↓
 Measurement
      ↓
@@ -106,54 +73,39 @@ Memory Update
 
 ---
 
-## First Real Product — ADL Nexus Core v0.1
+## What v0.2.0 Delivers ("Architecture Complete")
 
-**Do not attempt to build the full stack.**
+- Full 9-layer directory and contract structure
+- Strengthened Core with Security gate in the execution path
+- Portfolio-wide subsystem registry mapping real beyond-repair repositories
+- Digital Workforce role definitions (Engineer, Researcher, …)
+- Research Fabric registration for CFT / Coherence Drive / Ware Constant lineage
+- Security Fabric minimal enforcement (trust score + policy gate)
+- Expanded coding agent + repository analysis
+- Benchmark and metrics hooks
+- Honest claim discipline (no false full-autonomy claims)
 
-### Scope (strict)
-
-1. Local-first
-2. Governance enforced
-3. Shared memory
-4. Coding agent
-5. Repository analysis
-6. Benchmark system
-7. Metrics dashboard
-
-**Nothing else.**
-
-### Non-Goals for v0.1
-- Full Digital Workforce roles
-- Simulation / game environments
-- Economic / billing layer
-- Complete Research Fabric UI
-- Multi-user cloud deployment
+**Still out of scope for runtime claims:**  
+Fully autonomous multi-agent companies, live economic settlement, production simulation environments, cloud multi-user deployment.
 
 ---
 
-## Repository Structure (v0.1)
+## Quick Start
 
-```
-ADL-Nexus/
-├── docs/
-│   ├── ARCHITECTURE.md
-│   ├── GOVERNANCE.md
-│   ├── CLAIM_STATUS.md
-│   └── ROADMAP.md
-├── layer0_governance/     # Kernel registration, claims, audit
-├── layer1_memory/         # Shared memory substrate (VSA / clean-room hooks)
-├── layer2_agent_runtime/  # Planning + tool execution loop
-├── core/                  # Nexus Core entrypoint + coding agent
-├── analysis/              # Repository analysis tools
-├── benchmarks/            # Benchmark system
-├── dashboard/             # Metrics dashboard (local)
-├── registry/              # Subsystem registration manifests
-└── tests/
+```bash
+git clone https://github.com/beyond-repair/ADL-Nexus.git
+cd ADL-Nexus
+
+python -m core.nexus status
+python -m core.nexus run --goal "analyze repository" --path .
+python -m core.nexus audit
+python -m core.nexus memory
+python -m core.nexus registry
 ```
 
 ---
 
-## 12-Month End State (Target)
+## 12-Month End State
 
 ```
 ADL Nexus
@@ -167,34 +119,7 @@ ADL Nexus
 └── Research Layer
 ```
 
-Every existing beyond-repair repository becomes either:
-- a subsystem,
-- a plugin,
-- a benchmark,
-- a research package,
-- or an archived historical artifact.
-
----
-
-## Quick Start (v0.1 Scaffold)
-
-```bash
-git clone https://github.com/beyond-repair/ADL-Nexus.git
-cd ADL-Nexus
-
-# Local-first: no external services required for core path
-python -m core.nexus --help
-```
-
----
-
-## Governance & Claim Discipline
-
-This repository is governed by ADL-Governance and ADL-SEEM.  
-Default claim level for v0.1: **1–2** (architectural + local runnable stubs).  
-Experimental validation of full autonomous workforce: **false**.
-
-See `docs/CLAIM_STATUS.md`.
+Every existing repository becomes a subsystem, plugin, benchmark, research package, or archived historical artifact.
 
 ---
 

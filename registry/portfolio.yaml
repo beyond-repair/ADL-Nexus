@@ -1,0 +1,47 @@
+# Living portfolio classification for ADL Nexus v0.2
+version: "0.2.0"
+subsystems:
+  - name: ADL-Governance
+    layer: 0
+    classification: kernel-source
+    url: https://github.com/beyond-repair/ADL-Governance
+  - name: forge-aegis
+    layer: [0, 5]
+    classification: kernel-source + security
+    url: https://github.com/beyond-repair/forge-aegis
+  - name: sovereign-clean-room
+    layer: 1
+    classification: memory-substrate
+    url: https://github.com/beyond-repair/sovereign-clean-room
+  - name: sunder
+    layer: 2
+    classification: agent-runtime
+    url: https://github.com/beyond-repair/sunder
+  - name: LegionOS
+    layer: 3
+    classification: workforce-concepts
+    url: https://github.com/beyond-repair/LegionOS
+  - name: VigilE.S.A.-Enhanced-Security
+    layer: 5
+    classification: security-fabric
+    url: https://github.com/beyond-repair/VigilE.S.A.-Enhanced-Security
+  - name: blacksite
+    layer: 6
+    classification: simulation-fabric
+    url: https://github.com/beyond-repair/blacksite
+  - name: coherence-drive
+    layer: 7
+    classification: research-fabric
+    url: https://github.com/beyond-repair/coherence-drive
+  - name: ware-constant-phenomenology
+    layer: 7
+    classification: research-fabric
+    url: https://github.com/beyond-repair/ware-constant-phenomenology
+  - name: CFTv3.3-IQG-Unified-Framework
+    layer: 7
+    classification: research-fabric
+    url: https://github.com/beyond-repair/CFTv3.3-IQG-Unified-Framework
+  - name: Sovereign-Epistemic-Reality-Engine
+    layer: [6, 7]
+    classification: simulation + research
+    url: https://github.com/beyond-repair/Sovereign-Epistemic-Reality-Engine
