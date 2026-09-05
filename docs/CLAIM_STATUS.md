@@ -2,15 +2,12 @@
 
 | Field | Value |
 |-------|--------|
-| Classification | RESEARCH / ENGINEERING PLATFORM |
-| Version | 0.3.0-beta |
+| Version | 0.3.0-rc1 |
 | Default claim level | **2** |
+| Local-first Core | **true** |
+| Security policy table | **true** |
+| Artifact integrity (local hash) | **true** |
+| Full forge-aegis pipeline | **false** |
+| sunder / clean-room adapters | **true** (claim-capped, live when importable) |
 | Full autonomous workforce | **false** |
-| Production simulation | **false** |
-| Economic settlement | **false** |
-| Local-first Core path | **true** |
-| Security gate + policy table | **true** |
-| sunder adapter | **true** (claim-capped) |
-| clean-room adapter | **true** (uses real CleanRoomVSAEngine when importable) |
-| Deep production VSA interop | **false** (engine smoke only when present) |
-| Live VigilE.S.A. engine | **false** |
+| Production simulation / economic | **false** |

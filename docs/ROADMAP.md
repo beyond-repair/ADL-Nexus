@@ -1,18 +1,21 @@
 # Roadmap
 
-## v0.1 — Core (Delivered)
-## v0.2 — Architecture Complete (Delivered)
-## v0.3.0-alpha — Hardened foundation (Delivered)
-## v0.3.0-beta — Hardened Runtime (Current)
-- Clean-room adapter targets real `CleanRoomVSAEngine`
-- Security policy table (allow/deny)
-- Metrics snapshot command
-- Research evidence records
+## Delivered
+- v0.1 Core
+- v0.2 Architecture Complete
+- v0.3.0-alpha / beta Hardened Runtime foundation
 
-## v0.3 (Target)
-- Optional path bootstrap so sibling checkouts of sunder / sovereign-clean-room activate live mode without install
-- forge-aegis artifact integrity hook
-- Machine-readable CFT kill-gate artifacts as evidence blobs
+## v0.3.0-rc1 (Current)
+- `scripts/bootstrap_path.py` — sibling checkout detection for sunder + sovereign-clean-room
+- Artifact integrity helpers (`file_hash`, `tree_hash`, `verify_anchor`)
+- Core `integrity` command
+- Research evidence includes kill-gate references
+- Core auto-calls ensure_paths() on startup
+
+## v0.3.0 (Target)
+- Confirm live adapter modes on a machine with sibling checkouts
+- Optional pinned integrity anchors for critical manifests
+- forge-aegis pipeline hook (beyond local hash)
 
 ## v0.4 — Workforce Preview
 - Engineer + Researcher roles under supervision

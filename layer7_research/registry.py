@@ -69,6 +69,7 @@ def seed_cft_baseline():
     )
     add_evidence(e1, "note", "CONSISTENCY.md and Math.md lock W_star = 1/(4\u03c0); Option A demotes M2 to geometric factor", "CFTv3.3 ledger")
     add_evidence(e1, "metric", "Agreement with rounded 0.08 is ~0.53%", "WSTAR_ENTROPIC_DERIVATION.md")
+    add_evidence(e1, "killgate", "killgate_verification.py Gate2 v_infty in SPARC range for Mb=1e11 under W_star=0.08", "killgate_verification.py")
 
     e2 = register_experiment(
         "Local SPARC residual",
@@ -78,6 +79,7 @@ def seed_cft_baseline():
     )
     add_evidence(e2, "metric", "Continuous scipy pass median \u03c7²_red ~9.1 (36% <5, 53% <10)", "SPARC_CHI2_REPORT.md")
     add_evidence(e2, "note", "Macro r0(Mb) never varied; W locked", "SPARC_CHI2_REPORT.md")
+    add_evidence(e2, "artifact", "Re-run: python sparc_run.py --mode o1 && python killgate_verification.py (offline)", "ware-constant-phenomenology")
 
     e3 = register_experiment(
         "Bullet Cluster Model D",
@@ -86,6 +88,7 @@ def seed_cft_baseline():
         claim_level=1,
     )
     add_evidence(e3, "note", "Simple r0/c FAIL; Model D (cluster \u03be) preferred because it preserves galactic lock", "bullet_alt_lag.py")
+    add_evidence(e3, "killgate", "bullet_alt_lag.py: simple lag FAIL; Model D status OPEN", "bullet_alt_lag.py")
 
     e4 = register_experiment(
         "Lensing saturation \u03b4_sat",
@@ -94,3 +97,4 @@ def seed_cft_baseline():
         claim_level=1,
     )
     add_evidence(e4, "note", "Current \u03b4_sat=1.2 is explicit phenomenological parameter; \u03bb_A from bulk still OPEN", "delta_sat_from_A4.py")
+    add_evidence(e4, "killgate", "killgate_verification.py Gate3 recovers ~2.2 via saturated formula with \u03b4_sat=1.2", "killgate_verification.py")

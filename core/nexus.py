@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""ADL Nexus Core v0.3.0-beta — Hardened Runtime."""
+"""ADL Nexus Core v0.3.0-rc1 — Hardened Runtime."""
 
 from __future__ import annotations
 import argparse
@@ -10,12 +10,20 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+# Optional sibling bootstrap (sunder / sovereign-clean-room)
+try:
+    from scripts.bootstrap_path import ensure_paths
+    ensure_paths(verbose=False)
+except Exception:
+    pass
+
 from layer0_governance.registry import register_subsystem, evaluate_request, list_subsystems, get_audit_log
 from layer1_memory.store import MemoryStore
 from layer2_agent_runtime.runtime import AgentRuntime
 from layer5_security.gate import SecurityGate
+from layer5_security.integrity import tree_hash, file_hash
 from layer3_workforce.roles import list_roles, get_role
-from layer7_research.registry import seed_cft_baseline, list_experiments
+from layer7_research.registry import seed_cft_baseline, list_experiments, add_evidence
 from adapters.sunder.bridge import SunderAdapter
 from adapters.cleanroom.bridge import CleanRoomAdapter
 from dashboard.metrics import snapshot
@@ -45,21 +53,23 @@ def build_coding_agent() -> AgentRuntime:
 
 def bootstrap():
     register_subsystem("nexus-core", layer=0, claim_level=2,
-                       capabilities=["status", "run", "audit", "memory", "registry", "roles", "research", "adapters", "metrics"])
+                       capabilities=["status", "run", "audit", "memory", "registry", "roles",
+                                     "research", "adapters", "metrics", "integrity"])
     register_subsystem("coding-agent", layer=2, claim_level=2, capabilities=["list_files", "summarize", "echo"])
-    register_subsystem("security-gate", layer=5, claim_level=2, capabilities=["evaluate"])
+    register_subsystem("security-gate", layer=5, claim_level=2, capabilities=["evaluate", "integrity"])
     register_subsystem("research-fabric", layer=7, claim_level=2, capabilities=["register", "list", "evidence"])
     register_subsystem("sunder-adapter", layer=2, claim_level=2, capabilities=["scan", "run_goal"])
     register_subsystem("cleanroom-adapter", layer=1, claim_level=2, capabilities=["put", "get", "info", "query"])
     seed_cft_baseline()
 
 def main():
-    parser = argparse.ArgumentParser(description="ADL Nexus Core v0.3.0-beta")
+    parser = argparse.ArgumentParser(description="ADL Nexus Core v0.3.0-rc1")
     parser.add_argument("command",
-                        choices=["status", "register", "run", "audit", "memory", "registry", "roles", "research", "adapters", "metrics"],
+                        choices=["status", "register", "run", "audit", "memory", "registry",
+                                 "roles", "research", "adapters", "metrics", "integrity"],
                         help="Core command")
     parser.add_argument("--goal", default="analyze repository", help="Goal for the coding agent")
-    parser.add_argument("--path", default=".", help="Path for repository analysis")
+    parser.add_argument("--path", default=".", help="Path for repository analysis / integrity")
     args = parser.parse_args()
 
     bootstrap()
@@ -149,6 +159,20 @@ def main():
             },
         )
         print(m)
+
+    elif args.command == "integrity":
+        target = Path(args.path)
+        s = security.evaluate("security-gate", "integrity")
+        if not s.allowed:
+            print("DENIED:", s.reason)
+            return 1
+        if target.is_file():
+            digest = file_hash(target)
+            print({"type": "file", "path": str(target), "sha256": digest})
+        else:
+            digest = tree_hash(target, patterns=[".py", ".md", ".yaml", ".yml", ".toml"])
+            print({"type": "tree", "path": str(target), "sha256": digest, "filter": ".py/.md/.yaml/.toml"})
+        mem.put("last_integrity", {"path": str(target), "sha256": digest})
 
     return 0
 
