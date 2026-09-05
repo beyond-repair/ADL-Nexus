@@ -1,0 +1,10 @@
+name: nexus-core
+layer: 0
+claim_level: 2
+capabilities:
+  - status
+  - run
+  - audit
+  - memory
+version: 0.1.0
+source: https://github.com/beyond-repair/ADL-Nexus
