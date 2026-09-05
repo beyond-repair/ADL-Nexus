@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""ADL Nexus Core v0.3.0-alpha — Hardened Runtime foundation."""
+"""ADL Nexus Core v0.3.0-beta — Hardened Runtime."""
 
 from __future__ import annotations
 import argparse
@@ -18,6 +18,7 @@ from layer3_workforce.roles import list_roles, get_role
 from layer7_research.registry import seed_cft_baseline, list_experiments
 from adapters.sunder.bridge import SunderAdapter
 from adapters.cleanroom.bridge import CleanRoomAdapter
+from dashboard.metrics import snapshot
 
 def build_coding_agent() -> AgentRuntime:
     agent = AgentRuntime("coding-agent")
@@ -44,18 +45,18 @@ def build_coding_agent() -> AgentRuntime:
 
 def bootstrap():
     register_subsystem("nexus-core", layer=0, claim_level=2,
-                       capabilities=["status", "run", "audit", "memory", "registry", "roles", "research", "adapters"])
+                       capabilities=["status", "run", "audit", "memory", "registry", "roles", "research", "adapters", "metrics"])
     register_subsystem("coding-agent", layer=2, claim_level=2, capabilities=["list_files", "summarize", "echo"])
     register_subsystem("security-gate", layer=5, claim_level=2, capabilities=["evaluate"])
     register_subsystem("research-fabric", layer=7, claim_level=2, capabilities=["register", "list", "evidence"])
     register_subsystem("sunder-adapter", layer=2, claim_level=2, capabilities=["scan", "run_goal"])
-    register_subsystem("cleanroom-adapter", layer=1, claim_level=2, capabilities=["put", "get", "info"])
+    register_subsystem("cleanroom-adapter", layer=1, claim_level=2, capabilities=["put", "get", "info", "query"])
     seed_cft_baseline()
 
 def main():
-    parser = argparse.ArgumentParser(description="ADL Nexus Core v0.3.0-alpha")
+    parser = argparse.ArgumentParser(description="ADL Nexus Core v0.3.0-beta")
     parser.add_argument("command",
-                        choices=["status", "register", "run", "audit", "memory", "registry", "roles", "research", "adapters"],
+                        choices=["status", "register", "run", "audit", "memory", "registry", "roles", "research", "adapters", "metrics"],
                         help="Core command")
     parser.add_argument("--goal", default="analyze repository", help="Goal for the coding agent")
     parser.add_argument("--path", default=".", help="Path for repository analysis")
@@ -66,7 +67,7 @@ def main():
     agent = build_coding_agent()
     security = SecurityGate(min_trust=0.5)
     sunder = SunderAdapter()
-    cleanroom = CleanRoomAdapter()
+    cleanroom = CleanRoomAdapter(dim=1024)
 
     if args.command == "status":
         d = evaluate_request("nexus-core", "status")
@@ -91,7 +92,6 @@ def main():
             return 1
         result = agent.execute(args.goal, {"path": args.path})
         print("Result:", result)
-        # Also offer sunder path (claim-capped)
         sunder_out = sunder.run_goal(args.goal, {"path": args.path})
         print("Sunder path:", sunder_out)
         mem.put("last_run", {"goal": args.goal, "success": result.success, "security_audit": s.audit_id})
@@ -104,6 +104,8 @@ def main():
         print("\n=== Security Log ===")
         for entry in security.get_log():
             print(entry)
+        print("\n=== Policy Snapshot ===")
+        print(security.policy_snapshot())
 
     elif args.command == "memory":
         print("Local MemoryStore keys:", mem.keys())
@@ -126,13 +128,27 @@ def main():
             print(f"  Hypothesis: {exp['hypothesis']}")
             print(f"  Source: {exp['source_repo']}")
             for ev in exp.get("evidence", []):
-                print(f"    · ({ev['kind']}) {ev['content'][:100]} [{'source: ' + ev['source']}]")
+                print(f"    · ({ev['kind']}) {ev['content'][:110]} [source: {ev['source']}]")
 
     elif args.command == "adapters":
         print("Sunder:", sunder.status)
         print("  capabilities:", sunder.capabilities())
         print("Clean-room:", cleanroom.status)
         print("  info:", cleanroom.info())
+
+    elif args.command == "metrics":
+        m = snapshot(
+            subsystems=list_subsystems(),
+            audit_len=len(get_audit_log()),
+            security_log_len=len(security.get_log()),
+            memory_keys=len(mem.keys()),
+            experiments=len(list_experiments()),
+            adapter_status={
+                "sunder": sunder.status.__dict__,
+                "cleanroom": cleanroom.status.__dict__,
+            },
+        )
+        print(m)
 
     return 0
 

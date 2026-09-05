@@ -1,28 +1,22 @@
 # Roadmap
 
 ## v0.1 — Core (Delivered)
-Governance, Memory, Agent Runtime, coding agent, analysis, benchmarks, dashboard placeholders.
-
 ## v0.2 — Architecture Complete (Delivered)
-Full 9-layer scaffolding, Security gate, Research registry, Workforce roles, portfolio mapping.
+## v0.3.0-alpha — Hardened foundation (Delivered)
+## v0.3.0-beta — Hardened Runtime (Current)
+- Clean-room adapter targets real `CleanRoomVSAEngine`
+- Security policy table (allow/deny)
+- Metrics snapshot command
+- Research evidence records
 
-## v0.3.0-alpha — Hardened Runtime foundation (Current)
-- sunder adapter (claim-capped)
-- sovereign-clean-room adapter (claim-capped)
-- Research Fabric evidence attachment
-- Stronger manifests
-
-## v0.3 — Hardened Runtime (Target)
-- Live optional import of sunder when present on PYTHONPATH
-- Deeper VSA memory operations via clean-room
-- forge-aegis / VigilE.S.A. policy hooks beyond minimal gate
-- First CFT kill-gate evidence objects attached and queryable
+## v0.3 (Target)
+- Optional path bootstrap so sibling checkouts of sunder / sovereign-clean-room activate live mode without install
+- forge-aegis artifact integrity hook
+- Machine-readable CFT kill-gate artifacts as evidence blobs
 
 ## v0.4 — Workforce Preview
-- Engineer + Researcher roles executable under supervision
-- Human override console
+- Engineer + Researcher roles under supervision
 
 ## Later
-- Simulation Fabric activation (blacksite / Cold Boot)
+- Simulation Fabric activation
 - Economic Layer
-- Full 12-month operating system state
