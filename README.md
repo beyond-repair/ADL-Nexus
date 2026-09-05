@@ -2,7 +2,7 @@
 
 **Local-first autonomous engineering, governance, simulation, and workforce platform.**
 
-**Version:** 0.2.0 (Architecture Complete)  
+**Version:** 0.3.0-alpha (Hardened Runtime foundation)  
 **Owner:** beyond-repair / Atomic Dream Labs  
 **Governance:** [ADL-Governance](https://github.com/beyond-repair/ADL-Governance) + [ADL-SEEM](https://github.com/beyond-repair/ADL-SEEM)
 
@@ -15,78 +15,32 @@
 
 **The highest-leverage move is not to merge every repository into one giant application.**
 
-That would create an unmaintainable system.
-
 The strongest synthesis is a **layered architecture** where each major body of work becomes a subsystem, plugin, benchmark, research package, or archived historical artifact.
 
 ---
 
-## Layered Architecture (Complete)
+## Current Status — v0.3.0-alpha
 
-```
-Layer 0 — Governance Kernel
-Layer 1 — Memory Kernel
-Layer 2 — Agent Runtime
-Layer 3 — Digital Workforce
-Layer 4 — Development Environment
-Layer 5 — Security Fabric
-Layer 6 — Simulation Fabric
-Layer 7 — Research Fabric
-Layer 8 — Economic Layer
-```
+| Layer | Name | Status |
+|-------|------|--------|
+| 0 | Governance Kernel | **Active** |
+| 1 | Memory Kernel | **Active** + clean-room adapter |
+| 2 | Agent Runtime | **Active** + sunder adapter |
+| 3 | Digital Workforce | Scaffolded (roles defined) |
+| 4 | Development Environment | Scaffolded |
+| 5 | Security Fabric | **Active** (minimal gate) |
+| 6 | Simulation Fabric | Scaffolded |
+| 7 | Research Fabric | **Active** + CFT evidence hooks |
+| 8 | Economic Layer | Scaffolded |
 
-| Layer | Name | Primary Sources | Status |
-|-------|------|-----------------|--------|
-| 0 | Governance Kernel | ADL-Governance, forge-aegis, Portfolio Census | **Active** |
-| 1 | Memory Kernel | sovereign-clean-room, SEEM, VSA/FHRR/BaNEL | **Active** |
-| 2 | Agent Runtime | sunder, Auto_Legion, seem-sunder-bridge | **Active** |
-| 3 | Digital Workforce | LegionOS, Digital Double concepts | Scaffolded |
-| 4 | Development Environment | analysis tools, future RepoRover | Scaffolded |
-| 5 | Security Fabric | VigilE.S.A., forge-aegis | **Active (minimal)** |
-| 6 | Simulation Fabric | blacksite, Cold Boot / Godot systems | Scaffolded |
-| 7 | Research Fabric | coherence-drive, CFT, Ware Constant repos | **Active (registry)** |
-| 8 | Economic Layer | FortiTrade lessons | Scaffolded |
+### What is new in 0.3.0-alpha
+- `adapters/sunder` — claim-capped bridge to the sunder coding agent
+- `adapters/cleanroom` — claim-capped bridge toward sovereign-clean-room VSA memory
+- Research Fabric can attach evidence records to experiments
+- Stronger subsystem manifests and portfolio map
+- Core CLI expanded (`adapters`, richer `research`)
 
----
-
-## Unified Workflow (Executable)
-
-```
-User Request
-     ↓
-Governance          (Layer 0) — evaluate + audit
-     ↓
-Memory              (Layer 1) — retrieve context
-     ↓
-Agent Runtime       (Layer 2) — plan + tools
-     ↓
-Digital Workforce   (Layer 3) — role routing (v0.2+)
-     ↓
-Execution
-     ↓
-Security Validation (Layer 5) — trust + sandbox check
-     ↓
-Measurement
-     ↓
-Memory Update
-```
-
----
-
-## What v0.2.0 Delivers ("Architecture Complete")
-
-- Full 9-layer directory and contract structure
-- Strengthened Core with Security gate in the execution path
-- Portfolio-wide subsystem registry mapping real beyond-repair repositories
-- Digital Workforce role definitions (Engineer, Researcher, …)
-- Research Fabric registration for CFT / Coherence Drive / Ware Constant lineage
-- Security Fabric minimal enforcement (trust score + policy gate)
-- Expanded coding agent + repository analysis
-- Benchmark and metrics hooks
-- Honest claim discipline (no false full-autonomy claims)
-
-**Still out of scope for runtime claims:**  
-Fully autonomous multi-agent companies, live economic settlement, production simulation environments, cloud multi-user deployment.
+**Still honest:** Full deep VSA runtime interop and production VigilE.S.A. policy engine are not yet claimed.
 
 ---
 
@@ -97,29 +51,35 @@ git clone https://github.com/beyond-repair/ADL-Nexus.git
 cd ADL-Nexus
 
 python -m core.nexus status
-python -m core.nexus run --goal "analyze repository" --path .
+python -m core.nexus run --goal "analyze repository"
+python -m core.nexus research
+python -m core.nexus adapters
 python -m core.nexus audit
-python -m core.nexus memory
-python -m core.nexus registry
 ```
 
 ---
 
-## 12-Month End State
+## Unified Workflow
 
 ```
-ADL Nexus
-├── Governance
-├── Memory
-├── Agent Runtime
-├── Workforce
-├── Development Platform
-├── Security Layer
-├── Simulation Layer
-└── Research Layer
+User Request
+     ↓
+Governance (L0)
+     ↓
+Memory (L1) ± clean-room adapter
+     ↓
+Agent Runtime (L2) ± sunder adapter
+     ↓
+Workforce routing (L3)
+     ↓
+Execution
+     ↓
+Security Validation (L5)
+     ↓
+Measurement + Research evidence
+     ↓
+Memory Update
 ```
-
-Every existing repository becomes a subsystem, plugin, benchmark, research package, or archived historical artifact.
 
 ---
 

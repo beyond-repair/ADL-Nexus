@@ -1,0 +1,16 @@
+version: "0.3.0-alpha"
+adapters:
+  - name: sunder
+    layer: 2
+    upstream: https://github.com/beyond-repair/sunder
+    claim_level: 2
+    mode: claim-capped
+    hard_dependency: false
+    notes: "SCAN/SNAP/SUNDER target backend; stub until import succeeds"
+  - name: cleanroom
+    layer: 1
+    upstream: https://github.com/beyond-repair/sovereign-clean-room
+    claim_level: 2
+    mode: claim-capped
+    hard_dependency: false
+    notes: "VSA / FHRR / BaNEL target substrate; deep interop deferred"

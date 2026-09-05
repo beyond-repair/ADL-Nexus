@@ -1,11 +1,18 @@
-"""Research Fabric — experiment / hypothesis registry (v0.2)."""
+"""Research Fabric — experiment / hypothesis / evidence registry (v0.3)."""
 
 from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any, List
 import time
 import hashlib
-import json
+
+@dataclass
+class Evidence:
+    id: str
+    kind: str  # note | metric | artifact | killgate
+    content: str
+    source: str
+    created_at: float = field(default_factory=time.time)
 
 @dataclass
 class Experiment:
@@ -14,7 +21,7 @@ class Experiment:
     hypothesis: str
     source_repo: str
     status: str  # open | running | passed | failed | superseded
-    evidence: List[str] = field(default_factory=list)
+    evidence: List[Evidence] = field(default_factory=list)
     claim_level: int = 1
     created_at: float = field(default_factory=time.time)
 
@@ -27,11 +34,13 @@ def register_experiment(title: str, hypothesis: str, source_repo: str, claim_lev
     _EXPERIMENTS[eid] = exp
     return eid
 
-def add_evidence(eid: str, evidence: str) -> bool:
+def add_evidence(eid: str, kind: str, content: str, source: str = "manual") -> str | None:
     if eid not in _EXPERIMENTS:
-        return False
-    _EXPERIMENTS[eid].evidence.append(evidence)
-    return True
+        return None
+    ev_id = hashlib.sha256(f"{eid}:{content}:{time.time()}".encode()).hexdigest()[:10]
+    ev = Evidence(id=ev_id, kind=kind, content=content, source=source)
+    _EXPERIMENTS[eid].evidence.append(ev)
+    return ev_id
 
 def set_status(eid: str, status: str) -> bool:
     if eid not in _EXPERIMENTS:
@@ -40,25 +49,48 @@ def set_status(eid: str, status: str) -> bool:
     return True
 
 def list_experiments() -> list[dict[str, Any]]:
-    return [e.__dict__ for e in _EXPERIMENTS.values()]
+    out = []
+    for e in _EXPERIMENTS.values():
+        d = e.__dict__.copy()
+        d["evidence"] = [ev.__dict__ for ev in e.evidence]
+        out.append(d)
+    return out
 
 def seed_cft_baseline():
-    """Register the current CFT / Ware Constant baseline as research items."""
-    register_experiment(
+    """Register the current CFT / Ware Constant baseline and attach known ledger evidence."""
+    if _EXPERIMENTS:
+        return  # already seeded
+
+    e1 = register_experiment(
         "Ware Constant lock",
         "W_star = 1/(4\u03c0) under Option A is the correct phenomenological anchor",
         "ware-constant-phenomenology",
         claim_level=2,
     )
-    register_experiment(
+    add_evidence(e1, "note", "CONSISTENCY.md and Math.md lock W_star = 1/(4\u03c0); Option A demotes M2 to geometric factor", "CFTv3.3 ledger")
+    add_evidence(e1, "metric", "Agreement with rounded 0.08 is ~0.53%", "WSTAR_ENTROPIC_DERIVATION.md")
+
+    e2 = register_experiment(
         "Local SPARC residual",
         "Median \u03c7²_red can be driven to O(1) without breaking macro r0(Mb)",
         "ware-constant-phenomenology",
         claim_level=1,
     )
-    register_experiment(
+    add_evidence(e2, "metric", "Continuous scipy pass median \u03c7²_red ~9.1 (36% <5, 53% <10)", "SPARC_CHI2_REPORT.md")
+    add_evidence(e2, "note", "Macro r0(Mb) never varied; W locked", "SPARC_CHI2_REPORT.md")
+
+    e3 = register_experiment(
         "Bullet Cluster Model D",
         "Cluster collective scale \u03be can be derived from Proca Green function without free parameters",
         "ware-constant-phenomenology",
         claim_level=1,
     )
+    add_evidence(e3, "note", "Simple r0/c FAIL; Model D (cluster \u03be) preferred because it preserves galactic lock", "bullet_alt_lag.py")
+
+    e4 = register_experiment(
+        "Lensing saturation \u03b4_sat",
+        "\u03b4_sat can be derived from |A|^4 bulk coefficient rather than tuned to 1.2",
+        "ware-constant-phenomenology",
+        claim_level=1,
+    )
+    add_evidence(e4, "note", "Current \u03b4_sat=1.2 is explicit phenomenological parameter; \u03bb_A from bulk still OPEN", "delta_sat_from_A4.py")
