@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+
+:root {
+  --bg: #0f1120;
+  --panel: #1a1d33;
+  --border: #3d3a5c;
+  --text: #e8e6f0;
+  --muted: #8b87a8;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "VT323", monospace;
+  font-size: 22px;
+  image-rendering: pixelated;
+}
+
+#app {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+header h1 {
+  font-family: "Press Start 2P", monospace;
+  font-size: 14px;
+  text-align: center;
+  margin: 8px 0 4px;
+  color: #ffd85c;
+}
+
+.sub {
+  text-align: center;
+  color: var(--muted);
+  margin: 0 0 12px;
+  font-size: 18px;
+}
+
+.party {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+.agent-card {
+  min-width: 88px;
+  background: var(--panel);
+  border: 3px solid var(--border);
+  padding: 6px;
+  text-align: center;
+}
+
+.agent-card .swatch {
+  height: 36px;
+  border: 2px solid #000;
+  margin-bottom: 4px;
+}
+
+.agent-card .name {
+  font-family: "Press Start 2P", monospace;
+  font-size: 8px;
+}
+
+.agent-card .role {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.agent-card.pulse {
+  border-color: #ffe66d;
+  box-shadow: 0 0 0 2px #ffe66d55;
+}
+
+.log {
+  flex: 1;
+  overflow-y: auto;
+  background: var(--panel);
+  border: 3px solid var(--border);
+  padding: 12px;
+  margin: 8px 0;
+  line-height: 1.35;
+}
+
+.msg { margin-bottom: 12px; }
+.msg .who { font-family: "Press Start 2P", monospace; font-size: 10px; }
+.msg.system { color: var(--muted); font-style: italic; }
+
+.input-row {
+  display: flex;
+  gap: 8px;
+}
+
+.input-row input {
+  flex: 1;
+  font-family: "VT323", monospace;
+  font-size: 22px;
+  padding: 10px;
+  background: #121528;
+  border: 3px solid var(--border);
+  color: var(--text);
+}
+
+.input-row button {
+  font-family: "Press Start 2P", monospace;
+  font-size: 10px;
+  padding: 10px 14px;
+  background: #3d2a6d;
+  color: #ffd85c;
+  border: 3px solid #6b5b95;
+  cursor: pointer;
+}
+
+.input-row button:active {
+  transform: translateY(2px);
+}

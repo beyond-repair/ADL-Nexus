@@ -1,11 +1,14 @@
 # Layer 6 — Simulation Fabric
 
-Scenario testing, agent training, economic simulation, world models, game environments.
+Scenario testing, agent training, world models, game environments.
 
-Registered sources:
-- blacksite (covert-operations roguelite / facility simulation)
-- Cold Boot / Godot systems (via Sovereign-Epistemic-Reality-Engine)
+## Active client
 
-Games become test environments, not separate products.
+**Nexus Party** — multi-agent interactive chat with Final Fantasy–inspired pixel party UI.
 
-Runtime claim in v0.2: registration only.
+- Godot 4 project (Android APK export): `client/godot_nexus_party/`
+- Web pixel prototype (instant play): `client/web_pixel_chat/`
+
+Games become test environments for the workforce, not separate products.
+
+Runtime claim: UI + scripted multi-agent bus **true**; full live Python Nexus bridge **stub**.

@@ -1,25 +1,18 @@
 # Roadmap
 
 ## Delivered
-- v0.1 Core
-- v0.2 Architecture Complete
-- v0.3.0-alpha / beta Hardened Runtime foundation
-
-## v0.3.0-rc1 (Current)
-- `scripts/bootstrap_path.py` — sibling checkout detection for sunder + sovereign-clean-room
-- Artifact integrity helpers (`file_hash`, `tree_hash`, `verify_anchor`)
-- Core `integrity` command
-- Research evidence includes kill-gate references
-- Core auto-calls ensure_paths() on startup
+- v0.1–v0.3.0-rc1 Core / Hardened Runtime
+- **Nexus Party client** (Godot 4 + web pixel chat) — Layer 6 interactive multi-agent UI
 
 ## v0.3.0 (Target)
-- Confirm live adapter modes on a machine with sibling checkouts
-- Optional pinned integrity anchors for critical manifests
-- forge-aegis pipeline hook (beyond local hash)
+- Live adapter confirmation
+- Optional integrity anchors
 
 ## v0.4 — Workforce Preview
-- Engineer + Researcher roles under supervision
+- Engineer + Researcher under supervision
+- Deeper live bridge from Party client → Python Nexus Core
 
 ## Later
-- Simulation Fabric activation
+- Signed Play release pipeline
+- Custom pixel portrait sprites
 - Economic Layer
