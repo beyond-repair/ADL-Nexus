@@ -7,8 +7,8 @@ from typing import List
 @dataclass(frozen=True)
 class Role:
     name: str
-    layer: int = 3
     capabilities: List[str]
+    layer: int = 3
     claim_level: int = 1
 
 ROLES = {

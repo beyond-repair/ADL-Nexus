@@ -11,7 +11,7 @@ POLICY = {
     "allow": {
         "status", "list_files", "summarize", "echo", "audit", "memory",
         "registry", "roles", "research", "adapters", "metrics", "scan", "run_goal",
-        "evaluate", "put", "get", "info",
+        "evaluate", "put", "get", "info", "integrity", "execute_work",
     },
     "deny": {
         "network_unrestricted", "exfiltrate", "privilege_escalate", "disable_governance",
@@ -38,37 +38,23 @@ class SecurityGate:
         action_l = action.lower().strip()
 
         if action_l in POLICY["deny"] or context.get("elevated") is True and action_l not in POLICY["allow"]:
-            trust = 0.0
-            allowed = False
-            reason = f"policy deny: {action_l}"
-            match = "deny"
+            trust, allowed, reason, match = 0.0, False, f"policy deny: {action_l}", "deny"
         elif action_l in POLICY["allow"]:
-            trust = 0.95
-            allowed = True
-            reason = "policy allow"
-            match = "allow"
+            trust, allowed, reason, match = 0.95, True, "policy allow", "allow"
         else:
-            # Unknown action — heuristic, biased toward deny
-            trust = 0.25
-            allowed = trust >= self.min_trust
-            reason = f"unknown action heuristic trust={trust:.2f}"
-            match = "heuristic"
+            trust, allowed, reason, match = 0.25, False, "unknown action heuristic trust=0.25", "heuristic"
 
+        # Context override for tests / explicit deny
         if context.get("force_deny"):
-            allowed = False
-            trust = 0.0
-            reason = "force_deny"
-            match = "deny"
+            trust, allowed, reason, match = 0.0, False, "force_deny", "deny"
+
+        if allowed and trust < self.min_trust:
+            allowed, reason, match = False, f"trust {trust} < min_trust {self.min_trust}", "heuristic"
 
         audit_id = hashlib.sha256(f"{subsystem}:{action}:{time.time()}".encode()).hexdigest()[:12]
-        decision = SecurityDecision(allowed, trust, reason, audit_id, match)
-        self._log.append({
-            "subsystem": subsystem,
-            "action": action,
-            "decision": decision.__dict__,
-            "ts": time.time(),
-        })
-        return decision
+        d = SecurityDecision(allowed, trust, reason, audit_id, match)
+        self._log.append({"subsystem": subsystem, "action": action, "decision": d.__dict__, "ts": time.time()})
+        return d
 
     def get_log(self) -> list[dict[str, Any]]:
         return list(self._log)
