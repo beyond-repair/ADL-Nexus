@@ -1,0 +1,67 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "adl-nexus"
+version = "0.3.0rc1"
+description = "Local-first autonomous engineering, governance, simulation, and workforce platform (ADL Nexus Core)"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "All rights reserved (see LICENSE)" }
+authors = [
+  { name = "beyond-repair / Atomic Dream Labs" },
+]
+keywords = ["governance", "agents", "local-first", "autonomous", "adl"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Software Development",
+]
+# Runtime: stdlib only. No third-party dependencies required.
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0"]
+
+[project.scripts]
+nexus = "core.nexus:main"
+
+[project.urls]
+Homepage = "https://github.com/beyond-repair/ADL-Nexus"
+Repository = "https://github.com/beyond-repair/ADL-Nexus"
+Documentation = "https://github.com/beyond-repair/ADL-Nexus/tree/main/docs"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = [
+  "core*",
+  "adapters*",
+  "dashboard*",
+  "layer0_governance*",
+  "layer1_memory*",
+  "layer2_agent_runtime*",
+  "layer3_workforce*",
+  "layer4_development*",
+  "layer5_security*",
+  "layer6_simulation*",
+  "layer7_research*",
+  "layer8_economic*",
+  "scripts*",
+]
+exclude = ["tests*", "client*", "docs*", "benchmarks*", "analysis*", "registry*"]
+
+[tool.setuptools.package-data]
+"*" = ["*.yaml", "*.yml", "*.md"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

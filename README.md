@@ -11,32 +11,55 @@ See [RESEARCH.md](RESEARCH.md) and [docs/CLAIM_STATUS.md](docs/CLAIM_STATUS.md).
 
 ---
 
-## Quick Start
+## Quick Start (clone & run)
+
+Requires **Python 3.10+**. No third-party runtime dependencies (stdlib only).
 
 ```bash
 git clone https://github.com/beyond-repair/ADL-Nexus.git
 cd ADL-Nexus
 
+# Recommended: isolated environment
+python -m venv .venv
+source .venv/bin/activate          # Windows: .venv\Scripts\activate
+
+# Install in editable mode (registers the `nexus` CLI)
+pip install -e .
+
+# Verify
+nexus status
+nexus adapters
+nexus research
+nexus metrics
+nexus integrity --path .
+nexus run --goal "analyze repository"
+```
+
+You can still invoke the module form without installing:
+
+```bash
 python -m core.nexus status
-python -m core.nexus adapters
-python -m core.nexus research
-python -m core.nexus metrics
-python -m core.nexus integrity --path .
-python -m core.nexus run --goal "analyze repository"
 ```
 
 Local CLI is present. **GitHub Actions workflows = 0 this sweep. Do not treat CLI presence as CI-verified.**
 
-### Activate live adapters (optional)
+### Optional: activate live adapters
 
-Place `sunder` and/or `sovereign-clean-room` as sibling directories, or:
+Place `sunder` and/or `sovereign-clean-room` as sibling directories (or under `vendor/`), or:
 
 ```bash
 eval $(python scripts/bootstrap_path.py --export)
-python -m core.nexus adapters
+nexus adapters
 ```
 
 Core also attempts `ensure_paths()` automatically on startup. Adapter tests pass in **stub** mode without siblings.
+
+### Development / tests
+
+```bash
+pip install -e ".[dev]"
+pytest
+```
 
 ---
 
@@ -53,6 +76,14 @@ Core also attempts `ensure_paths()` automatically on startup. Adapter tests pass
 | 6 Simulation | Scaffolded |
 | 7 Research + CFT evidence | Registry present |
 | 8 Economic | Scaffolded |
+
+---
+
+## Packaging notes
+
+- `pyproject.toml` defines the installable package and the `nexus` console script.
+- After `pip install -e .` the project root packages (`core`, `layer*`, `adapters`, …) are importable and the CLI is on `PATH`.
+- Zero external runtime dependencies by design.
 
 ---
 
