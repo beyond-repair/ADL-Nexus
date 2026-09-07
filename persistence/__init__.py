@@ -1,10 +1,10 @@
-"""Nexus persistence package (NEX-INT-005)."""
-from .execution_record import ExecutionRecord, GovernanceSnapshot, SecuritySnapshot
-from .store import DurableExecutionStore
+from .execution_state import ExecutionState
+from .store import DurableExecutionStore, ExecutionRecord
+from .recovery import ExecutionRecoveryWorker
 
 __all__ = [
-    "ExecutionRecord",
-    "GovernanceSnapshot",
-    "SecuritySnapshot",
+    "ExecutionState",
     "DurableExecutionStore",
+    "ExecutionRecord",
+    "ExecutionRecoveryWorker",
 ]

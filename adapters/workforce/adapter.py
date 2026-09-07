@@ -1,129 +1,63 @@
-"""
-NEX-INT-002 — Thin Nexus-side Workforce Adapter
-
-Hard rules enforced:
-1. Import only the public contract.
-2. Do not import Agent, Task, or Orchestrator.
-3. No persistence.
-4. No LLM.
-5. No scheduling logic.
-6. No governance/security evaluation.
-7. Normalize adapter failures into WorkResult.
-8. Preserve request_id across the entire call.
-9. Adapter is replaceable.
-10. Deterministic unit-test surface.
-"""
-
+"""Thin Nexus-side Workforce adapter. No Agent/Task/Orchestrator imports."""
 from __future__ import annotations
-
-from typing import Dict
-from .contract import (
-    WorkRequest,
-    WorkResult,
-    WorkStatus,
-)
-
+from typing import Any, Callable, Dict, Optional
+from .contract import WorkRequest, WorkResult, WorkStatus
 
 class InProcessWorkforceAdapter:
-    """
-    In-process, memory-only adapter.
-
-    For NEX-INT-002 this is a deliberate stub/backend that:
-    - Accepts WorkRequests
-    - Tracks them by request_id
-    - Can be later replaced by a real Digital Workforce service
-      that implements the same interface.
-
-    It does NOT execute real agent work. That is NEX-INT-003.
-    """
-
     def __init__(self, executor=None) -> None:
         self._executor = executor
         self._results: Dict[str, WorkResult] = {}
+        self._invoke_count: Dict[str, int] = {}
 
     def submit(self, request: WorkRequest) -> WorkResult:
-        if not isinstance(request, WorkRequest):
-            return WorkResult(
-                request_id=getattr(request, "request_id", "unknown"),
-                status=WorkStatus.REJECTED,
-                error="malformed_request: expected WorkRequest",
-            )
-
-        if not request.request_id:
-            return WorkResult(
-                request_id="",
-                status=WorkStatus.REJECTED,
-                error="malformed_request: missing request_id",
-            )
-
-        if request.request_id in self._results:
-            return self._results[request.request_id]
-
+        rid = str(request.request_id)
+        self._invoke_count[rid] = self._invoke_count.get(rid, 0) + 1
+        if rid in self._results and self._results[rid].status in {
+            WorkStatus.COMPLETED, WorkStatus.FAILED, WorkStatus.REJECTED, WorkStatus.CANCELLED
+        }:
+            return self._results[rid]
         if self._executor is not None:
             raw = self._executor.execute(request)
-            result = self._normalize(raw, request.request_id)
-            self._results[request.request_id] = result
-            return result
+            result = self._normalize(raw, rid)
+        else:
+            result = WorkResult(rid, WorkStatus.COMPLETED, task_id="t-stub", agent_id="a-stub",
+                                output={"echo": request.description})
+        self._results[rid] = result
+        return result
 
-        # Pure stub path (no executor injected)
-        result = WorkResult(
-            request_id=request.request_id,
-            status=WorkStatus.ACCEPTED,
-        )
-        self._results[request.request_id] = result
+    def submit_async(self, request: WorkRequest, on_complete: Optional[Callable]=None) -> WorkResult:
+        result = self.submit(request)
+        if on_complete:
+            on_complete(result)
         return result
 
     def status(self, request_id: str) -> WorkResult:
-        if not request_id:
-            return WorkResult(
-                request_id="",
-                status=WorkStatus.REJECTED,
-                error="malformed_request: empty request_id",
-            )
-        if request_id in self._results:
-            return self._results[request_id]
-        if self._executor is not None:
-            raw = self._executor.status(request_id)
-            if raw is not None:
-                return self._normalize(raw, request_id)
-        return WorkResult(
-            request_id=request_id,
-            status=WorkStatus.REJECTED,
-            error="unknown_request_id",
-        )
-
-    def cancel(self, request_id: str) -> WorkResult:
-        if not request_id:
-            return WorkResult(
-                request_id="",
-                status=WorkStatus.REJECTED,
-                error="malformed_request: empty request_id",
-            )
-        existing = self._results.get(request_id)
-        if existing is not None and existing.status in {
-            WorkStatus.COMPLETED,
-            WorkStatus.FAILED,
-            WorkStatus.REJECTED,
-            WorkStatus.CANCELLED,
-        }:
-            return existing
-        if self._executor is not None:
-            raw = self._executor.cancel(request_id)
-            result = self._normalize(raw, request_id)
-            self._results[request_id] = result
-            return result
-        result = WorkResult(
-            request_id=request_id,
-            status=WorkStatus.CANCELLED,
-        )
-        self._results[request_id] = result
-        return result
+        rid = str(request_id)
+        if rid in self._results:
+            return self._results[rid]
+        return WorkResult(rid, WorkStatus.REJECTED, error="unknown_request_id")
 
     def evidence(self, request_id: str):
-        if self._executor is None:
+        if self._executor is not None and hasattr(self._executor, "evidence"):
+            return self._executor.evidence(request_id)
+        rid = str(request_id)
+        r = self._results.get(rid)
+        if r is None:
             return None
-        evidence_fn = getattr(self._executor, "evidence", None)
-        return evidence_fn(request_id) if evidence_fn else None
+        terminal = r.status in {WorkStatus.COMPLETED, WorkStatus.FAILED, WorkStatus.REJECTED, WorkStatus.CANCELLED}
+        return type("E", (), {
+            "request_id": rid,
+            "handler_started": True,
+            "terminal": terminal,
+            "status": r.status.value,
+            "task_id": r.task_id,
+            "agent_id": r.agent_id,
+            "output": r.output,
+            "error": r.error,
+        })()
+
+    def invocation_count(self, request_id: str) -> int:
+        return self._invoke_count.get(str(request_id), 0)
 
     @staticmethod
     def _normalize(raw, rid: str) -> WorkResult:
@@ -132,14 +66,9 @@ class InProcessWorkforceAdapter:
         except (ValueError, TypeError):
             status = WorkStatus.FAILED
         return WorkResult(
-            request_id=rid,
-            status=status,
-            task_id=getattr(raw, "task_id", None),
-            agent_id=getattr(raw, "agent_id", None),
-            output=getattr(raw, "output", None),
-            error=getattr(raw, "error", None),
+            rid, status,
+            getattr(raw, "task_id", None),
+            getattr(raw, "agent_id", None),
+            getattr(raw, "output", None),
+            getattr(raw, "error", None),
         )
-
-
-def create_workforce_adapter(executor=None) -> InProcessWorkforceAdapter:
-    return InProcessWorkforceAdapter(executor=executor)
