@@ -1,5 +1,5 @@
 """Nexus-side Workforce adapter package (NEX-INT-002)."""
-from .contract import WorkRequest, WorkResult, WorkStatus, Priority, WorkforceAdapter
+from .contract import WorkRequest, WorkResult, WorkStatus
 from .adapter import InProcessWorkforceAdapter
 
 __all__ = [
@@ -7,6 +7,4 @@ __all__ = [
     "WorkRequest",
     "WorkResult",
     "WorkStatus",
-    "Priority",
-    "WorkforceAdapter",
 ]
