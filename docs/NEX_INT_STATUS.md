@@ -3,23 +3,7 @@
 **Program:** Atomic Dream Labs Recursive Consolidation
 **Branch:** `nex-int-spine`
 **Updated:** 2026-09-07
-
-## Locked Architecture
-
-Nexus coordinates. It does not absorb Workforce, Sovereign Core, or AEGIS.
-
-```
-ADL-GOVERNANCE
-       |
-  policy / claims
-       |
-       v
-  ADL-NEXUS (coordination)
-       |
-  +----+----+------------+
-  v    v    v            v
-Workforce  AEGIS  Clean Room  Research
-```
+**HEAD (implementation):** `f55f8912da9c7d0c7862fe1698f4698b4eb95f87`
 
 ## Gate Status
 
@@ -27,18 +11,16 @@ Workforce  AEGIS  Clean Room  Research
 |------|-------|
 | NEX-INT-001 Contract | LOCKED |
 | NEX-INT-002 Nexus Adapter | PASS |
-| NEX-INT-003 Workforce Executor | PASS |
-| NEX-INT-004 Governed Vertical Slice | PASS (local) |
-| NEX-INT-005 Durable Execution Identity | PASS (local) |
-| NEX-INT-006 Recovery / Reconciliation | CLOSED (local) |
+| NEX-INT-003 Workforce Executor | PASS (Workforce repo) |
+| NEX-INT-004 Governed Vertical Slice | PASS (code on branch) |
+| NEX-INT-005 Durable Execution Identity | PASS (code on branch) |
+| NEX-INT-006 Recovery / Reconciliation | CLOSED (code on branch) |
 | NEX-INT-007 Asynchronous Execution | IN PROGRESS |
-| ├─ async acceptance | PASS |
-| ├─ Workforce worker ownership | PASS |
-| ├─ Nexus completion callback | PASS |
-| ├─ dual persistence | PASS |
-| ├─ prior-gate regression | PASS |
-| └─ restart semantics under async | NEXT |
-| NEX-INT-008 Real Agent / LLM Handler | Pending |
+| ├─ governed_workforce + recovery | LANDED remote |
+| ├─ adversarial A–F | PASS local (7/7) |
+| ├─ boundary audit (AST) | PASS local |
+| └─ full repo CI on branch | PENDING |
+| NEX-INT-008 Real Agent / LLM Handler | NOT STARTED |
 
 ## Permanent Rules
 
@@ -47,12 +29,12 @@ Workforce  AEGIS  Clean Room  Research
 3. Workforce owns Agent / Task lifecycle and evidence journal.
 4. Nexus owns request identity, governance/security decisions, and audit.
 5. Games (Project Cold Boot) are independent and protected.
-6. Synchronous `submit()` remains the compatibility path; `submit_async()` is the NEX-INT-007 surface.
+6. Late callbacks cannot resurrect terminal or INDETERMINATE executions.
 
 ## Compatibility
 
 ```
-submit(request)           → existing synchronous contract (NEX-INT-001..006)
-submit_async(request)     → non-blocking async contract (NEX-INT-007)
+submit(request)                    → synchronous
+submit_async(request)              → non-blocking
 submit(request, asynchronous=True) → same as submit_async
 ```

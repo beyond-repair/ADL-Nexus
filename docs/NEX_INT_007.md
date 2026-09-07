@@ -1,49 +1,39 @@
 # NEX-INT-007 — Asynchronous Execution
 
-## Objective
+## Status: IN PROGRESS (implementation landed; full CI pending)
 
-Allow a governed WorkRequest to be accepted and return without blocking on handler completion, while preserving every invariant from NEX-INT-001–006.
+### Acceptance criteria
 
-## Path
+- [x] Non-blocking accept path (`submit_async`)
+- [x] Durable identity before Workforce invocation
+- [x] Completion callback cannot overwrite terminal state
+- [x] Recovery leaves INDETERMINATE without re-drive when no terminal evidence
+- [x] Late callback after recovery ignored
+- [x] Concurrent duplicate request_id → single Workforce invocation
+- [x] Submit after terminal → observation only
+- [x] Submit after INDETERMINATE → no re-drive
+- [x] Boundary: no Agent/Task/Orchestrator imports in Nexus governed path
+- [ ] Full repository CI green on `nex-int-spine`
 
+### Local adversarial suite
+
+Command:
 ```
-WorkRequest
-    ↓
-Governance + Security
-    ↓
-Durable Nexus identity (RUNNING)
-    ↓
-submit_async()
-    ↓
-Workforce-owned worker
-    ↓
-handler
-    ↓
-Workforce evidence journal (terminal)
-    ↓
-completion callback
-    ↓
-Nexus ExecutionRecord (terminal)
+python tests/test_nex_int_007_adversarial.py
 ```
+Result: **7 passed, 0 failed**
 
-## Ownership
+### Implementation commit
 
-| Concern | Owner |
-|---------|-------|
-| Worker pool / handles | Workforce |
-| Handler invocation | Workforce |
-| Evidence journal | Workforce |
-| Request identity + audit | Nexus |
-| Completion callback consumption | Nexus |
+`f55f8912da9c7d0c7862fe1698f4698b4eb95f87`
 
-## Next sub-gate
+### Files
 
-Async process-death / restart:
+- `governed_workforce.py`
+- `persistence/` (store, recovery, execution_state)
+- `adapters/workforce/adapter.py` (thin; invocation counting)
+- `tests/test_nex_int_007_adversarial.py`
 
-```
-submit_async() → RUNNING → Workforce executing → process death
-    ↓
-restart → NEX-INT-006 recovery → Workforce evidence
-    ↓
-RECONCILE or INDETERMINATE → NO RE-DRIVE
-```
+### Closure rule
+
+NEX-INT-007 closes only when full repo CI on this branch is evidenced PASS in addition to the above.
