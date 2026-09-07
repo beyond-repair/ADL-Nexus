@@ -3,7 +3,7 @@
 **Program:** Atomic Dream Labs Recursive Consolidation
 **Branch:** `nex-int-spine`
 **Updated:** 2026-09-07
-**HEAD (implementation):** `f55f8912da9c7d0c7862fe1698f4698b4eb95f87`
+**HEAD:** `91db04720da3e07a38cc51b71b5a8138e3fda1bd`
 
 ## Gate Status
 
@@ -11,16 +11,21 @@
 |------|-------|
 | NEX-INT-001 Contract | LOCKED |
 | NEX-INT-002 Nexus Adapter | PASS |
-| NEX-INT-003 Workforce Executor | PASS (Workforce repo) |
-| NEX-INT-004 Governed Vertical Slice | PASS (code on branch) |
-| NEX-INT-005 Durable Execution Identity | PASS (code on branch) |
-| NEX-INT-006 Recovery / Reconciliation | CLOSED (code on branch) |
-| NEX-INT-007 Asynchronous Execution | IN PROGRESS |
-| ├─ governed_workforce + recovery | LANDED remote |
-| ├─ adversarial A–F | PASS local (7/7) |
-| ├─ boundary audit (AST) | PASS local |
-| └─ full repo CI on branch | PENDING |
+| NEX-INT-003 Workforce Executor | PASS |
+| NEX-INT-004 Governed Vertical Slice | PASS |
+| NEX-INT-005 Durable Execution Identity | PASS |
+| NEX-INT-006 Recovery / Reconciliation | CLOSED |
+| **NEX-INT-007 Asynchronous Execution** | **CLOSED** |
 | NEX-INT-008 Real Agent / LLM Handler | NOT STARTED |
+
+## NEX-INT-007 Closure Evidence
+
+- Full suite command: `python -m pytest -q`
+- Full suite result: **17 passed, 0 failed**
+- Adversarial: `python tests/test_nex_int_007_adversarial.py` → **7 passed, 0 failed**
+- Boundary AST audit: PASS
+- Minimal CI fixes: SecurityGate allow `execute_work`; Role dataclass field order
+- Closure date: 2026-09-07
 
 ## Permanent Rules
 
@@ -30,11 +35,3 @@
 4. Nexus owns request identity, governance/security decisions, and audit.
 5. Games (Project Cold Boot) are independent and protected.
 6. Late callbacks cannot resurrect terminal or INDETERMINATE executions.
-
-## Compatibility
-
-```
-submit(request)                    → synchronous
-submit_async(request)              → non-blocking
-submit(request, asynchronous=True) → same as submit_async
-```

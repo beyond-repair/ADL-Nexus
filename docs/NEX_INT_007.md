@@ -1,6 +1,12 @@
 # NEX-INT-007 — Asynchronous Execution
 
-## Status: IN PROGRESS (implementation landed; full CI pending)
+## Status: CLOSED
+
+**Branch:** `nex-int-spine`
+**HEAD:** `91db04720da3e07a38cc51b71b5a8138e3fda1bd`
+**Implementation SHA:** `f55f8912da9c7d0c7862fe1698f4698b4eb95f87`
+**CI fix SHA:** `91db04720da3e07a38cc51b71b5a8138e3fda1bd`
+**Closure date:** 2026-09-07
 
 ### Acceptance criteria
 
@@ -13,27 +19,31 @@
 - [x] Submit after terminal → observation only
 - [x] Submit after INDETERMINATE → no re-drive
 - [x] Boundary: no Agent/Task/Orchestrator imports in Nexus governed path
-- [ ] Full repository CI green on `nex-int-spine`
+- [x] Full repository tests on branch PASS
 
-### Local adversarial suite
+### Full repository suite
 
-Command:
 ```
-python tests/test_nex_int_007_adversarial.py
+command: python -m pytest -q
+branch: nex-int-spine
+result: 17 passed, 0 failed
+exit: 0
 ```
-Result: **7 passed, 0 failed**
 
-### Implementation commit
+### Adversarial suite
 
-`f55f8912da9c7d0c7862fe1698f4698b4eb95f87`
+```
+command: python tests/test_nex_int_007_adversarial.py
+result: 7 passed, 0 failed
+```
 
-### Files
+A–F invariants verified. Boundary AST audit PASS.
 
-- `governed_workforce.py`
-- `persistence/` (store, recovery, execution_state)
-- `adapters/workforce/adapter.py` (thin; invocation counting)
-- `tests/test_nex_int_007_adversarial.py`
+### Minimal defects fixed for CI
 
-### Closure rule
+1. `layer5_security/gate.py` — add `execute_work` (and `integrity`) to allow policy so governed workforce is not false-denied.
+2. `layer3_workforce/roles.py` — field order fix (pre-existing dataclass TypeError blocking collection).
 
-NEX-INT-007 closes only when full repo CI on this branch is evidenced PASS in addition to the above.
+### NEX-INT-008
+
+NOT STARTED. Next: Gate 1 only — narrow handler contract.
