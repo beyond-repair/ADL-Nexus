@@ -11,7 +11,10 @@ POLICY = {
     "allow": {
         "status", "list_files", "summarize", "echo", "audit", "memory",
         "registry", "roles", "research", "adapters", "metrics", "scan", "run_goal",
-        "evaluate", "put", "get", "info",
+        "evaluate", "put", "get", "info", "keys", "list", "register",
+        "analyze", "list_entrypoints", "integrity", "file_hash", "tree_hash",
+        "verify", "seed", "evidence", "record", "balance", "capabilities",
+        "snapshot", "load", "analyze_tree", "call", "packages", "policy", "log",
     },
     "deny": {
         "network_unrestricted", "exfiltrate", "privilege_escalate", "disable_governance",
