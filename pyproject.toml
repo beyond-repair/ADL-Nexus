@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "adl-nexus"
-version = "0.3.1"
+version = "0.3.2"
 description = "Local-first autonomous engineering, governance, simulation, and workforce platform (ADL Nexus Core)"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -23,7 +23,6 @@ classifiers = [
   "Programming Language :: Python :: 3.13",
   "Topic :: Software Development",
 ]
-# Runtime: stdlib only. No third-party dependencies required.
 dependencies = []
 
 [project.optional-dependencies]
