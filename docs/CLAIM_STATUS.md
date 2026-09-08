@@ -1,23 +1,22 @@
 # Claim Status — ADL Nexus
 
-**Sweep-121 (2026-09-08):** v0.3.2 local kernel completion. Head recorded at push time.
+**Sweep-122 (2026-09-08):** product spine lock. Personal Sovereign Work OS — RESEARCH.
 
 | Field | Value |
 |-------|--------|
-| Version | **0.3.2** |
+| Version | **0.4.0-spine** |
 | Lifecycle | **RESEARCH** (not ACTIVE product) |
 | Core claim level | **2** |
-| Packaged pathways (stdlib import + `python run.py`) | **VERIFIED** in-tree |
-| Architecture core path `request()` | **VERIFIED** local deterministic loop |
-| Supervised workforce assign/complete | **VERIFIED** in-process board (not autonomy) |
-| Optional integrity anchors `.nexus/anchors.json` | **VERIFIED** local only |
-| Loopback Party bridge `serve` 127.0.0.1 | **PRESENT**; remote bind refused |
-| Product GitHub Actions pytest | `.github/workflows/ci.yml` present; treat run conclusion separately |
-| Releases / tags | **none** |
-| Live sunder / clean-room adapter | **UNSUPPORTED** as live interop (stub-pass ≠ live) |
-| Full autonomous workforce | **UNSUPPORTED** |
-| Production platform / OmniWealth OS / AI Legion runtime | **UNSUPPORTED** |
-| Pre-built signed APK | **false** |
+| Product contract | `docs/PRODUCT.md` — nine subsystems; absorb on strength only |
+| `think` / Reality-before-action | **VERIFIED** local snapshot |
+| Constitutional execute | **VERIFIED** commit refused without authorize |
+| Supervised workforce assign on commit | **VERIFIED** in-process |
+| Provenance log | **VERIFIED** local append-only |
+| Live RealityOS twin | **UNSUPPORTED** |
+| Live Digital Double runtime | **UNSUPPORTED** |
+| Live sunder / clean-room / AEGIS pipeline | **UNSUPPORTED** |
+| Full autonomous workforce / deploy / payments | **UNSUPPORTED** |
+| Physics / Coherence Drive as product features | **FORBIDDEN** (research lab only) |
 
 Do not infer production completeness from layered directory names.
 Do not promote lifecycle to ACTIVE because local tests pass.
