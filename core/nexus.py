@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""ADL Nexus Core v0.3.0-rc1 — Hardened Runtime."""
+"""ADL Nexus Core v0.3.1 — Packaged pathways + hardened runtime."""
 
 from __future__ import annotations
 import argparse
@@ -10,7 +10,6 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-# Optional sibling bootstrap (sunder / sovereign-clean-room)
 try:
     from scripts.bootstrap_path import ensure_paths
     ensure_paths(verbose=False)
@@ -54,22 +53,33 @@ def build_coding_agent() -> AgentRuntime:
 def bootstrap():
     register_subsystem("nexus-core", layer=0, claim_level=2,
                        capabilities=["status", "run", "audit", "memory", "registry", "roles",
-                                     "research", "adapters", "metrics", "integrity"])
+                                     "research", "adapters", "metrics", "integrity",
+                                     "call", "packages", "evaluate", "register", "list"])
     register_subsystem("coding-agent", layer=2, claim_level=2, capabilities=["list_files", "summarize", "echo"])
     register_subsystem("security-gate", layer=5, claim_level=2, capabilities=["evaluate", "integrity"])
-    register_subsystem("research-fabric", layer=7, claim_level=2, capabilities=["register", "list", "evidence"])
+    register_subsystem("research-fabric", layer=7, claim_level=2, capabilities=["register", "list", "evidence", "seed"])
     register_subsystem("sunder-adapter", layer=2, claim_level=2, capabilities=["scan", "run_goal"])
     register_subsystem("cleanroom-adapter", layer=1, claim_level=2, capabilities=["put", "get", "info", "query"])
+    register_subsystem("memory-kernel", layer=1, claim_level=2, capabilities=["put", "get", "keys"])
+    register_subsystem("workforce", layer=3, claim_level=2, capabilities=["list", "get"])
+    register_subsystem("development", layer=4, claim_level=2, capabilities=["analyze", "list_entrypoints", "info"])
+    register_subsystem("simulation", layer=6, claim_level=2, capabilities=["register", "list", "info"])
+    register_subsystem("economic", layer=8, claim_level=1, capabilities=["record", "balance", "info"])
     seed_cft_baseline()
 
 def main():
-    parser = argparse.ArgumentParser(description="ADL Nexus Core v0.3.0-rc1")
+    parser = argparse.ArgumentParser(description="ADL Nexus Core v0.3.1")
     parser.add_argument("command",
                         choices=["status", "register", "run", "audit", "memory", "registry",
-                                 "roles", "research", "adapters", "metrics", "integrity"],
+                                 "roles", "research", "adapters", "metrics", "integrity",
+                                 "packages", "call", "layers"],
                         help="Core command")
     parser.add_argument("--goal", default="analyze repository", help="Goal for the coding agent")
     parser.add_argument("--path", default=".", help="Path for repository analysis / integrity")
+    parser.add_argument("--pathway", default="", help="Pathway name for `call` (e.g. development)")
+    parser.add_argument("--action", default="info", help="Action name for `call`")
+    parser.add_argument("--arg", action="append", default=[], help="Positional arg for `call` (repeatable)")
+    parser.add_argument("--kw", action="append", default=[], help="key=value for `call` (repeatable)")
     args = parser.parse_args()
 
     bootstrap()
@@ -159,6 +169,44 @@ def main():
             },
         )
         print(m)
+
+    elif args.command == "packages":
+        from core.pathways import probe_packages, list_pathways
+        print("Pathways:", ", ".join(list_pathways()))
+        rows = probe_packages()
+        ok = 0
+        for row in rows:
+            mark = "OK" if row["import_ok"] else "FAIL"
+            if row["import_ok"]:
+                ok += 1
+            extra = "" if row["import_ok"] else f"  {row['error']}"
+            print(f"  [{mark}] L{row['layer']} {row['pathway']:12} {row['module']}{extra}")
+        print(f"{ok}/{len(rows)} packages importable")
+        return 0 if ok == len(rows) else 1
+
+    elif args.command == "layers":
+        from core.pathways import list_pathways, describe
+        for name in list_pathways():
+            d = describe(name)
+            print(f"L{d['layer']} {name:12} -> {d['module']}  actions={d['actions']}")
+
+    elif args.command == "call":
+        from core.kernel import get_kernel
+        if not args.pathway:
+            print("usage: nexus call --pathway development --action analyze --kw path=.")
+            return 2
+        kwargs = {}
+        for item in args.kw:
+            if "=" not in item:
+                print("bad --kw, expected key=value:", item)
+                return 2
+            k, _, v = item.partition("=")
+            kwargs[k] = v
+        k = get_kernel()
+        result = k.call(args.pathway, args.action, *args.arg, **kwargs)
+        print({"ok": result.ok, "allowed": result.allowed, "pathway": result.pathway,
+               "action": result.action, "reason": result.reason, "result": result.result})
+        return 0 if result.ok else 1
 
     elif args.command == "integrity":
         target = Path(args.path)
