@@ -50,6 +50,7 @@ Thumbs.db
 .cache/
 local/
 vendor/
+.nexus/
 
 # Secrets (never commit)
 .env
