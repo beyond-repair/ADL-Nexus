@@ -44,7 +44,15 @@ PATHWAY_SPEC: dict[str, dict[str, Any]] = {
         "module": "layer3_workforce.roles",
         "layer": 3,
         "subsystem": "workforce",
-        "actions": {"list": "list_roles", "get": "get_role"},
+        "actions": {
+            "list": "list_roles",
+            "get": "get_role",
+            "assign": "assign",
+            "execute": "execute",
+            "complete": "complete",
+            "run_goal": "run_goal",
+            "list_tasks": "list_tasks",
+        },
     },
     "development": {
         "package": "layer4_development",

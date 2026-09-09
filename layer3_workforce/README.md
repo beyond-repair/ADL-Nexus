@@ -2,13 +2,11 @@
 
 Managed roles, not a single AI.
 
-Roles defined in v0.2:
-- Engineer
-- Researcher
-- Writer
-- Analyst
-- Tester
-- Operator
-- Manager
+NEX-INT-001 loop:
 
-Runtime claim: **routing and definition only**. Full autonomous workforce is not claimed.
+`assign → claim/reality gate → execute(sunder) → provenance → complete`
+
+`complete` is impossible without SUCCESS provenance.
+
+Runtime claim: **supervised execution path**. Full autonomous workforce is not claimed.
+Live sunder interop is not claimed; stub adapter invocation is recorded as `adapter_mode`.

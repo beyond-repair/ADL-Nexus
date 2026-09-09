@@ -11,6 +11,7 @@
 | `think` / Reality-before-action | **VERIFIED** local snapshot |
 | Constitutional execute | **VERIFIED** commit refused without authorize |
 | Supervised workforce assign on commit | **VERIFIED** in-process |
+| NEX-INT-001 assign/execute/provenance/complete | **PRESENT** (sunder invoked; live interop still UNSUPPORTED) |
 | Provenance log | **VERIFIED** local append-only |
 | Live RealityOS twin | **UNSUPPORTED** |
 | Live Digital Double runtime | **UNSUPPORTED** |
@@ -20,3 +21,4 @@
 
 Do not infer production completeness from layered directory names.
 Do not promote lifecycle to ACTIVE because local tests pass.
+Do not promote to EXECUTABLE KERNEL until sunder adapter_mode is live on an operator machine.
