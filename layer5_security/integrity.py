@@ -61,3 +61,66 @@ def verify_anchor(path: str | Path, expected: str, algo: str = "sha256") -> dict
         "expected": expected,
         "claim": "local integrity check only; not full forge-aegis pipeline",
     }
+
+
+# --- Anchor helpers (claim-capped local only) ---
+# Simple file-backed labels for optional integrity checks in tests / local use.
+# Not a full forge-aegis pipeline.
+
+import json
+from datetime import datetime, timezone
+
+ANCHOR_FILE = Path(".nexus_anchors.json")
+
+
+def save_anchor(path: str | Path, label: str, algo: str = "sha256") -> dict:
+    """Persist a labeled hash of path under ANCHOR_FILE. Idempotent overwrite of label."""
+    path = Path(path)
+    if not path.exists():
+        return {"ok": False, "error": "path not found", "path": str(path)}
+    if path.is_file():
+        digest = file_hash(path, algo=algo)
+        kind = "file"
+    elif path.is_dir():
+        digest = tree_hash(path, algo=algo)
+        kind = "dir"
+    else:
+        return {"ok": False, "error": "unsupported path type", "path": str(path)}
+
+    data: dict = {}
+    if ANCHOR_FILE.exists():
+        try:
+            data = json.loads(ANCHOR_FILE.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            data = {}
+
+    data[label] = {
+        "path": str(path.resolve()) if path.is_absolute() else str(path),
+        "kind": kind,
+        "algo": algo,
+        "hash": digest,
+        "saved_at": datetime.now(timezone.utc).isoformat(),
+        "claim": "local integrity check only; not full forge-aegis pipeline",
+    }
+    try:
+        ANCHOR_FILE.write_text(json.dumps(data, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    except OSError as e:
+        return {"ok": False, "error": str(e)}
+    return {"ok": True, "label": label, "hash": digest, "path": str(path)}
+
+
+def check_anchor(label: str, algo: str | None = None) -> dict:
+    """Recompute hash for a saved label and compare. Fail-closed."""
+    if not ANCHOR_FILE.exists():
+        return {"ok": False, "error": "no anchor file"}
+    try:
+        data = json.loads(ANCHOR_FILE.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as e:
+        return {"ok": False, "error": f"unreadable anchors: {e}"}
+    entry = data.get(label)
+    if entry is None:
+        return {"ok": False, "error": f"unknown label: {label}"}
+    path = Path(entry["path"])
+    use_algo = algo or entry.get("algo", "sha256")
+    expected = entry.get("hash", "")
+    return verify_anchor(path, expected, algo=use_algo)

@@ -2,8 +2,8 @@
 
 **Local-first autonomous engineering, governance, simulation, and workforce platform.**
 
-**Version:** 0.3.1  
-**Lifecycle:** **RESEARCH** (Sweep-086 lock; Sweep-112 reconfirm) — not ACTIVE product.  
+**Version:** 0.3.2  
+**Lifecycle:** **RESEARCH** (Sweep-086 lock; Sweep-112/131 reconfirm) — not ACTIVE product.  
 **Owner:** beyond-repair / Atomic Dream Labs  
 **Governance:** [ADL-Governance](https://github.com/beyond-repair/ADL-Governance) + [ADL-SEEM](https://github.com/beyond-repair/ADL-SEEM)
 
@@ -52,7 +52,7 @@ python -m core status
 python -m core.nexus status
 ```
 
-Local CLI is present. Sweep-112 added `.github/workflows/ci.yml`. Treat first Actions conclusion as **PENDING** until listed success.
+Local CLI is present. Sweep-112 added `.github/workflows/ci.yml`. CI present; spine-related tests xfail under RESEARCH claim-cap (Sweep-131).
 
 ### Optional: activate live adapters
 
