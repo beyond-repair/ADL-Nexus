@@ -49,3 +49,27 @@ def test_claim_at_cap_allowed_and_self_elevate_refused():
     with pytest.raises(ValueError, match="self-elevate"):
         register_subsystem("low-claim", layer=1, claim_level=2, capabilities=["ping"])
     assert list_subsystems()["low-claim"]["claim_level"] == 1
+
+
+def test_nexus_core_manifest_matches_evaluate_allow_list():
+    from core.kernel import NexusKernel, _declared_capabilities
+    from registry.loader import load_manifests
+
+    NexusKernel().bootstrap()
+    manifest_caps = sorted(load_manifests()["nexus-core"]["capabilities"])
+    registered = sorted(list_subsystems()["nexus-core"]["capabilities"])
+    assert manifest_caps == registered == _declared_capabilities("nexus-core")
+    assert "run" not in manifest_caps
+    assert evaluate_request("nexus-core", "snapshot").allowed is True
+    denied = evaluate_request("nexus-core", "run")
+    assert denied.allowed is False
+    assert "not in declared capabilities" in denied.reason
+
+
+def test_bootstrap_fails_if_manifest_disagrees(monkeypatch):
+    import core.kernel as kernel_mod
+    from core.kernel import NexusKernel
+
+    monkeypatch.setattr(kernel_mod, "_nexus_core_manifest_capabilities", lambda: ["run", "status"])
+    with pytest.raises(RuntimeError, match="disagree"):
+        NexusKernel().bootstrap()

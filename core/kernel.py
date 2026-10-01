@@ -24,7 +24,7 @@ from layer3_workforce.roles import list_roles
 from layer4_development.workspace import DevWorkspace
 from layer5_security.gate import SecurityGate
 from layer6_simulation.fabric import SimulationFabric
-from layer7_research.registry import seed_cft_baseline, list_experiments
+from layer7_research.registry import list_experiments
 from layer8_economic.ledger import EconomicLedger
 from adapters.sunder.bridge import SunderAdapter
 from adapters.cleanroom.bridge import CleanRoomAdapter
@@ -72,6 +72,19 @@ def _declared_capabilities(subsystem: str) -> list[str]:
     return sorted(names)
 
 
+def _nexus_core_manifest_capabilities() -> list[str]:
+    """Capabilities declared in registry/nexus-core.yaml. Not a signed manifest."""
+    from registry.loader import load_manifests
+
+    manifest = load_manifests().get("nexus-core")
+    if not isinstance(manifest, dict):
+        raise RuntimeError("nexus-core manifest missing")
+    caps = manifest.get("capabilities")
+    if not isinstance(caps, list) or not all(isinstance(item, str) for item in caps):
+        raise RuntimeError("nexus-core manifest capabilities must be a list of strings")
+    return sorted(caps)
+
+
 class NexusKernel:
     """One object that can call every packaged module by pathway name."""
 
@@ -91,11 +104,19 @@ class NexusKernel:
     def bootstrap(self) -> "NexusKernel":
         """Register subsystems once. This is the documented bootstrap exception.
 
-        Registration is not a second command dispatcher. seed_cft_baseline runs
-        here because it is lab content loaded at startup, not a product action.
+        Registration is not a second command dispatcher. CFT seeding is research
+        lab content and is not run here. The nexus-core manifest capability list
+        must match the in-code allow list or startup fails.
         """
         if self._bootstrapped:
             return self
+        code_caps = _declared_capabilities("nexus-core")
+        manifest_caps = _nexus_core_manifest_capabilities()
+        if manifest_caps != code_caps:
+            raise RuntimeError(
+                "nexus-core manifest capabilities disagree with in-code allow list "
+                f"(manifest={manifest_caps}, code={code_caps})"
+            )
         seen: set[str] = set()
         for spec in PATHWAY_SPEC.values():
             name = spec["subsystem"]
@@ -110,7 +131,6 @@ class NexusKernel:
         register_subsystem(
             "objective", layer=0, claim_level=2, capabilities=list(_OBJECTIVE_ACTIONS),
         )
-        seed_cft_baseline()
         self._bootstrapped = True
         return self
 

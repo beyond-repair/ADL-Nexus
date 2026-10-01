@@ -10,8 +10,8 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-# Path bootstrap only. Not a governance dispatcher. Sibling inserts can still
-# shadow later imports (see scripts/bootstrap_path.py); clean-room discovery
+# Path bootstrap only. Not a governance dispatcher. ensure_paths appends
+# sibling roots; it does not put them at sys.path[0]. Clean-room discovery
 # does not import core.clean_room_vsa.
 try:
     from scripts.bootstrap_path import ensure_paths
@@ -45,6 +45,10 @@ def main():
     parser.add_argument("--action", default="info", help="Action name for `call`")
     parser.add_argument("--arg", action="append", default=[], help="Positional arg for `call` (repeatable)")
     parser.add_argument("--kw", action="append", default=[], help="key=value for `call` (repeatable)")
+    parser.add_argument(
+        "--seed", action="store_true",
+        help="With research: seed the CFT lab baseline (not product bootstrap)",
+    )
     args = parser.parse_args()
 
     # Bootstrap exception: NexusKernel.bootstrap() registers subsystems.
@@ -109,6 +113,11 @@ def main():
             print(f"{role.name}: {role.capabilities} (claim {role.claim_level})")
 
     elif args.command == "research":
+        if args.seed:
+            seeded = k.call("research", "seed")
+            if not seeded.ok:
+                print("DENIED —", seeded.reason)
+                return 1
         for exp in list_experiments():
             print(f"\n[{exp['status']}] {exp['id']} — {exp['title']} (claim {exp['claim_level']})")
             print(f"  Hypothesis: {exp['hypothesis']}")

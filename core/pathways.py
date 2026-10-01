@@ -94,6 +94,14 @@ PATHWAY_SPEC: dict[str, dict[str, Any]] = {
         "subsystem": "simulation",
         "actions": {"register": "register", "list": "list", "info": "info"},
     },
+    "reality": {
+        "package": "layer6_simulation",
+        "module": "layer6_simulation.reality",
+        "factory": "RealityEngine",
+        "layer": 6,
+        "subsystem": "simulation",
+        "actions": {"state": "state", "info": "info"},
+    },
     "research": {
         "package": "layer7_research",
         "module": "layer7_research.registry",
@@ -108,6 +116,13 @@ PATHWAY_SPEC: dict[str, dict[str, Any]] = {
         "layer": 8,
         "subsystem": "economic",
         "actions": {"record": "record", "balance": "balance", "info": "info"},
+    },
+    "provenance": {
+        "package": "layer8_economic",
+        "module": "layer8_economic.provenance",
+        "layer": 8,
+        "subsystem": "economic",
+        "actions": {"list": "list_entries", "get": "get", "record": "record"},
     },
     "sunder": {
         "package": "adapters.sunder",

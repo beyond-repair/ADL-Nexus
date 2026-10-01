@@ -12,9 +12,41 @@ from typing import Any
 import time
 import hashlib
 import json
+from pathlib import Path
 
 _REGISTRY: dict[str, dict[str, Any]] = {}
 _AUDIT: list[dict[str, Any]] = []
+
+
+def _audit_file() -> Path:
+    return Path(".nexus_memory") / "audit.jsonl"
+
+
+def persist_audit_record(record: dict[str, Any]) -> None:
+    """Append one governance or security decision. Callers must not pass secrets."""
+    path = _audit_file()
+    path.parent.mkdir(parents=True, exist_ok=True)
+    line = json.dumps(record, sort_keys=True, default=str)
+    with path.open("a", encoding="utf-8") as fh:
+        fh.write(line + "\n")
+
+
+def read_persisted_audit() -> list[dict[str, Any]]:
+    """Read the durable audit file. Does not use the in-memory list."""
+    path = _audit_file()
+    if not path.is_file():
+        return []
+    rows: list[dict[str, Any]] = []
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if line.strip():
+            rows.append(json.loads(line))
+    return rows
+
+
+def _audit(record: dict[str, Any]) -> None:
+    record.setdefault("channel", "governance")
+    _AUDIT.append(record)
+    persist_audit_record(record)
 
 # Local cap from the previous in-file rule "claim_level <= 2".
 # Status does not bypass this cap. ADL-Governance is not consulted.
@@ -36,7 +68,7 @@ def register_subsystem(name: str, layer: int, claim_level: int, capabilities: li
     if not isinstance(claim_level, int) or isinstance(claim_level, bool):
         raise ValueError(f"claim_level {claim_level!r} is not an int")
     if claim_level > MAX_CLAIM_LEVEL:
-        _AUDIT.append({
+        _audit({
             "event": "register_denied",
             "name": name,
             "claim_level": claim_level,
@@ -46,7 +78,7 @@ def register_subsystem(name: str, layer: int, claim_level: int, capabilities: li
         raise ValueError(f"claim_level {claim_level} exceeds cap {MAX_CLAIM_LEVEL}")
     existing = _REGISTRY.get(name)
     if existing is not None and claim_level > int(existing["claim_level"]):
-        _AUDIT.append({
+        _audit({
             "event": "register_denied",
             "name": name,
             "claim_level": claim_level,
@@ -68,7 +100,7 @@ def register_subsystem(name: str, layer: int, claim_level: int, capabilities: li
     reg_hash = hashlib.sha256(payload.encode()).hexdigest()[:16]
     entry["reg_hash"] = reg_hash
     _REGISTRY[name] = entry
-    _AUDIT.append({"event": "register", "entry": entry, "ts": time.time()})
+    _audit({"event": "register", "entry": entry, "ts": time.time()})
     return reg_hash
 
 def evaluate_request(subsystem: str, action: str, context: dict[str, Any] | None = None) -> GovernanceDecision:
@@ -98,11 +130,21 @@ def evaluate_request(subsystem: str, action: str, context: dict[str, Any] | None
         decision = GovernanceDecision(allowed, reason, level, "")
     audit_id = hashlib.sha256(f"{subsystem}:{action}:{time.time()}".encode()).hexdigest()[:12]
     decision.audit_id = audit_id
-    _AUDIT.append({"event": "evaluate", "subsystem": subsystem, "action": action, "decision": decision.__dict__, "ts": time.time()})
+    _audit({
+        "event": "evaluate",
+        "subsystem": subsystem,
+        "action": action,
+        "decision": decision.__dict__,
+        "ts": time.time(),
+    })
     return decision
 
 def get_audit_log() -> list[dict[str, Any]]:
-    return list(_AUDIT)
+    """Governance decisions from disk, so a restarted process still has them."""
+    return [
+        row for row in read_persisted_audit()
+        if row.get("channel", "governance") == "governance"
+    ]
 
 def list_subsystems() -> dict[str, dict[str, Any]]:
     return dict(_REGISTRY)
