@@ -1,12 +1,12 @@
 <div align="center">
 
 [![Lifecycle](https://img.shields.io/badge/●_RESEARCH-a855f7?style=for-the-badge&labelColor=0f0f23)](https://github.com/beyond-repair/ADL-Governance)
-[![Claim](https://img.shields.io/badge/Claim_≤1-22c55e?style=for-the-badge&labelColor=0f0f23)](https://github.com/beyond-repair/ADL-Governance/blob/main/docs/CLAIM_VALIDATION.md)
+[![Claim](https://img.shields.io/badge/Claim_≤2-22c55e?style=for-the-badge&labelColor=0f0f23)](https://github.com/beyond-repair/ADL-Governance/blob/main/docs/CLAIM_VALIDATION.md)
 [![Governance](https://img.shields.io/badge/ADL--Governance-7c3aed?style=for-the-badge&labelColor=0f0f23)](https://github.com/beyond-repair/ADL-Governance)
 
 ```
 LIFECYCLE   RESEARCH
-CLAIM       ≤1
+CLAIM       ≤2
 NOT CLAIMED thrust · energy extraction · AGI · production autonomy
 ```
 
@@ -68,7 +68,7 @@ python -m core status
 python -m core.nexus status
 ```
 
-Local CLI is present. Sweep-112 added `.github/workflows/ci.yml`. CI present; spine-related tests xfail under RESEARCH claim-cap (Sweep-131).
+Local CLI is present. Sweep-112 added `.github/workflows/ci.yml`. CI present. Local claim cap is **2** and is enforced. `request` / `serve` stay fail-closed (no server). Lifecycle stays **RESEARCH**.
 
 ### Optional: activate live adapters
 

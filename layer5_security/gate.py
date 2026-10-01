@@ -6,7 +6,10 @@ from typing import Any
 import time
 import hashlib
 
-# Explicit allow / deny policy (fail-closed for unknown elevated actions)
+# Explicit allow / deny policy (fail-closed for unknown elevated actions).
+# `query` is NOT allowed. SecurityGate.evaluate("…", "query") stays on the
+# unknown-action heuristic (trust 0.25) and is denied when min_trust is 0.5.
+# That deny is intentional; do not add "query" here to silence it.
 POLICY = {
     "allow": {
         "status", "list_files", "summarize", "echo", "audit", "memory",
@@ -15,6 +18,10 @@ POLICY = {
         "analyze", "list_entrypoints", "integrity", "file_hash", "tree_hash",
         "verify", "seed", "evidence", "record", "balance", "capabilities",
         "snapshot", "load", "analyze_tree", "call", "packages", "policy", "log",
+        "plan", "execute", "list_tools", "history_tail",
+        "assign", "list_tasks", "complete",
+        "save_anchor", "check_anchor",
+        "think", "authorize", "commit", "get_proposal",
     },
     "deny": {
         "network_unrestricted", "exfiltrate", "privilege_escalate", "disable_governance",

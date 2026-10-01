@@ -34,17 +34,28 @@ PATHWAY_SPEC: dict[str, dict[str, Any]] = {
         "package": "layer2_agent_runtime",
         "module": "layer2_agent_runtime.runtime",
         "factory": "AgentRuntime",
-        "factory_args": ("pathway-agent",),
+        "factory_args": ("coding-agent",),
         "layer": 2,
         "subsystem": "coding-agent",
-        "actions": {},
+        "actions": {
+            "plan": "plan",
+            "execute": "execute",
+            "list_tools": "list_tools",
+            "history_tail": "history_tail",
+        },
     },
     "workforce": {
         "package": "layer3_workforce",
         "module": "layer3_workforce.roles",
         "layer": 3,
         "subsystem": "workforce",
-        "actions": {"list": "list_roles", "get": "get_role"},
+        "actions": {
+            "list": "list_roles",
+            "get": "get_role",
+            "assign": "assign",
+            "list_tasks": "list_tasks",
+            "complete": "complete",
+        },
     },
     "development": {
         "package": "layer4_development",
@@ -67,7 +78,13 @@ PATHWAY_SPEC: dict[str, dict[str, Any]] = {
         "module": "layer5_security.integrity",
         "layer": 5,
         "subsystem": "security-gate",
-        "actions": {"file_hash": "file_hash", "tree_hash": "tree_hash", "verify": "verify_anchor"},
+        "actions": {
+            "file_hash": "file_hash",
+            "tree_hash": "tree_hash",
+            "verify": "verify_anchor",
+            "save_anchor": "save_anchor",
+            "check_anchor": "check_anchor",
+        },
     },
     "simulation": {
         "package": "layer6_simulation",
@@ -98,7 +115,7 @@ PATHWAY_SPEC: dict[str, dict[str, Any]] = {
         "factory": "SunderAdapter",
         "layer": 2,
         "subsystem": "sunder-adapter",
-        "actions": {"run_goal": "run_goal", "capabilities": "capabilities"},
+        "actions": {"run_goal": "run_goal", "capabilities": "capabilities", "scan": "scan"},
     },
     "cleanroom": {
         "package": "adapters.cleanroom",
@@ -106,6 +123,9 @@ PATHWAY_SPEC: dict[str, dict[str, Any]] = {
         "factory": "CleanRoomAdapter",
         "layer": 1,
         "subsystem": "cleanroom-adapter",
+        # `query` is intentionally not declared. SecurityGate denies it with the
+        # unknown-action heuristic (trust 0.25 < min_trust 0.5). Do not add it
+        # to POLICY["allow"] just to make the pathway succeed.
         "actions": {"put": "put", "get": "get", "info": "info"},
     },
     "dashboard": {

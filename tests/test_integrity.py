@@ -24,3 +24,29 @@ def test_verify_anchor(tmp_path: Path):
     assert r["ok"] is True
     r2 = verify_anchor(f, "0" * 64)
     assert r2["ok"] is False
+
+
+def test_tree_hash_unreadable_fails_closed(tmp_path: Path, monkeypatch):
+    target = tmp_path / "secret.py"
+    target.write_text("x = 1\n")
+    real = Path.read_bytes
+
+    def boom(self, *args, **kwargs):
+        if self == target:
+            raise OSError("permission denied")
+        return real(self, *args, **kwargs)
+
+    monkeypatch.setattr(Path, "read_bytes", boom)
+    try:
+        tree_hash(tmp_path, patterns=[".py"])
+    except OSError as exc:
+        assert "unreadable file" in str(exc)
+        assert "<unreadable>" not in str(exc)
+    else:
+        raise AssertionError("tree_hash swallowed an unreadable file")
+
+
+def test_memory_store_path_is_gitignored():
+    root = Path(__file__).resolve().parents[1]
+    text = (root / ".gitignore").read_text(encoding="utf-8")
+    assert ".nexus_memory/" in text

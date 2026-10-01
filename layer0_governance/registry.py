@@ -1,7 +1,13 @@
-"""Minimal subsystem registration and request evaluation."""
+"""Minimal subsystem registration and request evaluation.
+
+ADL-Governance is an external dependency and is not imported. This module is
+the local stand-in. It enforces MAX_CLAIM_LEVEL (2): registration above the
+cap is rejected, and evaluate_request denies any stored claim above the cap.
+That is not ADL-Governance integration.
+"""
 
 from __future__ import annotations
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Any
 import time
 import hashlib
@@ -9,6 +15,10 @@ import json
 
 _REGISTRY: dict[str, dict[str, Any]] = {}
 _AUDIT: list[dict[str, Any]] = []
+
+# Local cap from the previous in-file rule "claim_level <= 2".
+# Status does not bypass this cap. ADL-Governance is not consulted.
+MAX_CLAIM_LEVEL = 2
 
 @dataclass
 class GovernanceDecision:
@@ -18,12 +28,40 @@ class GovernanceDecision:
     audit_id: str
 
 def register_subsystem(name: str, layer: int, claim_level: int, capabilities: list[str]) -> str:
-    """Register a subsystem. Returns registration hash."""
+    """Register a subsystem. Returns registration hash.
+
+    Fails closed: claim_level above MAX_CLAIM_LEVEL is not stored.
+    Re-registration may not raise an existing subsystem's claim level.
+    """
+    if not isinstance(claim_level, int) or isinstance(claim_level, bool):
+        raise ValueError(f"claim_level {claim_level!r} is not an int")
+    if claim_level > MAX_CLAIM_LEVEL:
+        _AUDIT.append({
+            "event": "register_denied",
+            "name": name,
+            "claim_level": claim_level,
+            "reason": f"claim_level {claim_level} exceeds cap {MAX_CLAIM_LEVEL}",
+            "ts": time.time(),
+        })
+        raise ValueError(f"claim_level {claim_level} exceeds cap {MAX_CLAIM_LEVEL}")
+    existing = _REGISTRY.get(name)
+    if existing is not None and claim_level > int(existing["claim_level"]):
+        _AUDIT.append({
+            "event": "register_denied",
+            "name": name,
+            "claim_level": claim_level,
+            "reason": "self-elevate",
+            "ts": time.time(),
+        })
+        raise ValueError(
+            f"subsystem {name} cannot self-elevate claim_level "
+            f"from {existing['claim_level']} to {claim_level}"
+        )
     entry = {
         "name": name,
         "layer": layer,
         "claim_level": claim_level,
-        "capabilities": capabilities,
+        "capabilities": list(capabilities),
         "registered_at": time.time(),
     }
     payload = json.dumps(entry, sort_keys=True)
@@ -34,15 +72,30 @@ def register_subsystem(name: str, layer: int, claim_level: int, capabilities: li
     return reg_hash
 
 def evaluate_request(subsystem: str, action: str, context: dict[str, Any] | None = None) -> GovernanceDecision:
-    """Fail-closed evaluation."""
+    """Fail-closed evaluation.
+
+    Allowed only when the subsystem is registered, its claim_level is
+    <= MAX_CLAIM_LEVEL, and the action is declared or is 'status'.
+    'status' does not bypass the claim cap. context is accepted for
+    callers; this stand-in has no human-override flag (ADL-Governance
+    is not imported).
+    """
+    del context  # no local override channel; do not invent one
     if subsystem not in _REGISTRY:
         decision = GovernanceDecision(False, f"Subsystem '{subsystem}' not registered", 0, "")
     else:
         entry = _REGISTRY[subsystem]
-        # v0.1: allow only if claim_level <= 2 and action is in capabilities or is 'status'
-        allowed = action == "status" or action in entry.get("capabilities", [])
-        reason = "allowed" if allowed else f"Action '{action}' not in declared capabilities"
-        decision = GovernanceDecision(allowed, reason, entry["claim_level"], "")
+        level = int(entry["claim_level"])
+        if level > MAX_CLAIM_LEVEL:
+            allowed = False
+            reason = f"claim_level {level} exceeds cap {MAX_CLAIM_LEVEL}"
+        elif action == "status" or action in entry.get("capabilities", []):
+            allowed = True
+            reason = "allowed"
+        else:
+            allowed = False
+            reason = f"Action '{action}' not in declared capabilities"
+        decision = GovernanceDecision(allowed, reason, level, "")
     audit_id = hashlib.sha256(f"{subsystem}:{action}:{time.time()}".encode()).hexdigest()[:12]
     decision.audit_id = audit_id
     _AUDIT.append({"event": "evaluate", "subsystem": subsystem, "action": action, "decision": decision.__dict__, "ts": time.time()})
