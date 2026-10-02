@@ -1,12 +1,12 @@
 <div align="center">
 
 [![Lifecycle](https://img.shields.io/badge/●_RESEARCH-a855f7?style=for-the-badge&labelColor=0f0f23)](https://github.com/beyond-repair/ADL-Governance)
-[![Claim](https://img.shields.io/badge/Claim_≤2-22c55e?style=for-the-badge&labelColor=0f0f23)](https://github.com/beyond-repair/ADL-Governance/blob/main/docs/CLAIM_VALIDATION.md)
+[![Claim](https://img.shields.io/badge/Claim_%E2%89%A41-22c55e?style=for-the-badge&labelColor=0f0f23)](https://github.com/beyond-repair/ADL-Governance/blob/main/docs/CLAIM_VALIDATION.md)
 [![Governance](https://img.shields.io/badge/ADL--Governance-7c3aed?style=for-the-badge&labelColor=0f0f23)](https://github.com/beyond-repair/ADL-Governance)
 
 ```
 LIFECYCLE   RESEARCH
-CLAIM       ≤2
+CLAIM       ≤1 published. Local ceiling refuses above 2. Ceiling is not Level 2 evidence.
 NOT CLAIMED thrust · energy extraction · AGI · production autonomy
 ```
 
@@ -19,13 +19,17 @@ NOT CLAIMED thrust · energy extraction · AGI · production autonomy
 **Local-first autonomous engineering, governance, simulation, and workforce platform.**
 
 **Version:** 0.3.2  
-**Lifecycle:** **RESEARCH** (Sweep-086 lock; Sweep-112/131 reconfirm) — not ACTIVE product.  
+**Lifecycle:** **RESEARCH** (Sweep-086 lock; Sweep-196 reconfirm) — not ACTIVE product.  
+**Head observed:** `bfe24fa7dcec041144a69e959171d0ceeabbcf90` before this docs commit.  
+**Main CI:** run [36847729267](https://github.com/beyond-repair/ADL-Nexus/actions/runs/36847729267) `success` on that head (2026-10-01). Green CI is not a promotion.  
 **Owner:** beyond-repair / Atomic Dream Labs  
 **Governance:** [ADL-Governance](https://github.com/beyond-repair/ADL-Governance) + [ADL-SEEM](https://github.com/beyond-repair/ADL-SEEM)
 
 See [RESEARCH.md](RESEARCH.md) and [docs/CLAIM_STATUS.md](docs/CLAIM_STATUS.md).
 
 Production / live-adapter / full-workforce claims are **UNSUPPORTED**.
+
+Open pull request #3 (`repair/kernel-path`) is not merged. Its CI success does not change main claims.
 
 ---
 
@@ -68,7 +72,7 @@ python -m core status
 python -m core.nexus status
 ```
 
-Local CLI is present. Sweep-112 added `.github/workflows/ci.yml`. CI present. Local claim cap is **2** and is enforced. `request` / `serve` stay fail-closed (no server). Lifecycle stays **RESEARCH**.
+Local CLI is present. `.github/workflows/ci.yml` runs docs-presence and `pytest tests/`. Main run 36847729267 succeeded on `bfe24fa` and is not a promotion. This branch refuses `claim_level` above 2 and keeps `request` / `serve` fail-closed. Lifecycle stays **RESEARCH**.
 
 ### Optional: activate live adapters
 
@@ -94,7 +98,7 @@ pytest
 
 | Layer | Status (claim-capped) |
 |-------|------------------------|
-| 0 Governance | Code present; first product CI **PENDING** |
+| 0 Governance | Code present; main CI run 36847729267 success. Not a product promotion |
 | 1 Memory + clean-room adapter | Code present; live adapter **UNSUPPORTED** |
 | 2 Agent Runtime + sunder adapter | Code present; live adapter **UNSUPPORTED** |
 | 3 Workforce roles | Defined (not full autonomy) |
@@ -116,7 +120,7 @@ pytest
 
 ---
 
-*Built under ADL-SEEM v3.0. Governance first. Claim-capped adapters. Packaged pathways. Sweep-113.*
+*Built under ADL-SEEM v3.0. Governance first. Claim-capped adapters. Packaged pathways. Sweep-196 docs reconfirm only.*
 
 
 ---
