@@ -15,7 +15,7 @@
 - `nexus request` / `NexusKernel.request` — method returns `unavailable`; no request loop
 - Loopback Party bridge `nexus serve` / `NexusKernel.serve_loopback` — does not bind; no server
 - Live adapter execution (sunder SCAN/SNAP/SUNDER, sovereign clean-room as source of truth)
-- ADL-Governance as the kernel (package is not imported)
+- ADL-Governance as a live kernel (normative text is vendored; it does not decide calls)
 
 ## Still target (not claimed done)
 - Live adapter confirmation (sibling import still not live interop)

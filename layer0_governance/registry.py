@@ -1,9 +1,10 @@
 """Minimal subsystem registration and request evaluation.
 
-ADL-Governance is an external dependency and is not imported. This module is
-the local stand-in. It enforces MAX_CLAIM_LEVEL (2): registration above the
-cap is rejected, and evaluate_request denies any stored claim above the cap.
-That is not ADL-Governance integration.
+Normative ADL-Governance text is vendored and checked by
+imported_constitution.load_import. This module is still the local decision
+stand-in, not that repository's runtime. It enforces MAX_CLAIM_LEVEL (2):
+registration above the ceiling is rejected, and evaluate_request denies any
+stored claim above the ceiling. The ceiling is not evidence of claim Level 2.
 """
 
 from __future__ import annotations
@@ -109,8 +110,8 @@ def evaluate_request(subsystem: str, action: str, context: dict[str, Any] | None
     Allowed only when the subsystem is registered, its claim_level is
     <= MAX_CLAIM_LEVEL, and the action is declared or is 'status'.
     'status' does not bypass the claim cap. context is accepted for
-    callers; this stand-in has no human-override flag (ADL-Governance
-    is not imported).
+    callers; this stand-in has no human-override flag. Vendored text is not
+    a human-override channel.
     """
     del context  # no local override channel; do not invent one
     if subsystem not in _REGISTRY:

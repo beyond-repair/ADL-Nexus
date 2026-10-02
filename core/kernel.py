@@ -12,6 +12,7 @@ from __future__ import annotations
 
 from typing import Any
 
+from layer0_governance.imported_constitution import load_import
 from layer0_governance.registry import (
     register_subsystem,
     evaluate_request,
@@ -100,6 +101,7 @@ class NexusKernel:
         self.objective = ObjectiveEngine()
         self._targets: dict[str, Any] = {}
         self._bootstrapped = False
+        self._governance_import: dict[str, object] | None = None
 
     def bootstrap(self) -> "NexusKernel":
         """Register subsystems once. This is the documented bootstrap exception.
@@ -110,6 +112,7 @@ class NexusKernel:
         """
         if self._bootstrapped:
             return self
+        self._governance_import = load_import()
         code_caps = _declared_capabilities("nexus-core")
         manifest_caps = _nexus_core_manifest_capabilities()
         if manifest_caps != code_caps:
@@ -241,7 +244,7 @@ class NexusKernel:
             "cleanroom": self.cleanroom.status.__dict__,
             "audit_len": len(get_audit_log()),
             "claim_cap": 2,
-            "adl_governance": "external dependency; not imported",
+            "adl_governance": self._governance_import,
         }
 
     def metrics(self) -> dict[str, Any]:

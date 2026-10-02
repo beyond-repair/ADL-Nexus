@@ -12,7 +12,7 @@
 | Local tests | 34 passed, 0 xfailed. Request/serve fail closed; think/authorize/commit and runtime execute have contract tests. |
 | Adapter live mode | Missing package is `unavailable`, not `live`. A detected sunder import is `detected-not-executed` until `scan` actually runs. Sibling repos not required. |
 | Layers 4 / 6 / 8 | Scaffold + code present; not product surfaces |
-| Claim status file | Core claim level **2**; full workforce **false**; live interop **false** |
+| Claim status file | Published claim **≤1**; local ceiling 2 is not Level 2 evidence; full workforce **false**; live interop **false** |
 
 ## Forbidden claims
 

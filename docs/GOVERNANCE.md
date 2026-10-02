@@ -25,8 +25,12 @@ ADL Nexus is subordinate to:
 Before a subsystem is considered active inside Nexus, it must be entered in `registry/` with a signed (or hash-anchored) manifest.
 
 
-## Local claim cap (this repository)
+## Imported constitution (text only)
 
-ADL-Governance is an **external dependency** and is **not imported** by this tree. The in-tree `layer0_governance.registry` module is a local stand-in, not that package.
+`imported/adl_governance/` holds verbatim copies of `CONSTITUTION.md`, `CLAIM_VALIDATION.md`, and `LIFECYCLE.md` from ADL-Governance `main` commit `c2f677ff9613fc2c9614535b1bb34e1b3d8857ed`. `SOURCE.txt` records that commit and the SHA-256 of each file. `layer0_governance.imported_constitution.load_import` refuses startup when a file is missing or the hash does not match.
 
-The stand-in enforces `claim_level <= 2` (`MAX_CLAIM_LEVEL`). `register_subsystem` rejects a claim above the cap and rejects self-elevation of an existing subsystem. `evaluate_request` denies any stored claim above the cap, including action `status`. This does not integrate ADL-Governance, signed manifests, or a human-override channel.
+That import is not a live kernel. It is not RealityOS, Sunder, or a clean-room engine. `layer0_governance.registry` remains the decision stand-in. It still has no human-override channel and no signed-manifest check.
+
+## Local ceiling (this repository)
+
+Published claim is **≤1**. The stand-in enforces `claim_level <= 2` (`MAX_CLAIM_LEVEL`). `register_subsystem` rejects a claim above that ceiling and rejects self-elevation of an existing subsystem. `evaluate_request` denies any stored claim above the ceiling, including action `status`. Refusing 3–5 is not evidence of CLAIM_VALIDATION Level 2.

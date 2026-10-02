@@ -6,8 +6,9 @@
 |-------|--------|
 | Version | **0.3.2** (pyproject, CLI help, and `kernel.status`). Not 0.4. |
 | Lifecycle | **RESEARCH** (not ACTIVE product) |
-| Core claim level | **2**, enforced (`claim_level <= 2`). README badge matches this cap. |
-| ADL-Governance package | **UNSUPPORTED** as an import. External dependency. Local registry is the stand-in only. |
+| Published claim | **≤1**. No Level 2 numerical-fit evidence. README badge matches this. |
+| Local ceiling | **2**. `claim_level` above 2 is rejected. The ceiling is not a Level 2 claim. |
+| ADL-Governance | **docs-imported** from commit `c2f677ff9613fc2c9614535b1bb34e1b3d8857ed` (`imported/adl_governance`). Not a live kernel. Local registry still decides. |
 | Product contract | `docs/PRODUCT.md` — nine subsystems; absorb on strength only |
 | Local integrity anchors (`save_anchor` / `check_anchor`) | **VERIFIED** (unit). File is `.nexus_anchors.json` in the cwd, not `.nexus/anchors.json`. |
 | Supervised workforce assign/complete (in-process) | **VERIFIED** — assign checks the role contract (unknown role and a capability outside that contract are rejected; no task is stored). complete only flips pending/assigned to complete. Execution is not implemented. |

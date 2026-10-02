@@ -1,0 +1,9 @@
+repository: https://github.com/beyond-repair/ADL-Governance
+ref: main
+commit: c2f677ff9613fc2c9614535b1bb34e1b3d8857ed
+note: Verbatim copies of the named files at that commit. Not a live kernel, RealityOS, Sunder, or clean-room engine.
+published_claim_max: 1
+local_ceiling: 2
+sha256 CONSTITUTION.md 3593929708bd9111ff2aba5fc26c806db35c71e951b80da10c53f7f062e23b40
+sha256 CLAIM_VALIDATION.md fcb78aabdd9776d4b6fd42e7b8c9fb293f0f780d50536f54fd2ce0a31209416e
+sha256 LIFECYCLE.md 8ad59b4efa3c9dfc62a09edf4b6b128d07bad33d4bd863a7dd896b6f2b0e4b40
