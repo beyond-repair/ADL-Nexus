@@ -10,7 +10,7 @@
 | ADL-Governance package | **UNSUPPORTED** as an import. External dependency. Local registry is the stand-in only. |
 | Product contract | `docs/PRODUCT.md` — nine subsystems; absorb on strength only |
 | Local integrity anchors (`save_anchor` / `check_anchor`) | **VERIFIED** (unit). File is `.nexus_anchors.json` in the cwd, not `.nexus/anchors.json`. |
-| Supervised workforce assign/complete (in-process) | **VERIFIED** — records a task; does not execute role work |
+| Supervised workforce assign/complete (in-process) | **VERIFIED** — assign checks the role contract (unknown role and a capability outside that contract are rejected; no task is stored). complete only flips pending/assigned to complete. Execution is not implemented. |
 | `think` / `authorize` / `commit` on NexusKernel | **LOCAL** — ObjectiveEngine is called after a governance check. Commit assigns a task only when authorized. Not autonomous execution. |
 | Runtime pathway `execute` | **LOCAL** — actions `plan`, `execute`, `list_tools`, `history_tail`. Each planned tool is governance-checked. |
 | `NexusKernel.request` / `serve_loopback` | **UNSUPPORTED** — fail closed with a deterministic error. No server is started. |
