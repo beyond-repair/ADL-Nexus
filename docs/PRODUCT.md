@@ -15,7 +15,7 @@
 | WORKFORCE | Digital Double roles | supervised board; autonomy **UNSUPPORTED** |
 | RESEARCH | CFT / OLC / Ware *as lab, not propulsion* | registry + evidence |
 | GOVERNANCE | ADL-Governance / claim discipline | fail-closed evaluate |
-| AEGIS / CLEAN ROOM | forge-aegis, sovereign-clean-room | adapters stub-or-live-detect |
+| AEGIS / CLEAN ROOM | forge-aegis, sovereign-clean-room | fail-soft adapters; live engine **UNSUPPORTED** |
 | PROVENANCE | ledger + operation log | local append-only |
 
 Physics, trading experiments, Agent-Snake, AtomicNexusAI stay **research assets**, not runtime dependencies.

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""ADL Nexus Core v0.3.1 — Packaged pathways + hardened runtime."""
+"""ADL Nexus Core. User-facing version is core.version (pyproject 0.3.2)."""
 
 from __future__ import annotations
 import argparse
@@ -10,65 +10,30 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+# Path bootstrap only. Not a governance dispatcher. ensure_paths appends
+# sibling roots; it does not put them at sys.path[0]. Clean-room discovery
+# does not import core.clean_room_vsa.
 try:
     from scripts.bootstrap_path import ensure_paths
     ensure_paths(verbose=False)
-except Exception:
+except ImportError:
     pass
 
-from layer0_governance.registry import register_subsystem, evaluate_request, list_subsystems, get_audit_log
-from layer1_memory.store import MemoryStore
+from core.version import __version__
+from core.kernel import get_kernel
+from layer0_governance.registry import list_subsystems, get_audit_log
 from layer2_agent_runtime.runtime import AgentRuntime
-from layer5_security.gate import SecurityGate
-from layer5_security.integrity import tree_hash, file_hash
 from layer3_workforce.roles import list_roles, get_role
-from layer7_research.registry import seed_cft_baseline, list_experiments, add_evidence
-from adapters.sunder.bridge import SunderAdapter
-from adapters.cleanroom.bridge import CleanRoomAdapter
-from dashboard.metrics import snapshot
+from layer7_research.registry import list_experiments
+
 
 def build_coding_agent() -> AgentRuntime:
-    agent = AgentRuntime("coding-agent")
+    """Same runtime the kernel pathway uses. No second tool implementation."""
+    return AgentRuntime("coding-agent")
 
-    def list_files(goal: str, context: dict):
-        path = Path(context.get("path", "."))
-        return [str(p.relative_to(path)) for p in path.rglob("*") if p.is_file()][:80]
-
-    def summarize(goal: str, context: dict):
-        files = list_files(goal, context)
-        by_ext: dict[str, int] = {}
-        for f in files:
-            ext = Path(f).suffix or "[none]"
-            by_ext[ext] = by_ext.get(ext, 0) + 1
-        return {"file_count": len(files), "by_extension": by_ext, "sample": files[:12]}
-
-    def echo(goal: str, context: dict):
-        return {"goal": goal, "context_keys": list(context.keys())}
-
-    agent.register_tool("list_files", list_files)
-    agent.register_tool("summarize", summarize)
-    agent.register_tool("echo", echo)
-    return agent
-
-def bootstrap():
-    register_subsystem("nexus-core", layer=0, claim_level=2,
-                       capabilities=["status", "run", "audit", "memory", "registry", "roles",
-                                     "research", "adapters", "metrics", "integrity",
-                                     "call", "packages", "evaluate", "register", "list"])
-    register_subsystem("coding-agent", layer=2, claim_level=2, capabilities=["list_files", "summarize", "echo"])
-    register_subsystem("security-gate", layer=5, claim_level=2, capabilities=["evaluate", "integrity"])
-    register_subsystem("research-fabric", layer=7, claim_level=2, capabilities=["register", "list", "evidence", "seed"])
-    register_subsystem("sunder-adapter", layer=2, claim_level=2, capabilities=["scan", "run_goal"])
-    register_subsystem("cleanroom-adapter", layer=1, claim_level=2, capabilities=["put", "get", "info", "query"])
-    register_subsystem("memory-kernel", layer=1, claim_level=2, capabilities=["put", "get", "keys"])
-    register_subsystem("workforce", layer=3, claim_level=2, capabilities=["list", "get"])
-    register_subsystem("development", layer=4, claim_level=2, capabilities=["analyze", "list_entrypoints", "info"])
-    register_subsystem("simulation", layer=6, claim_level=2, capabilities=["register", "list", "info"])
-    register_subsystem("economic", layer=8, claim_level=1, capabilities=["record", "balance", "info"])
-    seed_cft_baseline()
 
 def main():
-    parser = argparse.ArgumentParser(description="ADL Nexus Core v0.3.1")
+    parser = argparse.ArgumentParser(description=f"ADL Nexus Core v{__version__}")
     parser.add_argument("command",
                         choices=["status", "register", "run", "audit", "memory", "registry",
                                  "roles", "research", "adapters", "metrics", "integrity",
@@ -80,58 +45,63 @@ def main():
     parser.add_argument("--action", default="info", help="Action name for `call`")
     parser.add_argument("--arg", action="append", default=[], help="Positional arg for `call` (repeatable)")
     parser.add_argument("--kw", action="append", default=[], help="key=value for `call` (repeatable)")
+    parser.add_argument(
+        "--seed", action="store_true",
+        help="With research: seed the CFT lab baseline (not product bootstrap)",
+    )
     args = parser.parse_args()
 
-    bootstrap()
-    mem = MemoryStore()
-    agent = build_coding_agent()
-    security = SecurityGate(min_trust=0.5)
-    sunder = SunderAdapter()
-    cleanroom = CleanRoomAdapter(dim=1024)
+    # Bootstrap exception: NexusKernel.bootstrap() registers subsystems.
+    # Mutating commands (run, integrity) go through NexusKernel.call only.
+    k = get_kernel()
 
     if args.command == "status":
-        d = evaluate_request("nexus-core", "status")
-        s = security.evaluate("nexus-core", "status")
-        print("Governance:", d)
-        print("Security:", s)
-        print("Subsystems:", list(list_subsystems().keys()))
-        print("Workforce roles:", list_roles())
-        print("Memory keys:", mem.keys())
-        print("Research experiments:", len(list_experiments()))
-        print("Sunder adapter:", sunder.status)
-        print("Clean-room adapter:", cleanroom.status)
+        print(k.status())
 
     elif args.command == "register":
         print(list_subsystems())
 
     elif args.command == "run":
-        g = evaluate_request("coding-agent", "list_files")
-        s = security.evaluate("coding-agent", "list_files")
-        if not g.allowed or not s.allowed:
-            print("DENIED — Governance:", g.reason, "| Security:", s.reason)
+        executed = k.call("runtime", "execute", args.goal, {"path": args.path})
+        if not executed.ok:
+            print("DENIED —", executed.reason)
             return 1
-        result = agent.execute(args.goal, {"path": args.path})
-        print("Result:", result)
-        sunder_out = sunder.run_goal(args.goal, {"path": args.path})
-        print("Sunder path:", sunder_out)
-        mem.put("last_run", {"goal": args.goal, "success": result.success, "security_audit": s.audit_id})
-        cleanroom.put("last_goal", args.goal)
+        if not getattr(executed.result, "success", False):
+            print("DENIED —", getattr(executed.result, "message", executed.result))
+            return 1
+        print("Result:", executed.result)
+        sunder_out = k.call("sunder", "run_goal", args.goal, {"path": args.path})
+        if not sunder_out.ok:
+            print("DENIED — sunder:", sunder_out.reason)
+            return 1
+        print("Sunder path:", sunder_out.result)
+        mem_out = k.call(
+            "memory", "put", "last_run",
+            {"goal": args.goal, "success": True},
+        )
+        if not mem_out.ok:
+            print("DENIED — memory:", mem_out.reason)
+            return 1
+        cr_out = k.call("cleanroom", "put", "last_goal", args.goal)
+        if not cr_out.ok:
+            print("DENIED — cleanroom:", cr_out.reason)
+            return 1
 
     elif args.command == "audit":
         print("=== Governance Audit (last 15) ===")
         for entry in get_audit_log()[-15:]:
             print(entry)
         print("\n=== Security Log ===")
-        for entry in security.get_log():
+        for entry in k.security.get_log():
             print(entry)
         print("\n=== Policy Snapshot ===")
-        print(security.policy_snapshot())
+        print(k.security.policy_snapshot())
 
     elif args.command == "memory":
-        print("Local MemoryStore keys:", mem.keys())
-        for k in mem.keys():
-            print(f"  {k}: {mem.get(k)}")
-        print("\nClean-room adapter:", cleanroom.info())
+        print("Local MemoryStore keys:", k.memory.keys())
+        for key in k.memory.keys():
+            print(f"  {key}: {k.memory.get(key)}")
+        print("\nClean-room adapter:", k.cleanroom.info())
 
     elif args.command == "registry":
         for name, entry in list_subsystems().items():
@@ -143,6 +113,11 @@ def main():
             print(f"{role.name}: {role.capabilities} (claim {role.claim_level})")
 
     elif args.command == "research":
+        if args.seed:
+            seeded = k.call("research", "seed")
+            if not seeded.ok:
+                print("DENIED —", seeded.reason)
+                return 1
         for exp in list_experiments():
             print(f"\n[{exp['status']}] {exp['id']} — {exp['title']} (claim {exp['claim_level']})")
             print(f"  Hypothesis: {exp['hypothesis']}")
@@ -151,24 +126,13 @@ def main():
                 print(f"    · ({ev['kind']}) {ev['content'][:110]} [source: {ev['source']}]")
 
     elif args.command == "adapters":
-        print("Sunder:", sunder.status)
-        print("  capabilities:", sunder.capabilities())
-        print("Clean-room:", cleanroom.status)
-        print("  info:", cleanroom.info())
+        print("Sunder:", k.sunder.status)
+        print("  capabilities:", k.sunder.capabilities())
+        print("Clean-room:", k.cleanroom.status)
+        print("  info:", k.cleanroom.info())
 
     elif args.command == "metrics":
-        m = snapshot(
-            subsystems=list_subsystems(),
-            audit_len=len(get_audit_log()),
-            security_log_len=len(security.get_log()),
-            memory_keys=len(mem.keys()),
-            experiments=len(list_experiments()),
-            adapter_status={
-                "sunder": sunder.status.__dict__,
-                "cleanroom": cleanroom.status.__dict__,
-            },
-        )
-        print(m)
+        print(k.metrics())
 
     elif args.command == "packages":
         from core.pathways import probe_packages, list_pathways
@@ -191,7 +155,6 @@ def main():
             print(f"L{d['layer']} {name:12} -> {d['module']}  actions={d['actions']}")
 
     elif args.command == "call":
-        from core.kernel import get_kernel
         if not args.pathway:
             print("usage: nexus call --pathway development --action analyze --kw path=.")
             return 2
@@ -200,9 +163,8 @@ def main():
             if "=" not in item:
                 print("bad --kw, expected key=value:", item)
                 return 2
-            k, _, v = item.partition("=")
-            kwargs[k] = v
-        k = get_kernel()
+            key, _, value = item.partition("=")
+            kwargs[key] = value
         result = k.call(args.pathway, args.action, *args.arg, **kwargs)
         print({"ok": result.ok, "allowed": result.allowed, "pathway": result.pathway,
                "action": result.action, "reason": result.reason, "result": result.result})
@@ -210,17 +172,26 @@ def main():
 
     elif args.command == "integrity":
         target = Path(args.path)
-        s = security.evaluate("security-gate", "integrity")
-        if not s.allowed:
-            print("DENIED:", s.reason)
-            return 1
         if target.is_file():
-            digest = file_hash(target)
-            print({"type": "file", "path": str(target), "sha256": digest})
+            hashed = k.call("integrity", "file_hash", str(target))
+            kind = "file"
         else:
-            digest = tree_hash(target, patterns=[".py", ".md", ".yaml", ".yml", ".toml"])
-            print({"type": "tree", "path": str(target), "sha256": digest, "filter": ".py/.md/.yaml/.toml"})
-        mem.put("last_integrity", {"path": str(target), "sha256": digest})
+            hashed = k.call(
+                "integrity", "tree_hash", str(target),
+                [".py", ".md", ".yaml", ".yml", ".toml"],
+            )
+            kind = "tree"
+        if not hashed.ok:
+            print("DENIED:", hashed.reason)
+            return 1
+        print({"type": kind, "path": str(target), "sha256": hashed.result})
+        stored = k.call(
+            "memory", "put", "last_integrity",
+            {"path": str(target), "sha256": hashed.result},
+        )
+        if not stored.ok:
+            print("DENIED — memory:", stored.reason)
+            return 1
 
     return 0
 

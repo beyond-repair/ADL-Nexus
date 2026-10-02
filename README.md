@@ -6,7 +6,7 @@
 
 ```
 LIFECYCLE   RESEARCH
-CLAIM       ≤1 (badge). docs/CLAIM_STATUS.md still says core claim level 2 — contradiction, not resolved
+CLAIM       ≤1 published. Local ceiling refuses above 2. Ceiling is not Level 2 evidence.
 NOT CLAIMED thrust · energy extraction · AGI · production autonomy
 ```
 
@@ -72,7 +72,7 @@ python -m core status
 python -m core.nexus status
 ```
 
-Local CLI is present. `.github/workflows/ci.yml` runs docs-presence and `pytest tests/`. Latest main run succeeded. Spine-related tests remain xfail under the RESEARCH claim-cap (Sweep-131). This sweep did not re-execute pytest locally.
+Local CLI is present. `.github/workflows/ci.yml` runs docs-presence and `pytest tests/`. Main run 36847729267 succeeded on `bfe24fa` and is not a promotion. This branch refuses `claim_level` above 2 and keeps `request` / `serve` fail-closed. Lifecycle stays **RESEARCH**.
 
 ### Optional: activate live adapters
 

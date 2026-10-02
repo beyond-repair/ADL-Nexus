@@ -57,7 +57,11 @@ def list_experiments() -> list[dict[str, Any]]:
     return out
 
 def seed_cft_baseline():
-    """Register the current CFT / Ware Constant baseline and attach known ledger evidence."""
+    """Register the CFT / Ware Constant baseline as research-lab content.
+
+    Not a product feature. Product and kernel bootstrap must not call this.
+    Callers are this registry API and the explicit ``research --seed`` command.
+    """
     if _EXPERIMENTS:
         return  # already seeded
 

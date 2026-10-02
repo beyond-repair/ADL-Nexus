@@ -55,3 +55,7 @@ vendor/
 .env
 .env.*
 !.env.example
+
+# Local runtime stores written in the cwd
+.nexus_memory/
+.nexus_anchors.json

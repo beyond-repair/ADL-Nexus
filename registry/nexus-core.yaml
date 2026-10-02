@@ -1,10 +1,13 @@
 name: nexus-core
 layer: 0
 claim_level: 2
+# Must match the in-code nexus-core allow list (pathway actions). Not signed.
 capabilities:
-  - status
-  - run
   - audit
-  - memory
+  - evaluate
+  - list
+  - load
+  - register
+  - snapshot
 version: 0.1.0
 source: https://github.com/beyond-repair/ADL-Nexus
