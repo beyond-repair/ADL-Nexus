@@ -118,7 +118,10 @@ def main():
             if not seeded.ok:
                 print("DENIED —", seeded.reason)
                 return 1
-        for exp in list_experiments():
+        experiments = list_experiments()
+        if not experiments:
+            print("No research experiments registered. Run `nexus research --seed` to load the CFT lab baseline.")
+        for exp in experiments:
             print(f"\n[{exp['status']}] {exp['id']} — {exp['title']} (claim {exp['claim_level']})")
             print(f"  Hypothesis: {exp['hypothesis']}")
             print(f"  Source: {exp['source_repo']}")
