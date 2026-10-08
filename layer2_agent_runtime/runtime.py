@@ -10,6 +10,13 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Callable
 
+from layer0_governance.registry import evaluate_request
+from layer5_security.gate import SecurityGate
+
+# Tool names checked inside execute. They are capabilities of coding-agent,
+# not separate pathway actions. snap/sunder/spike/anchor are not tools here.
+TOOL_ACTIONS = ("list_files", "summarize", "echo")
+
 
 @dataclass
 class StepResult:
@@ -61,18 +68,31 @@ class AgentRuntime:
         return ["echo"]
 
     def execute(self, goal: str, context: dict[str, Any] | None = None) -> StepResult:
+        """Run the plan. Each tool name is its own governance and security check.
+
+        Fail-closed when coding-agent is not registered or the tool action
+        is outside its capabilities. Does not catch tool bugs into a success.
+        A tool exception fails the step and reports the exception type.
+        """
         context = context or {}
         steps = self.plan(goal)
         results = []
+        gate = SecurityGate(min_trust=0.5)
         for step in steps:
+            gov = evaluate_request(self.name, step)
+            if not gov.allowed:
+                return StepResult(False, None, f"governance: {gov.reason}", steps=steps)
+            sec = gate.evaluate(self.name, step)
+            if not sec.allowed:
+                return StepResult(False, None, f"security: {sec.reason}", steps=steps)
             if step not in self.tools:
                 return StepResult(False, None, f"Tool '{step}' not registered", steps=steps)
             try:
                 out = self.tools[step](goal, context)
-                results.append({"step": step, "output": out})
-                self.history.append({"step": step, "output": out, "goal": goal})
             except Exception as e:
-                return StepResult(False, None, str(e), steps=steps)
+                return StepResult(False, None, f"{type(e).__name__}: {e}", steps=steps)
+            results.append({"step": step, "output": out})
+            self.history.append({"step": step, "output": out, "goal": goal})
         return StepResult(True, results, "ok", steps=steps)
 
     def plan_and_execute(self, goal: str, context: dict[str, Any] | None = None) -> StepResult:

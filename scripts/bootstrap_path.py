@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""Auto-detect sibling checkouts of sunder and sovereign-clean-room and prepend to sys.path.
+"""Auto-detect sibling checkouts of sunder and sovereign-clean-room and append them to sys.path.
+
+Discovered roots are appended, never placed at sys.path[0], so a sibling cannot
+shadow this repo's packages (including core). A directory named sunder counts
+only when it contains the sunder package (sunder/__init__.py). A bare
+pyproject.toml is not enough.
 
 Usage:
   python scripts/bootstrap_path.py          # print detected paths
@@ -32,7 +37,7 @@ CANDIDATES = [
 
 MARKERS = {
     "sovereign-clean-room": ["core/clean_room_vsa.py", "core/clean_room_cli.py"],
-    "sunder": ["sunder/__init__.py", "pyproject.toml"],
+    "sunder": ["sunder/__init__.py"],
 }
 
 
@@ -56,12 +61,15 @@ def discover() -> dict[str, Path]:
 
 
 def ensure_paths(verbose: bool = False) -> dict[str, Path]:
-    """Prepend discovered roots to sys.path. Returns dict of found repos."""
+    """Append discovered roots to sys.path. Returns dict of found repos.
+
+    Append, do not insert at front. A sibling checkout must not shadow core.
+    """
     found = discover()
     for name, path in found.items():
         sp = str(path)
         if sp not in sys.path:
-            sys.path.insert(0, sp)
+            sys.path.append(sp)
             if verbose:
                 print(f"[bootstrap] added {name}: {sp}", file=sys.stderr)
     return found
@@ -75,10 +83,9 @@ def main() -> int:
 
     found = discover()
     if args.export:
-        parts = [str(p) for p in found.values()]
         existing = __import__("os").environ.get("PYTHONPATH", "")
-        if existing:
-            parts.append(existing)
+        parts = [existing] if existing else []
+        parts.extend(str(p) for p in found.values())
         print("export PYTHONPATH=" + ":".join(parts))
         return 0
 

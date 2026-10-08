@@ -9,7 +9,9 @@ from __future__ import annotations
 import uuid
 from typing import Any
 
+from layer0_governance.registry import evaluate_request
 from layer3_workforce.roles import assign
+from layer5_security.gate import SecurityGate
 from layer6_simulation.reality import RealityEngine
 from layer8_economic.provenance import record as prov_record, get as prov_get
 
@@ -67,6 +69,12 @@ class ObjectiveEngine:
             return {"ok": False, "error": f"unknown proposal {proposal_id}"}
         if not p.get("authorized"):
             return {"ok": False, "error": "unauthorized — AI advises, it cannot execute"}
+        gov = evaluate_request("workforce", "assign")
+        if not gov.allowed:
+            return {"ok": False, "error": f"governance: {gov.reason}"}
+        sec = SecurityGate(min_trust=0.5).evaluate("workforce", "assign")
+        if not sec.allowed:
+            return {"ok": False, "error": f"security: {sec.reason}"}
         assigned = assign(p.get("workforce_hint", "engineer"), p["goal"], note="from objective.commit")
         p["executed"] = True
         p["status"] = "committed"

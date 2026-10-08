@@ -1,6 +1,11 @@
 """Digital Workforce role definitions + supervised task board.
 
 Claim-capped: routing under explicit assign/complete. Not autonomy.
+assign checks the declared role contract: an unknown role, or a capability
+that is not in that role's contract, is rejected and does not create a task.
+complete only flips a pending or assigned task to complete. Execution is not
+implemented: complete does not run code, call a model, or pretend the role
+did the work.
 """
 
 from __future__ import annotations
@@ -29,6 +34,9 @@ ROLES = {
     "manager": Role("Manager", capabilities=["prioritize", "assign", "review"]),
 }
 
+# complete may only move these statuses. It never executes the capability.
+_COMPLETABLE = frozenset({"pending", "assigned"})
+
 
 def get_role(name: str) -> Role | None:
     return ROLES.get(name.lower())
@@ -43,6 +51,7 @@ class Task:
     id: str
     role: str
     goal: str
+    capability: str | None = None
     status: str = "pending"
     created_at: float = field(default_factory=time.time)
     note: str = ""
@@ -51,23 +60,35 @@ class Task:
         return {
             "id": self.id,
             "role": self.role,
+            "capability": self.capability,
             "goal": self.goal,
             "status": self.status,
             "created_at": self.created_at,
             "note": self.note,
-            "claim": "supervised routing only",
+            "claim": "supervised routing only; execution not implemented",
         }
 
 
 _BOARD: dict[str, Task] = {}
 
 
-def assign(role: str, goal: str, note: str = "") -> dict[str, Any]:
-    """Manager-supervised assignment. Does not execute the role."""
+def assign(role: str, goal: str, capability: str | None = None, note: str = "") -> dict[str, Any]:
+    """Record a task when the role contract allows it. Does not execute it."""
     r = get_role(role)
     if r is None:
         return {"ok": False, "error": f"unknown role: {role}"}
-    task = Task(id=uuid.uuid4().hex[:10], role=role.lower(), goal=goal, note=note)
+    if capability is not None and capability not in r.capabilities:
+        return {
+            "ok": False,
+            "error": f"capability {capability!r} is not in {role.lower()} contract",
+        }
+    task = Task(
+        id=uuid.uuid4().hex[:10],
+        role=role.lower(),
+        goal=goal,
+        capability=capability,
+        note=note,
+    )
     _BOARD[task.id] = task
     return {"ok": True, "task": task.to_dict()}
 
@@ -79,10 +100,27 @@ def list_tasks(status: str | None = None) -> dict[str, Any]:
     return {"ok": True, "tasks": items, "count": len(items)}
 
 
-def complete(task_id: str, note: str = "") -> dict[str, Any]:
+def get_task(task_id: str) -> dict[str, Any]:
+    """Return the stored task record. Does not run the role."""
     task = _BOARD.get(task_id)
     if task is None:
         return {"ok": False, "error": f"unknown task: {task_id}"}
+    return {"ok": True, "task": task.to_dict()}
+
+
+def complete(task_id: str, note: str = "") -> dict[str, Any]:
+    """Flip pending/assigned to complete. Does not run code or call a model."""
+    task = _BOARD.get(task_id)
+    if task is None:
+        return {"ok": False, "error": f"unknown task: {task_id}"}
+    if task.status not in _COMPLETABLE:
+        return {
+            "ok": False,
+            "error": (
+                f"task {task_id} is {task.status}; "
+                "complete only accepts pending or assigned"
+            ),
+        }
     task.status = "complete"
     if note:
         task.note = note

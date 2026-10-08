@@ -27,6 +27,8 @@ class RealityEngine:
             "ok": True,
             "claim": "local reality snapshot; not a live RealityOS twin",
             "claim_level": self.claim_level,
+            "live": False,
+            "live_realityos": False,
             "current_state": {"goal": text, "context_keys": sorted(context)},
             "known_facts": known,
             "unknown_variables": unknown,
@@ -41,13 +43,19 @@ class RealityEngine:
             },
             "possible_actions": actions,
             "simulated_outcomes": [
-                {"action": a, "confidence": 0.4 if a == "simulate" else 0.55, "cost": "unknown"}
+                {
+                    "action": a,
+                    "confidence": 0.4 if a == "simulate" else 0.55,
+                    "confidence_label": "hardcoded",
+                    "cost": "unknown",
+                }
                 for a in actions
             ],
             "risk_cost_confidence": {
                 "risk": "unvalidated alternatives",
                 "cost": "unmeasured",
                 "confidence": 0.45,
+                "confidence_label": "hardcoded",
             },
             "recommended_path": actions,
         }
@@ -58,5 +66,6 @@ class RealityEngine:
             "layer": self.layer,
             "claim_level": self.claim_level,
             "capabilities": list(self.capabilities),
+            "live": False,
             "live_realityos": False,
         }

@@ -1,4 +1,3 @@
-import pytest
 from core.kernel import NexusKernel
 from layer3_workforce.roles import assign, list_tasks, complete
 from layer5_security.integrity import save_anchor, check_anchor, ANCHOR_FILE
@@ -6,8 +5,16 @@ from pathlib import Path
 
 
 def test_runtime_pathway_execute():
-    """Spine incomplete: runtime pathway has no 'execute' action under current PATHWAY_SPEC."""
-    pytest.xfail("RESEARCH claim-cap: runtime execute not declared; see Sweep-131")
+    k = NexusKernel().bootstrap()
+    ran = k.call("runtime", "execute", "echo hello", {})
+    assert ran.ok, ran.reason
+    assert ran.allowed is True
+    assert ran.result.success is True
+    assert ran.result.steps == ["echo"]
+    missing = k.call("runtime", "not_a_tool")
+    assert missing.ok is False
+    assert missing.allowed is False
+    assert "not declared" in missing.reason
 
 
 def test_workforce_supervised_assign():
@@ -22,7 +29,11 @@ def test_workforce_supervised_assign():
 
 
 def test_kernel_request_loop():
-    pytest.xfail("RESEARCH claim-cap: NexusKernel.request not implemented; Sweep-131")
+    k = NexusKernel().bootstrap()
+    out = k.request("analyze repository")
+    assert out["ok"] is False
+    assert out["fail_closed"] is True
+    assert out["error"] == "unavailable: NexusKernel.request is not implemented"
 
 
 def test_optional_integrity_anchor(tmp_path, monkeypatch):
@@ -37,4 +48,33 @@ def test_optional_integrity_anchor(tmp_path, monkeypatch):
 
 
 def test_loopback_host_refused():
-    pytest.xfail("RESEARCH claim-cap: NexusKernel.serve_loopback not implemented; Sweep-131")
+    k = NexusKernel().bootstrap()
+    out = k.serve_loopback(host="127.0.0.1", port=9)
+    assert out["ok"] is False
+    assert out["fail_closed"] is True
+    assert out["bound"] is False
+    assert out["error"] == "unavailable: NexusKernel.serve_loopback is not implemented"
+
+
+def test_nexus_run_is_governed(tmp_path, monkeypatch):
+    import sys
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setattr(sys, "argv", ["nexus", "run", "--goal", "echo only", "--path", str(tmp_path)])
+    from core.nexus import main
+    from layer0_governance.registry import get_audit_log
+    before = len(get_audit_log())
+    assert main() == 0
+    actions = [e.get("action") for e in get_audit_log()[before:] if e.get("event") == "evaluate"]
+    assert "execute" in actions
+    assert "echo" in actions
+    assert "run_goal" in actions
+    assert "put" in actions
+
+
+def test_execute_checks_each_tool():
+    k = NexusKernel().bootstrap()
+    k.runtime.plan = lambda goal: ["exfiltrate"]
+    k.runtime.register_tool("exfiltrate", lambda goal, context: "no")
+    result = k.runtime.execute("nope", {})
+    assert result.success is False
+    assert result.message.startswith("governance:")

@@ -1,7 +1,12 @@
 """Minimal artifact integrity helpers (forge-aegis inspired).
 
-Same inputs → same hash. Fail-closed on read errors.
-Not a full AEGIS pipeline; claim-capped local verification only.
+Same inputs → same hash. Fail-closed on read errors: tree_hash raises
+OSError for an unreadable file and does not hash the placeholder
+b"<unreadable>". Not a full AEGIS pipeline; claim-capped local
+verification only.
+
+Anchors are stored in `.nexus_anchors.json` in the current working
+directory (ANCHOR_FILE). There is no `.nexus/anchors.json` writer.
 """
 
 from __future__ import annotations
@@ -36,9 +41,10 @@ def tree_hash(root: str | Path, patterns: Iterable[str] | None = None, algo: str
         h.update(rel.encode())
         h.update(b"\0")
         try:
-            h.update(p.read_bytes())
-        except OSError:
-            h.update(b"<unreadable>")
+            payload = p.read_bytes()
+        except OSError as exc:
+            raise OSError(f"unreadable file: {rel}") from exc
+        h.update(payload)
         h.update(b"\0")
     return h.hexdigest()
 
@@ -70,11 +76,16 @@ def verify_anchor(path: str | Path, expected: str, algo: str = "sha256") -> dict
 import json
 from datetime import datetime, timezone
 
+# Single anchor filename. ROADMAP and CLAIM_STATUS use this same path.
 ANCHOR_FILE = Path(".nexus_anchors.json")
 
 
 def save_anchor(path: str | Path, label: str, algo: str = "sha256") -> dict:
-    """Persist a labeled hash of path under ANCHOR_FILE. Idempotent overwrite of label."""
+    """Persist a labeled hash of path under `.nexus_anchors.json` (cwd).
+
+    Idempotent overwrite of label. Read errors from tree_hash propagate
+    (fail closed); they are not stored as a successful anchor.
+    """
     path = Path(path)
     if not path.exists():
         return {"ok": False, "error": "path not found", "path": str(path)}
