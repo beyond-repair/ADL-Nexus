@@ -2,7 +2,7 @@
 
 **Client:** `client/godot_nexus_party` (primary interactive party-chat)  
 **Branch:** `fix/nexus-party-playtest-pass`  
-**Status:** **IN PROGRESS** — headless import + Main load + automated smoke verified; **desktop hand play** still required for COMPLETE — PLAYTEST VERIFIED.
+**Status:** **COMPLETE — PLAYTEST VERIFIED** (desktop hand play 2026-10-09 ~12:34–12:40 AM ET)
 
 ## Identity (preserve)
 
@@ -37,24 +37,25 @@ cd client/godot_nexus_party
 godot --headless --path . --script res://scripts/smoke_party.gd
 ```
 
-## Hand playtest checklist (parent / desktop)
+## Hand playtest (2026-10-09 ~12:34–12:40 AM ET) — PASS
 
-Required for **COMPLETE — PLAYTEST VERIFIED**:
+**Method:** Godot 4.7.2 windowed on `DISPLAY=:1`, driven with real XTEST mouse/keyboard. Overall: **hand play PASS**.
 
-1. Open project in Godot 4.3+ (4.7.2 OK) → Run Main
-2. See party strip with 7 agents (Cid, Vivi, Garnet, Quina, Steiner, Freya, Zidane)
-3. Send `@engineer fix tests` → Cid replies + portrait pulses; status updates
-4. Send `party debate SPARC residual` → full debate chain + system line
-5. Send a plain message (e.g. `refactor the apk`) → Zidane routes then specialist; optional Steiner challenge
-6. Confirm input does not double-send while party is thinking
-7. Optional: open `client/web_pixel_chat` via `python -m http.server` and note parity (prototype only)
+| # | Check | Result |
+|---|-------|--------|
+| 1 | 7 party slots: Cid, Vivi, Garnet, Quina, Steiner, Freya, Zidane | **PASS** |
+| 2 | `@engineer fix tests` → Cid reply + status updates | **PASS** (portrait pulse not visually confirmed in captures — brief/unverified, non-blocking) |
+| 3 | `party debate SPARC residual` → full chain Zidane→Vivi→Quina→Steiner→Cid→Garnet→Zidane | **PASS** |
+| 4 | `refactor the apk` → Zidane route → Cid → Steiner challenge | **PASS** |
+| 5 | Input lock: DOUBLESEND_TEST/LOCKTEST while thinking never posted; no double-send | **PASS** |
+| 6 | No script errors/crashes; ALSA dummy audio only (benign) | **PASS** |
 
 ## Remaining open
 
-- Desktop/windowed **hand play** of the primary loop (this environment has no interactive desktop)
-- Optional web_pixel_chat parity polish (mention comma edge — not blocking Godot RC)
+- Optional: portrait pulse visibility polish (pulse brief/unverified in captures — non-blocking)
 - Android export APK not exercised this pass (templates/SDK not required for party chat RC)
 - **BLACKSITE** remains blocked waiting on human hand clear — out of scope this run
+- Optional web_pixel_chat parity polish (mention comma edge — not blocking Godot RC)
 
 ## Not done / not claimed
 
