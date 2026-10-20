@@ -1,0 +1,78 @@
+PASS:
+  id: PASS-0002
+  parent_pass: PASS-0001
+
+STATE:
+  global_status: NEXUS_CORE_VERIFIED
+  repositories_scanned: 1
+  repositories_changed: 1
+  capabilities_known: 20+
+  capabilities_verified: 49 (unit tests)
+  gaps_remaining: many (live adapters, full autonomy, request/serve)
+
+OBJECTIVE:
+  id: OBJ-0002
+  description: Audit ADL-Nexus core pathway status and run local verification
+  reason_selected: Follows PASS-0001 NEXT; highest leverage for confirming runtime foundation
+
+DISCOVERY:
+  findings:
+    - Cloned HEAD of ADL-Nexus; all 49 tests in tests/ pass (pytest)
+    - Lifecycle remains RESEARCH; claim ≤1 published, local ceiling 2
+    - Pathways present for governance, memory, agent runtime, workforce (assign/complete only), development, security, simulation, research, economic
+    - request/serve fail-closed; live adapters UNSUPPORTED
+    - Integrity anchors and supervised workforce verified by tests
+
+CHANGES:
+  repositories:
+    - beyond-repair/ADL-Nexus
+  files:
+    - docs/passes/PASS-0002.yaml
+  commits:
+    - this commit
+  capabilities_added_or_changed:
+    - Verified unit test suite (49 passed)
+
+VERIFICATION:
+  tests_run:
+    - pytest tests/: 49 passed in 0.47s
+  code_review: NOT_RUN
+  security: NOT_RUN
+  integration: NOT_RUN
+  invariants: PASS (claim cap, fail-closed request/serve per docs and tests)
+  overall: PASS
+
+KNOWLEDGE:
+  confirmed:
+    - Core Nexus unit tests are green on current main
+    - Local pathways and governance checks are implemented and tested
+  failures:
+    - none
+  decisions:
+    - Continue incremental verification of higher layers or graph updates next
+
+REMAINING:
+  incomplete:
+    - Live adapter integration
+    - Full workforce execution
+    - request/serve loops
+    - Portfolio-wide graph reconstruction
+  blockers:
+    - none for next local audit
+  new_gaps:
+    - Integration tests beyond unit
+    - Drift between locked aegis-repo-graph and current repos
+
+NEXT:
+  objective_id: OBJ-0003
+  action: Expand repository graph observation by sampling key non-Nexus repos and updating capability status against locked snapshots
+  reason: Maintain bigger picture before deeper builds
+  prerequisites:
+    - This pass record committed
+
+PROVENANCE:
+  state_commit: pending
+  evidence:
+    - Local pytest run: 49 passed
+    - docs/CLAIM_STATUS.md and ROADMAP.md
+    - This file
