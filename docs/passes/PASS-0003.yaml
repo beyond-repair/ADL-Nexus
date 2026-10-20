@@ -1,0 +1,78 @@
+PASS:
+  id: PASS-0003
+  parent_pass: PASS-0002
+
+STATE:
+  global_status: PORTFOLIO_DISCOVERY_IN_PROGRESS
+  repositories_scanned: 83 (search total)
+  repositories_changed: 1
+  capabilities_known: 20+ (Nexus core) + graph locked 72
+  capabilities_verified: 49 (Nexus unit tests from prior)
+  gaps_remaining: many (live adapters, graph expansion, full autonomy)
+
+OBJECTIVE:
+  id: OBJ-0003
+  description: Expand repository graph observation by sampling key non-Nexus repos and updating capability status against locked snapshots
+  reason_selected: Follows PASS-0002 NEXT; maintain bigger picture before deeper builds
+
+DISCOVERY:
+  findings:
+    - Authenticated user beyond-repair owns ~83 public+private repos (search total_count=83)
+    - ADL-Nexus lifecycle RESEARCH, claim ≤1, core pathways present, tests previously green
+    - aegis-repo-graph holds locked 2026-09-04 snapshot of 72 repository artifacts; current portfolio has more names (drift observed in README)
+    - ADL-Governance is ACTIVE constitution with extensive pass history up to at least PASS-2026-10-02-206
+    - Key clusters: AEGIS integrity, SEEM cognitive, CFT physics/research, Digital Double workforce, Nexus autonomous engineering
+
+CHANGES:
+  repositories:
+    - beyond-repair/ADL-Nexus
+  files:
+    - docs/passes/PASS-0003.yaml
+  commits:
+    - this commit
+  capabilities_added_or_changed:
+    - Persisted discovery of portfolio scale and graph drift
+
+VERIFICATION:
+  tests_run:
+    - none (discovery only; prior Nexus tests referenced)
+  code_review: NOT_RUN
+  security: NOT_RUN
+  integration: NOT_RUN
+  invariants: PASS (no claim elevation; history preserved)
+  overall: PASS
+
+KNOWLEDGE:
+  confirmed:
+    - Portfolio size ~83 repos
+    - Locked graph is 72; drift exists and is documented
+    - Nexus core is verified at unit level from PASS-0002
+  failures:
+    - none
+  decisions:
+    - Next pass should quantify name drift precisely and sample one research cluster for claim status
+
+REMAINING:
+  incomplete:
+    - Full graph reconstruction
+    - Live adapter integration
+    - Claim status audit across clusters
+  blockers:
+    - none for next sampling
+  new_gaps:
+    - Exact name delta between locked 72 and current 83
+
+NEXT:
+  objective_id: OBJ-0004
+  action: Quantify repository name drift between aegis-repo-graph locked snapshot and current GitHub search; sample one cluster (e.g. AEGIS or SEEM) for CLAIMED vs IMPLEMENTED status
+  reason: Close the observation gap before any build or integration
+  prerequisites:
+    - This pass record committed
+
+PROVENANCE:
+  state_commit: pending (this file)
+  evidence:
+    - GitHub search total_count=83
+    - aegis-repo-graph README locked snapshot description
+    - ADL-Nexus PASS-0002 and README
+    - This file
