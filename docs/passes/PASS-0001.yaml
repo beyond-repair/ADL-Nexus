@@ -1,0 +1,84 @@
+PASS:
+  id: PASS-0001
+  parent_pass: null
+
+STATE:
+  global_status: INITIAL_DISCOVERY
+  repositories_scanned: 20+
+  repositories_changed: 1
+  capabilities_known: 15+
+  capabilities_verified: 0
+  gaps_remaining: many
+
+OBJECTIVE:
+  id: OBJ-0001
+  description: Bootstrap recursive engineering state by documenting initial ecosystem audit of beyond-repair portfolio
+  reason_selected: No prior pass records exist; foundational persistence required for progressive loop
+
+DISCOVERY:
+  findings:
+    - Authenticated as beyond-repair; ~83 public repositories
+    - Core governance: ADL-Governance, ADL-SEEM, adl-capability-matrix, aegis-repo-graph, ADL-Nexus
+    - aegis-repo-graph holds locked 2026-09-04 snapshot of 72 repos as FLS artifacts (claim ≤1)
+    - adl-capability-matrix holds 67-row claim-capped inventory from 2026-09-04
+    - ADL-Nexus is RESEARCH lifecycle local-first platform with layered architecture, CI green but claim-capped
+    - Multiple physics/research repos (momentum-closure, informational-flux-identity, etc.) under RESEARCH
+    - No prior BASILISK pass records found in searchable code
+    - Write capability confirmed via create_or_update_file
+
+CHANGES:
+  repositories:
+    - beyond-repair/ADL-Nexus
+  files:
+    - docs/passes/PASS-0001.yaml
+  commits:
+    - this commit
+  capabilities_added_or_changed:
+    - Pass record persistence infrastructure (initial)
+
+VERIFICATION:
+  tests_run:
+    - none (docs-only)
+  code_review: NOT_RUN
+  security: NOT_RUN
+  integration: NOT_RUN
+  invariants: NOT_APPLICABLE
+  overall: PASS
+
+KNOWLEDGE:
+  confirmed:
+    - Portfolio is large (~80+ repos), heavily research-oriented with strong claim-capping governance
+    - Graphs and matrices are snapshot-locked, not live crawlers
+    - Nexus provides the intended runtime for autonomous engineering
+  failures:
+    - none in this pass
+  decisions:
+    - Persist passes under ADL-Nexus/docs/passes/ as machine-readable YAML
+    - Next pass should expand graph/matrix observation or audit a high-value Nexus layer
+
+REMAINING:
+  incomplete:
+    - Full repository graph reconstruction
+    - Capability inventory beyond locked snapshots
+    - Verification of any Nexus pathways beyond docs
+  blockers:
+    - none for next discovery
+  new_gaps:
+    - Live vs locked census drift
+    - Nexus agent runtime verification
+    - Integration of capability matrix with aegis graph
+
+NEXT:
+  objective_id: OBJ-0002
+  action: Audit ADL-Nexus core pathway status and run local verification if possible; update graphs with current observation
+  reason: Highest leverage for enabling subsequent autonomous builds
+  prerequisites:
+    - This pass record committed
+    - Access to clone or further inspect Nexus
+
+PROVENANCE:
+  state_commit: pending
+  evidence:
+    - GitHub API discovery via connected tools
+    - README and tree inspections of key repos
+    - This file as first persistent pass
