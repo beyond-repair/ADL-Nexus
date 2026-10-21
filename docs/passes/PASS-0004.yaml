@@ -1,0 +1,80 @@
+PASS:
+  id: PASS-0004
+  parent_pass: PASS-0003
+
+STATE:
+  global_status: PORTFOLIO_DRIFT_RECONFIRMED
+  repositories_scanned: 83 (search total_count)
+  repositories_changed: 1
+  capabilities_known: 20+ (Nexus core) + graph locked 72
+  capabilities_verified: 49 (Nexus unit tests from prior)
+  gaps_remaining: many (live adapters, graph expansion, full autonomy, cluster claim audits)
+
+OBJECTIVE:
+  id: OBJ-0004
+  description: Quantify repository name drift between aegis-repo-graph locked snapshot and current GitHub search; sample one cluster (AEGIS) for CLAIMED vs IMPLEMENTED status
+  reason_selected: Follows PASS-0003 NEXT exactly; close observation gap before build
+
+DISCOVERY:
+  findings:
+    - Current GitHub search user:beyond-repair total_count=83, incomplete_results=false (2026-10-21)
+    - aegis-repo-graph frozen observed sets 2026-10-06 and 2026-10-09 both have 83 names and are equal per observation_reconfirm
+    - Locked catalog is 72 RepositoryArtifacts; drift quantified in graph/drift.py (observed_only and catalog_only)
+    - Name set stable across Oct 6, 9, and current search
+    - AEGIS-Project-Nehemiah- exists, description claims specification-defined host integrity platform; lifecycle not elevated
+    - forge-aegis referenced as modeling host/policy artifacts
+    - aegis-repo-graph itself is RESEARCH, claim ≤1, not live crawler
+
+CHANGES:
+  repositories:
+    - beyond-repair/ADL-Nexus
+  files:
+    - docs/passes/PASS-0004.yaml
+  commits:
+    - this commit
+  capabilities_added_or_changed:
+    - Persisted reconfirmation of name stability and quantified drift from locked graph
+
+VERIFICATION:
+  tests_run:
+    - none (discovery/reconfirm only; no code changes beyond pass record)
+  code_review: NOT_RUN
+  security: NOT_RUN
+  integration: NOT_RUN
+  invariants: PASS (no claim elevation; history preserved; no catalog mutation)
+  overall: PASS
+
+KNOWLEDGE:
+  confirmed:
+    - Portfolio name set stable at 83 since at least 2026-10-06
+    - Drift between locked 72 and observed 83 is already modeled and tested in aegis-repo-graph
+    - AEGIS cluster present but claim-capped; no live Nehemiah host claimed
+  failures:
+    - none
+  decisions:
+    - Expanding the locked catalog remains operator-only per aegis-repo-graph README
+    - Next sample should target SEEM cluster or live adapter status
+
+REMAINING:
+  incomplete:
+    - Full graph reconstruction (operator decision)
+    - Live adapter integration
+    - Systematic claim status audit across all clusters
+  blockers:
+    - none for continued sampling
+  new_gaps:
+    - Precise enumeration of observed_only names not yet listed in this record (see aegis-repo-graph)
+
+NEXT:
+  objective_id: OBJ-0005
+  action: Sample SEEM cluster (SEEM-Cognitive_Microservice, SEEM-2.0-Self-Evolving-Emergent-Mind, seem-identity-unifier) for CLAIMED vs IMPLEMENTED vs TESTED status against their READMEs and CLAIM_STATUS if present
+  reason: Continue incremental capability graph building after drift reconfirm
+  prerequisites:
+    - This pass record committed
+
+PROVENANCE:
+  state_commit: pending (this file)
+  evidence:
+    - GitHub search total_count=83 on 2026-10-21
+    - aegis-repo-graph graph/drift.py, observed_2026_10_09.py, README Sweep-292 and Sweep-239
+    - This file
