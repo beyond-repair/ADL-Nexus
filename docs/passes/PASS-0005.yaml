@@ -1,0 +1,79 @@
+PASS:
+  id: PASS-0005
+  parent_pass: PASS-0004
+
+STATE:
+  global_status: SEEM_CLUSTER_SAMPLED
+  repositories_scanned: 83 (prior total; SEEM subset re-queried)
+  repositories_changed: 1
+  capabilities_known: 20+ (Nexus) + SEEM surfaces (VSA/BaNEL/Dream/identity)
+  capabilities_verified: prior 49 + unifier contract tests (not re-run here)
+  gaps_remaining: many (live adapters, full claim audit, graph expansion, autonomy)
+
+OBJECTIVE:
+  id: OBJ-0005
+  description: Sample SEEM cluster (SEEM-Cognitive_Microservice, SEEM-2.0-Self-Evolving-Emergent-Mind, seem-identity-unifier, sovereign-clean-room) for CLAIMED vs IMPLEMENTED vs TESTED status
+  reason_selected: Exact NEXT from PASS-0004; continue incremental capability graph after drift reconfirm
+
+DISCOVERY:
+  findings:
+    - SEEM-Cognitive_Microservice (underscore): LIFECYCLE SUPERSEDED, CLAIM 0, SUCCESSOR sovereign-clean-room. Runnable Vite+FastAPI toy with FHRR/BaNEL/Dream/L0; pytest in backend/; CI kernel.yml. Not a mind.
+    - SEEM-2.0-Self-Evolving-Emergent-Mind: SUPERSEDED, CLAIM 0, same successor. Offline numpy sketch; CLAIM_STATUS.md confirms; pytest present. Historical archive.
+    - seem-identity-unifier: RESEARCH, CLAIM ≤1. Deterministic identity map for three distinct SEEM repos (layouts differ; no SUPERSEDES/EQUIVALENT). Tests validate contract; no runtime import claimed. Closes Q-FUNC-003.
+    - sovereign-clean-room: Canonical successor (badge ACTIVE). Offline VSA core + CLI + memory + optional Z3/SHACL governance. Extensive pytest (integrity, memskill, e2e). Decorative stability bars; not claimed as mind or measurement.
+    - Duplicate naming (hyphen vs underscore Cognitive_Microservice) preserved; identity unifier explicitly does not collapse them.
+    - No live interop, AGI, or production autonomy claimed in any sampled repo.
+
+CHANGES:
+  repositories:
+    - beyond-repair/ADL-Nexus
+  files:
+    - docs/passes/PASS-0005.yaml
+  commits:
+    - this commit
+  capabilities_added_or_changed:
+    - Documented SEEM cluster claim/implementation/test boundaries
+
+VERIFICATION:
+  tests_run:
+    - none (discovery sampling only; no code changes beyond pass record)
+  code_review: NOT_RUN
+  security: NOT_RUN
+  integration: NOT_RUN
+  invariants: PASS (no claim elevation; SUPERSEDED status preserved; history intact)
+  overall: PASS
+
+KNOWLEDGE:
+  confirmed:
+    - SEEM lineage consolidated under sovereign-clean-room; prior repos SUPERSEDED at claim 0
+    - Identity distinctness maintained by seem-identity-unifier (RESEARCH ≤1)
+    - Tests exist in sampled repos but do not elevate claims beyond stated levels
+  failures:
+    - none
+  decisions:
+    - Do not treat SUPERSEDED sketches as active capabilities
+    - Next sample should target AEGIS/Nehemiah or live adapter status in Nexus
+
+REMAINING:
+  incomplete:
+    - Full systematic claim audit across all 83 repos
+    - Live sunder/clean-room adapter integration (still UNSUPPORTED in Nexus)
+    - Graph catalog expansion (operator-only)
+  blockers:
+    - none for continued sampling
+  new_gaps:
+    - Precise test counts and last CI status for sovereign-clean-room not re-verified in this pass
+
+NEXT:
+  objective_id: OBJ-0006
+  action: Sample AEGIS cluster (AEGIS-Project-Nehemiah-, forge-aegis, aegis-repo-graph) for CLAIMED vs IMPLEMENTED vs TESTED vs INTEGRATED status; note any Nexus adapter surface
+  reason: Continue bounded capability sampling; AEGIS is the integrity/graph pillar complementary to SEEM
+  prerequisites:
+    - This pass record committed
+
+PROVENANCE:
+  state_commit: pending (this file)
+  evidence:
+    - GitHub READMEs and CLAIM_STATUS.md fetches 2026-10-22
+    - Prior PASS-0004 and aegis-repo-graph drift model
+    - This file
