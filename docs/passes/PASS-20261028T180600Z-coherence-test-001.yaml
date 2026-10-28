@@ -1,0 +1,79 @@
+PASS:
+  id: PASS-20261028T180600Z-coherence-test-001
+  parent_pass: PASS-20261028T160700Z-coherence-obs-001
+
+STATE:
+  global_status: COHERENCE_TESTS_VERIFIED
+  repositories_scanned: 84 (prior)
+  repositories_changed: 1 (ADL-Nexus: added this pass record)
+  capabilities_known: prior + coherence-dynamics test suite present and green
+  capabilities_verified: prior + local pytest 28 passed on coherence-dynamics 0.1.0
+  gaps_remaining: many (catalog expansion operator-only, live adapters, Dependabot, drift update)
+
+OBJECTIVE:
+  id: GAP-COHERENCE-TEST-001
+  description: Local clone of coherence-dynamics, run pytest, record results in a new pass without elevating claims.
+  reason_selected: Exact NEXT from parent pass; highest-value bounded verification of the newly observed RESEARCH repository; improves evidence without mutation of locks.
+
+DISCOVERY:
+  findings:
+    - Clone succeeded (depth 1) from beyond-repair/coherence-dynamics.
+    - pyproject.toml defines package with numpy/scipy deps and test extra pytest.
+    - tests/ contains 10 test modules covering analytic identities, spectral, conservation, convergence, reproducibility, models, asymptotics, etc.
+    - Stage A research foundation; claim ≤1; no product claims.
+    - pytest -q: 28 passed in 0.30s. No failures.
+
+CHANGES:
+  repositories:
+    - beyond-repair/ADL-Nexus
+  files:
+    - docs/passes/PASS-20261028T180600Z-coherence-test-001.yaml (new)
+  commits:
+    - this commit
+  capabilities_added_or_changed:
+    - Verified test suite execution for coherence-dynamics RESEARCH foundation. Evidence recorded. Claims not elevated.
+
+VERIFICATION:
+  tests_run:
+    - coherence-dynamics: pytest -q (28 passed in 0.30s) — PASS
+  code_review: NOT_RUN
+  security: NOT_RUN
+  integration: NOT_RUN
+  invariants: PASS (no catalog mutation, no claim elevation above ≤1, RESEARCH classification preserved, history preserved, operator boundary respected)
+  overall: PASS
+
+KNOWLEDGE:
+  confirmed:
+    - coherence-dynamics has a runnable test suite that passes locally under the declared environment (Python 3.10+, numpy<2, scipy, pytest).
+    - Test coverage includes core mathematical identities, spectral properties, conservation, and reproducibility checks.
+    - Observation freeze remains valid; no drift introduced by this verification.
+  failures:
+    - none
+  decisions:
+    - Record verification evidence only. Do not expand locked catalog or raise claims.
+    - Next recoverable actions remain operator catalog expansion or optional drift.py update.
+
+REMAINING:
+  incomplete:
+    - Actual registration of coherence-dynamics in locked catalog (operator-only)
+    - Update of graph/drift.py to import 2026-10-28 observation
+    - Broader portfolio gaps (adapters, Dependabot, etc.)
+  blockers:
+    - Catalog lock (operator boundary)
+  new_gaps:
+    - none new from this verification
+
+NEXT:
+  objective_id: GAP-COHERENCE-DRIFT-001
+  action: Optionally extend graph/drift.py in aegis-repo-graph to include the 2026-10-28 observation for automated reconfirm comparisons.
+  reason: Completes the observation freeze pattern for future drift detection; small, non-mutating of locks, improves global model completeness.
+  prerequisites:
+    - This pass record committed
+    - Review of existing drift.py pattern
+
+PROVENANCE:
+  state_commit: this commit
+  evidence:
+    - Local clone + pip install -e ".[test]" + pytest -q output (28 passed)
+    - Parent PASS-20261028T160700Z-coherence-obs-001
+    - This file
