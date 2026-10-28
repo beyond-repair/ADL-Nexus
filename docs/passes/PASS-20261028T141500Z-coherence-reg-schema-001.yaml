@@ -1,0 +1,86 @@
+PASS:
+  id: PASS-20261028T141500Z-coherence-reg-schema-001
+  parent_pass: PASS-20261028T131500Z-coherence-discovery-001
+
+STATE:
+  global_status: SCHEMA_DOCUMENTED_LOCKED_CATALOG
+  repositories_scanned: 84 (user:beyond-repair search, total_count=84)
+  repositories_changed: 1 (this pass record)
+  capabilities_known: prior + coherence-dynamics RESEARCH foundation + aegis locked catalog schema
+  capabilities_verified: prior; remote inspection only
+  gaps_remaining: many (catalog expansion operator-only, live adapters, Dependabot, local test verification)
+
+OBJECTIVE:
+  id: GAP-COHERENCE-REG-001
+  description: Inspect aegis-repo-graph catalog registration pattern and document exact schema + constraints for adding coherence-dynamics without mutating locked snapshot.
+  reason_selected: Exact NEXT from parent pass; highest-value bounded integration step that preserves history and claim caps.
+
+DISCOVERY:
+  findings:
+    - aegis-repo-graph catalog in graph/catalog.py is a locked 2026-09-04 snapshot of 72 RepositoryArtifacts + 1 QueueArtifact (artifacts=73), 21 relationships. Expansion is explicitly operator-only (README, CLAIM_STATUS.md, Sweep notes).
+    - Artifact model: identity=repo:<name>, kind=RepositoryArtifact, properties={name, cluster, lifecycle, claim (int 0-5), functions: tuple[str] non-empty}.
+    - Allowed lifecycles: ACTIVE, EXPERIMENTAL, RESEARCH, ARCHIVED, SUPERSEDED.
+    - Allowed clusters include physics-cft, governance, integrity, etc.
+    - Claim caps enforced for ARCHIVED/SUPERSEDED; integer claim only.
+    - Observed name freezes exist (e.g. observed_2026_10_27.py with 83 names); drift reporting does not mutate catalog.
+    - coherence-dynamics (created 2026-10-28) is absent from locked catalog and prior observations. Classification RESEARCH, cluster physics-cft candidate, claim ≤1, functions e.g. ["coarse-graining formalization", "spectral laboratory", "falsification ledger"].
+    - No mutation of catalog performed. History and claim ceiling preserved.
+
+CHANGES:
+  repositories:
+    - beyond-repair/ADL-Nexus
+  files:
+    - docs/passes/PASS-20261028T141500Z-coherence-reg-schema-001.yaml
+  commits:
+    - this commit
+  capabilities_added_or_changed:
+    - Documented locked catalog schema, operator-only expansion rule, and proposed RESEARCH properties for coherence-dynamics without adding the artifact.
+
+VERIFICATION:
+  tests_run:
+    - none (remote inspection; no local clone or pytest)
+  code_review: NOT_RUN
+  security: NOT_RUN
+  integration: NOT_RUN
+  invariants: PASS (no catalog mutation, no claim elevation above ≤1, RESEARCH classification, history preserved, operator boundary respected)
+  overall: PASS
+
+KNOWLEDGE:
+  confirmed:
+    - Catalog expansion requires explicit operator action; agent must not silently rewrite locked snapshot.
+    - Schema is deterministic: _repo(name, cluster, lifecycle, claim, functions) → Artifact.
+    - coherence-dynamics fits RESEARCH / physics-cft / claim ≤1 pattern used by related physics repos.
+  failures:
+    - none
+  decisions:
+    - Do not expand locked catalog in this pass.
+    - Persist schema documentation in pass record for fresh-agent continuity.
+    - Next recoverable action is either operator catalog expansion or local verification of coherence-dynamics tests.
+
+REMAINING:
+  incomplete:
+    - Actual registration of coherence-dynamics in locked catalog (operator-only)
+    - Local pytest execution and evidence recording for coherence-dynamics
+    - Full 84-name observation freeze update in aegis-repo-graph
+  blockers:
+    - Catalog lock (operator boundary)
+  new_gaps:
+    - GAP-COHERENCE-OBS-001: Update or add observed_2026_10_28.py freeze including coherence-dynamics (observation-only, no catalog change)
+    - GAP-COHERENCE-TEST-001: Local clone + pytest of coherence-dynamics
+
+NEXT:
+  objective_id: GAP-COHERENCE-OBS-001
+  action: Create graph/observed_2026_10_28.py in aegis-repo-graph with frozen name list from current search (including coherence-dynamics) and update drift notes if needed; or proceed to local test verification if preferred.
+  reason: Smallest non-mutating extension of the observation pattern that improves global model completeness without violating lock.
+  prerequisites:
+    - This pass record committed
+    - Stable GitHub access to aegis-repo-graph
+
+PROVENANCE:
+  state_commit: this commit
+  evidence:
+    - github___get_file_contents on aegis-repo-graph graph/catalog.py, model.py, CLAIM_STATUS.md, observed_2026_10_27.py, README.md
+    - github___search_repositories user:beyond-repair (total_count=84)
+    - Prior PASS-20261028T131500Z-coherence-discovery-001
+    - coherence-dynamics README and tree inspection
+    - This file
