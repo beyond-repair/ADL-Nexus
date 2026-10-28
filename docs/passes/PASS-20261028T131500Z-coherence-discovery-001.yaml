@@ -1,0 +1,87 @@
+PASS:
+  id: PASS-20261028T131500Z-coherence-discovery-001
+  parent_pass: PASS-0007
+
+STATE:
+  global_status: DISCOVERY_IN_PROGRESS
+  repositories_scanned: 84 (user:beyond-repair search)
+  repositories_changed: 1 (this pass record)
+  capabilities_known: prior + coherence-dynamics research foundation
+  capabilities_verified: prior; no new runtime verification
+  gaps_remaining: many (catalog sync, live adapters, Dependabot, full graph registration)
+
+OBJECTIVE:
+  id: OBJ-20261028-001
+  description: Discover and classify the newly created coherence-dynamics repository; document its structure, status, and relation to prior work without mutation of locked catalogs.
+  reason_selected: Highest-recency new repository (created 2026-10-28); small bounded slice to update ecosystem model before deeper integration or verification.
+
+DISCOVERY:
+  findings:
+    - Repo: beyond-repair/coherence-dynamics created 2026-10-28T10:53:53Z, pushed 2026-10-28T11:24:32Z. Language: Python. License: MIT. Open issues: 0.
+    - README declares Stage A — Audit and formalization (in progress). Research foundation, not completed theory. Ware Constant mentioned only as historical context, not a parameter.
+    - Structure present: docs/ (charter, foundations, assumptions, limitations, roadmap), theory/, spectral/, numerics/, experiments/, tests/, research_log/ (provenance, decisions, failed_candidates, falsification_ledger).
+    - Tests present (analytic identities, conservation, spectral, convergence, reproducibility, gaussian baseline, phase models).
+    - Provenance.md inventories prior related repos (coherence-drive, m2-renormalization-law, finite-gasket-spectral-derivatives, -ware-constant-derivation, etc.).
+    - Evidence labels defined: ESTABLISHED, DERIVED, REPRODUCED, SUPPORTED, HYPOTHESIS, FAILED, UNRESOLVED.
+    - Classification: RESEARCH (hypothesis-grade mathematical physics; no product claims; claim ceiling ≤1 per governance).
+    - Related to -ware-constant-derivation and informational-flux-identity but explicitly separates historical constants from current derivation work.
+
+CHANGES:
+  repositories:
+    - beyond-repair/ADL-Nexus
+  files:
+    - docs/passes/PASS-20261028T131500Z-coherence-discovery-001.yaml
+  commits:
+    - this commit
+  capabilities_added_or_changed:
+    - Documented coherence-dynamics as RESEARCH class with Stage A status and explicit non-claim of Ware Constant as parameter.
+
+VERIFICATION:
+  tests_run:
+    - none (remote inspection only; no local clone or pytest execution)
+  code_review: NOT_RUN
+  security: NOT_RUN
+  integration: NOT_RUN
+  invariants: PASS (no claim elevation; history preserved; RESEARCH classification matches constitution Article 2; no physics performance claim)
+  overall: PASS
+
+KNOWLEDGE:
+  confirmed:
+    - coherence-dynamics is a properly structured new RESEARCH repository focused on formalization and testing of coarse-graining hypotheses.
+    - It explicitly avoids treating W ≈ 0.08 as a target or acceptance criterion.
+    - Prior related work is inventoried with provenance requirements.
+  failures:
+    - none
+  decisions:
+    - Classify as RESEARCH; do not promote.
+    - Next slices may register it in aegis-repo-graph and adl-capability-matrix without elevating claims.
+    - Prefer REUSE of existing spectral/gasket code patterns if verified, rather than duplication.
+
+REMAINING:
+  incomplete:
+    - Local verification of tests in coherence-dynamics
+    - Graph registration in aegis-repo-graph
+    - Capability matrix entry
+    - Full catalog sync for 84 repos
+  blockers:
+    - none for continued bounded discovery
+  new_gaps:
+    - GAP-COHERENCE-REG-001: Register coherence-dynamics in authority/capability graphs with RESEARCH class and claim ≤1.
+    - GAP-COHERENCE-TEST-001: Execute local pytest and record results.
+
+NEXT:
+  objective_id: GAP-COHERENCE-REG-001
+  action: Inspect aegis-repo-graph current catalog for registration pattern and add minimal RESEARCH entry for coherence-dynamics (or document the exact schema required).
+  reason: Highest-value next bounded step to integrate the new repo into the global model without duplication or claim inflation.
+  prerequisites:
+    - This pass record committed
+    - Stable GitHub access to aegis-repo-graph
+
+PROVENANCE:
+  state_commit: this commit
+  evidence:
+    - github___search_repositories user:beyond-repair sort:updated
+    - github___get_file_contents README.md and tree for coherence-dynamics
+    - Prior PASS-0007
+    - ADL-Governance CONSTITUTION.md Article 2
+    - This file
