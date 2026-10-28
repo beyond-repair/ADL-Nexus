@@ -1,0 +1,81 @@
+PASS:
+  id: PASS-0006
+  parent_pass: PASS-0005
+
+STATE:
+  global_status: AEGIS_CLUSTER_SAMPLED
+  repositories_scanned: 83 (prior total; AEGIS subset queried)
+  repositories_changed: 1
+  capabilities_known: 20+ (Nexus) + SEEM + AEGIS surfaces (pipeline, graph, FLS)
+  capabilities_verified: prior + forge-aegis tests referenced (not re-run here)
+  gaps_remaining: many (live adapters, full claim audit, graph expansion, autonomy, operator catalog sync)
+
+OBJECTIVE:
+  id: OBJ-0006
+  description: Sample AEGIS cluster (forge-aegis, AEGIS-Project-Nehemiah-, aegis-repo-graph) for CLAIMED vs IMPLEMENTED vs TESTED vs INTEGRATED status; note Nexus adapter surface
+  reason_selected: Exact NEXT from PASS-0005; continue incremental capability graph after SEEM sampling
+
+DISCOVERY:
+  findings:
+    - forge-aegis: ACTIVE, CLAIM software / RUNNABLE SKETCH. Offline reference pipeline for FLS/AEGIS v0.1 vertical slice. Hashes files against baseline policy, emits audit record with deterministic result_hash. Tests: test_validator.py (2 passed), test_pipeline.py (8 passed). No network, no host execution, no kernel agents, no remote attestation, no auto-remediation. Not integrated with sovereign-clean-room.
+    - AEGIS-Project-Nehemiah-: Description claims full host integrity platform (measure, evidence graph, prove/disprove trust, authorized restore). Lifecycle from prior state: CONTRACT CONSUMER / ACTIVE. Must not redefine validation semantics. Implementation status not fully re-audited here (docs-heavy expected).
+    - aegis-repo-graph: RESEARCH (inferred), FLS-aligned Artifact Graph of beyond-repair repositories. Deterministic identities, typed relationships, claim-cap validity. Locked catalog 72 artifacts; live census 83; expansion operator-only.
+    - Nexus: No live AEGIS adapter observed in this sampling; prior adapters (sunder/clean-room) remain UNSUPPORTED for live interop.
+    - Catalog gap: Observed 83 vs locked matrix 67 / catalog 72; gap documented in recent layer1_memory reports; no automatic expansion.
+    - No production host integrity, kernel agents, or full Nehemiah claims elevated beyond stated levels.
+
+CHANGES:
+  repositories:
+    - beyond-repair/ADL-Nexus
+  files:
+    - docs/passes/PASS-0006.yaml
+  commits:
+    - this commit
+  capabilities_added_or_changed:
+    - Documented AEGIS cluster claim/implementation/test/integration boundaries
+
+VERIFICATION:
+  tests_run:
+    - none (discovery sampling only; no code changes beyond pass record)
+  code_review: NOT_RUN
+  security: NOT_RUN
+  integration: NOT_RUN
+  invariants: PASS (no claim elevation; history intact; operator-only boundaries preserved)
+  overall: PASS
+
+KNOWLEDGE:
+  confirmed:
+    - forge-aegis is runnable offline sketch with local tests; not a full product
+    - aegis-repo-graph provides locked catalog with known drift to live census
+    - Integration gaps persist; no automatic claim promotion
+  failures:
+    - none
+  decisions:
+    - Treat forge-aegis as reference slice only
+    - Catalog expansion remains operator-gated
+    - Next should target residual priority (e.g. DDVW Dependabot or Nexus live adapter status) or continue sampling
+
+REMAINING:
+  incomplete:
+    - Full systematic claim audit across all 83 repos
+    - Live adapter integration in Nexus
+    - Operator catalog/matrix sync to 83
+    - Detailed CI/test re-verification for all sampled
+  blockers:
+    - none for continued bounded sampling
+  new_gaps:
+    - Precise current CI status and test counts for AEGIS-Project-Nehemiah- and aegis-repo-graph not re-run here
+
+NEXT:
+  objective_id: OBJ-0007
+  action: Audit Digital_Double_virtual_workforce for open Dependabot residuals and CI status; or sample Nexus layer2/layer5 for adapter claim boundaries
+  reason: Highest residual priority from operator queue and portfolio state; close actionable gap before further expansion
+  prerequisites:
+    - This pass record committed
+
+PROVENANCE:
+  state_commit: pending (this file)
+  evidence:
+    - GitHub README and search fetches 2026-10-27
+    - Prior PASS-0005 and catalog gap reports in layer1_memory
+    - This file
