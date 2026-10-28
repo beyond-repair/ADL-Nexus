@@ -1,0 +1,86 @@
+PASS:
+  id: PASS-0007
+  parent_pass: PASS-0006
+
+STATE:
+  global_status: DDVW_DEPENDABOT_AUDITED
+  repositories_scanned: 83 (prior) + targeted DDVW
+  repositories_changed: 1
+  capabilities_known: prior + DDVW security hygiene surface
+  capabilities_verified: prior; DDVW tests not re-run in this pass
+  gaps_remaining: many (open Dependabot, live adapters, catalog sync, full audits)
+
+OBJECTIVE:
+  id: OBJ-0007
+  description: Audit Digital_Double_virtual_workforce for open Dependabot residuals and CI status
+  reason_selected: Exact NEXT from PASS-0006; highest residual priority from operator queue and portfolio state
+
+DISCOVERY:
+  findings:
+    - Repo: beyond-repair/Digital_Double_virtual_workforce (ACTIVE lifecycle badge, CLAIM software). Language TypeScript primary for UI, Python core. Pushed 2026-10-17.
+    - Open PRs (5): #7 NEX-INT-006 Workforce execution evidence journal (user, 2026-09-07); #6 Dependabot rollup 4.24.0->4.63.1 (updated 2026-10-17); #5 Dependabot npm_and_yarn group 17 updates (updated 2026-10-17); #4 security raise nanoid ^5.0.6 to ^5.1.16 for GHSA-xwg4-73v4-xw9w / CVE-2026-73086 (user, 2026-09-05, scoped range-only); #3 old Dependabot group 4 updates (2025-07, updated 2026-09).
+    - No open issues found via search.
+    - Code scanning alerts: none (404 no analysis).
+    - PR statuses for #5/#6: pending, total_count=0 (no CI checks reported).
+    - #4 notes: requires npm install for lockfile, product CI green, confirm alerts clear; low risk range change.
+    - README claims ACTIVE / software; secondary UI not wired to Python core; consolidation plan exists.
+    - No fabrication of test results; CI not observed green on these heads.
+
+CHANGES:
+  repositories:
+    - beyond-repair/ADL-Nexus
+  files:
+    - docs/passes/PASS-0007.yaml
+  commits:
+    - this commit
+  capabilities_added_or_changed:
+    - Documented open Dependabot and security PR residuals in Digital_Double_virtual_workforce
+
+VERIFICATION:
+  tests_run:
+    - none (audit/discovery only; no local clone or mutation of DDVW)
+  code_review: NOT_RUN
+  security: NOT_RUN (Dependabot present but not merged/verified)
+  integration: NOT_RUN
+  invariants: PASS (no claim elevation, history preserved, operator boundaries intact)
+  overall: PASS
+
+KNOWLEDGE:
+  confirmed:
+    - Multiple open Dependabot PRs persist (including recent #5/#6 and security #4)
+    - No active code scanning or observed CI on sampled PR heads
+    - Security PR #4 is scoped and low-risk per its body but requires lockfile + CI before merge
+  failures:
+    - none
+  decisions:
+    - Do not merge without verification of lockfile resolution and tests
+    - Treat as hygiene residual; next slice can verify #4 locally or update branch
+    - Prefer REUSE of existing CI over new gates
+
+REMAINING:
+  incomplete:
+    - Merge or close of open Dependabot PRs after verification
+    - Lockfile update and CI confirmation for #4
+    - Full CI status on main
+    - Wiring of UI to core if claimed
+  blockers:
+    - none for continued bounded work; verification requires local or CI run
+  new_gaps:
+    - GAP-DDVW-DEPS-001: Open Dependabot residuals unmerged
+    - GAP-DDVW-CI-001: No observed checks on PR heads
+
+NEXT:
+  objective_id: OBJ-0008
+  action: Clone or inspect Digital_Double_virtual_workforce package-lock / package.json for nanoid and rollup ranges; or sample Nexus layer2/layer5 adapter boundaries as alternative
+  reason: Closes the documented residual with smallest verification step before any merge
+  prerequisites:
+    - This pass record committed
+    - Stable GitHub access
+
+PROVENANCE:
+  state_commit: this commit
+  evidence:
+    - GitHub list_pull_requests, search_issues, pull_request_read get_status/get for PRs 4-7
+    - README fetch
+    - Prior PASS-0006
+    - This file
