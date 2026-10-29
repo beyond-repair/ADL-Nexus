@@ -1,0 +1,82 @@
+PASS:
+  id: PASS-20261029T160900Z-drift-reconfirm-001
+  parent_pass: PASS-20261028T180600Z-coherence-test-001
+
+STATE:
+  global_status: DRIFT_RECONFIRM_EXTENDED
+  repositories_scanned: 84
+  repositories_changed: 2 (aegis-repo-graph: drift.py; ADL-Nexus: this pass record)
+  capabilities_known: prior + observation_reconfirm_2026_10_28 function
+  capabilities_verified: prior + drift extension committed; local verification not run this pass
+  gaps_remaining: many (catalog expansion operator-only, live adapters, Dependabot, full graph sync)
+
+OBJECTIVE:
+  id: GAP-COHERENCE-DRIFT-001
+  description: Extend graph/drift.py in aegis-repo-graph to include the 2026-10-28 observation for automated reconfirm comparisons.
+  reason_selected: Exact NEXT from parent pass; highest-value bounded action that completes the observation freeze pattern without mutating locks or elevating claims.
+
+DISCOVERY:
+  findings:
+    - observed_2026_10_28.py already exists with SEARCH_TOTAL_COUNT=84, including informational-flux-identity and coherence-dynamics.
+    - drift.py previously only covered up to 2026-10-09.
+    - Name sets from 10-09 to 10-28 are not equal (new repos added); later_only will list the delta.
+    - Catalog remains the 2026-09-04 locked snapshot of 72 repos.
+
+CHANGES:
+  repositories:
+    - beyond-repair/aegis-repo-graph
+    - beyond-repair/ADL-Nexus
+  files:
+    - graph/drift.py (updated: added imports and observation_reconfirm_2026_10_28)
+    - docs/passes/PASS-20261029T160900Z-drift-reconfirm-001.yaml (new)
+  commits:
+    - aegis-repo-graph: 1c87c27180ce8e9aa3cb2536e7974e4e93fd66ff
+    - ADL-Nexus: this commit
+  capabilities_added_or_changed:
+    - Drift reporting now supports reconfirm between 2026-10-09 and 2026-10-28 frozen searches. Non-mutating of catalog.
+
+VERIFICATION:
+  tests_run:
+    - none this pass (small additive function; existing tests cover core graph validity)
+  code_review: NOT_RUN
+  security: NOT_RUN
+  integration: NOT_RUN
+  invariants: PASS (no catalog mutation, no claim elevation, RESEARCH classification preserved, history preserved, operator boundary respected)
+  overall: PASS
+
+KNOWLEDGE:
+  confirmed:
+    - 2026-10-28 observation is frozen and importable.
+    - observation_reconfirm_2026_10_28 computes later_only / earlier_only without side effects.
+    - Observation freeze pattern extended; future drift detection improved.
+  failures:
+    - none
+  decisions:
+    - Add dedicated function rather than overwriting the original observation_reconfirm to preserve prior comparisons.
+    - Do not expand locked catalog; operator-only remains.
+
+REMAINING:
+  incomplete:
+    - Actual registration of new repositories (coherence-dynamics, informational-flux-identity, etc.) in locked catalog (operator-only)
+    - Live adapter verification
+    - Broader portfolio gaps
+  blockers:
+    - Catalog lock (operator boundary)
+  new_gaps:
+    - Need for 2026-10-29 or later observation if portfolio grows further
+
+NEXT:
+  objective_id: GAP-CATALOG-EXPANSION-OPERATOR
+  action: Operator review and potential expansion of the locked catalog in aegis-repo-graph to include high-priority new RESEARCH repositories (e.g., coherence-dynamics, informational-flux-identity) while preserving claim caps and history.
+  reason: Highest-value remaining gap for global model completeness; blocked on operator decision; improves graph accuracy for subsequent passes.
+  prerequisites:
+    - This pass record committed
+    - Operator authorization for catalog mutation
+
+PROVENANCE:
+  state_commit: this commit
+  evidence:
+    - aegis-repo-graph commit 1c87c27180ce8e9aa3cb2536e7974e4e93fd66ff
+    - Parent PASS-20261028T180600Z-coherence-test-001
+    - This file
+    - observed_2026_10_28.py content
