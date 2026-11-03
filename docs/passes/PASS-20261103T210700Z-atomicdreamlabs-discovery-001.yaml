@@ -1,0 +1,72 @@
+PASS:
+  id: PASS-20261103T210700Z-atomicdreamlabs-discovery-001
+  parent_pass: PASS-20261103T141500Z-obs-freeze-001
+
+STATE:
+  global_status: NEW_REPO_DISCOVERED
+  repositories_scanned: 85
+  repositories_changed: 1 (ADL-Nexus: this pass record)
+  capabilities_known: prior + atomicdreamlabs1.1 existence
+  capabilities_verified: prior
+  gaps_remaining: many (catalog expansion, full audit of new repo)
+
+OBJECTIVE:
+  id: GAP-NEW-REPO-DISCOVERY-001
+  description: Discover and initially classify the newly observed repository beyond-repair/atomicdreamlabs1.1.
+  reason_selected: Highest-value bounded gap after observation freeze; new repo not yet in locked catalog; advances completeness without mutation of catalog.
+
+DISCOVERY:
+  findings:
+    - Repo beyond-repair/atomicdreamlabs1.1 created 2026-10-29T20:11:03Z, language JavaScript, size 79656, public, not archived, 0 stars/forks/issues.
+    - Default branch main, last push 2026-10-29T20:34:10Z.
+    - Not present in locked catalog (operator-only expansion).
+    - Classified as RESEARCH pending detailed audit.
+
+CHANGES:
+  repositories:
+    - beyond-repair/ADL-Nexus
+  files:
+    - docs/passes/PASS-20261103T210700Z-atomicdreamlabs-discovery-001.yaml (new)
+  commits:
+    - ADL-Nexus: this commit
+  capabilities_added_or_changed:
+    - Documented existence and initial classification of atomicdreamlabs1.1 as RESEARCH.
+
+VERIFICATION:
+  tests_run:
+    - none (documentation pass)
+  code_review: NOT_RUN
+  security: NOT_RUN
+  integration: NOT_RUN
+  invariants: PASS (no catalog mutation, RESEARCH classification, history preserved)
+  overall: PASS
+
+KNOWLEDGE:
+  confirmed:
+    - atomicdreamlabs1.1 exists as of 2026-10-29, is JavaScript-based, public.
+  failures:
+    - none
+  decisions:
+    - Classify as RESEARCH; defer full audit and catalog registration to operator or subsequent pass.
+
+REMAINING:
+  incomplete:
+    - Full source audit of atomicdreamlabs1.1
+    - Catalog registration (operator-only)
+  blockers:
+    - Catalog lock
+  new_gaps:
+    - Detailed capability extraction from atomicdreamlabs1.1
+
+NEXT:
+  objective_id: GAP-ATOMICDREAMLABS-AUDIT-001
+  action: Perform bounded source tree inspection and capability classification of beyond-repair/atomicdreamlabs1.1 without code changes.
+  reason: Highest-value next for newly discovered repo; non-mutating.
+  prerequisites:
+    - This pass record committed
+
+PROVENANCE:
+  state_commit: this commit
+  evidence:
+    - GitHub search and get repository results for atomicdreamlabs1.1
+    - Parent pass PASS-20261103T141500Z-obs-freeze-001
