@@ -1,0 +1,85 @@
+PASS:
+  id: PASS-20261105T200700Z-basilisk-recon-001
+  parent_pass: PASS-20261105T170900Z-atomicdreamlabs-audit-001
+
+STATE:
+  global_status: RECONSTRUCTED
+  repositories_scanned: 86 (live search total_count)
+  repositories_changed: 1 (ADL-Nexus: this pass record)
+  capabilities_known: prior + atomicdreamlabs1.1 UI + locked catalog 72
+  capabilities_verified: prior (docs-only)
+  gaps_remaining: many (catalog expansion operator-blocked, deeper verification, integrations)
+
+OBJECTIVE:
+  id: GAP-ECOSYSTEM-RECON-001
+  description: Reconstruct current GitHub ecosystem state from live search, latest pass, locked catalog, and portfolio docs without code changes beyond this record.
+  reason_selected: Directive requires reconstruct before change; highest-value first slice after parent audit; establishes fresh agent continuity.
+
+DISCOVERY:
+  findings:
+    - Authenticated user: beyond-repair (81 public_repos reported, live search total_count 86).
+    - Latest prior pass: PASS-20261105T170900Z-atomicdreamlabs-audit-001 audited atomicdreamlabs1.1 as RESEARCH Grok-built TanStack/React office UI for Nexus desk (CLAIMED+IMPLEMENTED, not verified/integrated).
+    - Locked catalog in aegis-repo-graph/graph/catalog.py is 2026-09-04 snapshot of 72 RepositoryArtifacts + 1 Queue; expansion explicitly operator-only.
+    - ADL-Governance/docs/PORTFOLIO_STATE.md last locked ~2026-10-20; census 83 at that time; many RESEARCH claim-capped.
+    - ADL-Nexus is RESEARCH, claim ≤1, Python kernel with pathways, adapters (stub), CLI; CI green historically but not promotion.
+    - Recent repos include ADL_NEXUS_COMMAND_CENTER (JS, created 2026-11-04, large size).
+    - Catalog does not include atomicdreamlabs1.1, ADL-Nexus, ADL_NEXUS_COMMAND_CENTER, or many post-2026-09-04 names.
+
+CHANGES:
+  repositories:
+    - beyond-repair/ADL-Nexus
+  files:
+    - docs/passes/PASS-20261105T200700Z-basilisk-recon-001.yaml (new)
+  commits:
+    - ADL-Nexus: this commit
+  capabilities_added_or_changed:
+    - Persisted reconstruction of live vs locked state for fresh-agent continuity.
+
+VERIFICATION:
+  tests_run:
+    - none (remote inspection + file create only)
+  code_review: NOT_RUN
+  security: NOT_RUN
+  integration: NOT_RUN
+  invariants: PASS (no catalog mutation, RESEARCH classifications preserved, history preserved, no claim elevation, no destructive change)
+  overall: PASS
+
+KNOWLEDGE:
+  confirmed:
+    - Live portfolio larger than locked 2026-09-04 catalog (86 vs 72).
+    - atomicdreamlabs1.1 is public RESEARCH UI distinct from kernel.
+    - Catalog expansion remains operator-gated per README and prior passes.
+    - Pass records in docs/passes/ constitute the persistent memory for the recursive loop.
+  failures:
+    - none
+  decisions:
+    - Do not expand locked catalog in this pass (operator boundary).
+    - Next bounded non-mutating slice is source audit of ADL_NEXUS_COMMAND_CENTER.
+    - Classify this as RECONSTRUCT pass; capabilities remain at prior verified levels.
+
+REMAINING:
+  incomplete:
+    - Catalog registration of post-lock repos (operator)
+    - Full capability/dependency/authority graphs beyond locked snapshot
+    - Verification of atomicdreamlabs1.1 (typecheck/test)
+    - Integration interfaces between UI and Python kernel
+  blockers:
+    - Catalog lock (operator boundary)
+    - No local clones for execution in this remote agent
+  new_gaps:
+    - GAP-COMMAND-CENTER-AUDIT-001: Bounded source tree inspection of ADL_NEXUS_COMMAND_CENTER
+
+NEXT:
+  objective_id: GAP-COMMAND-CENTER-AUDIT-001
+  action: Perform bounded source tree inspection and capability classification of beyond-repair/ADL_NEXUS_COMMAND_CENTER without code changes (get tree, key files like package.json, README/AGENTS.md if present, classify CLAIMED|IMPLEMENTED|etc.).
+  reason: Highest-value next non-mutating discovery slice; recent repo (created 2026-11-04), large, related to Nexus command; advances global model without operator gate.
+  prerequisites:
+    - This pass record committed
+    - GitHub access to public repo
+
+PROVENANCE:
+  state_commit: this commit
+  evidence:
+    - GitHub get_me, search_repositories (total_count 86), get_file_contents (latest pass, PORTFOLIO_STATE.md, ADL-Nexus README, catalog.py, aegis README)
+    - Parent PASS-20261105T170900Z-atomicdreamlabs-audit-001
+    - This file
