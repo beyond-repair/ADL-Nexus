@@ -1,0 +1,86 @@
+PASS:
+  id: PASS-20261105T220900Z-command-center-audit-001
+  parent_pass: PASS-20261105T200700Z-basilisk-recon-001
+
+STATE:
+  global_status: RECONSTRUCTED
+  repositories_scanned: 86 (live search total_count)
+  repositories_changed: 1 (ADL-Nexus: this pass record)
+  capabilities_known: prior + Command Center domain/UI/auth/persistence
+  capabilities_verified: prior (docs-only)
+  gaps_remaining: many (catalog expansion operator-blocked, deeper verification, kernel integration)
+
+OBJECTIVE:
+  id: GAP-COMMAND-CENTER-AUDIT-001
+  description: Bounded source tree inspection and capability classification of beyond-repair/ADL_NEXUS_COMMAND_CENTER without code changes.
+  reason_selected: Next action from parent recon pass; recent large repo related to Nexus command; advances global model without operator gate or mutation.
+
+DISCOVERY:
+  findings:
+    - Repo created 2026-11-04, language JavaScript, default branch main, no README.md or AGENTS.md.
+    - package.json: Vite + TanStack Start/Router/Query, React 19, Better Auth, @electric-sql/pglite, Zod, Kysely, Radix UI, etc. Scripts include typecheck, test (node --test + strip-types), lint.
+    - src/lib/nexus/: domain.ts (~13k), engine.ts (~34k), company.ts (~19k), company-store.ts (~38k), company-api.ts, tests (domain.test.ts, engine.test.ts, company.test.ts).
+    - Routes: index.tsx, blueprint.tsx, governance.tsx, knowledge.tsx, missions/*, operations.tsx, audit.tsx, login.tsx.
+    - Auth system with gates, PGlite dialect, session markers; multiplayer/p2p.ts present.
+    - .data/nexus-pglite contains local Postgres data files (inflates size).
+    - No evidence of calls to Python ADL-Nexus kernel or adapters.
+    - Tests exist for domain, engine, company, app-data, auth gates.
+
+CHANGES:
+  repositories:
+    - beyond-repair/ADL-Nexus
+  files:
+    - docs/passes/PASS-20261105T220900Z-command-center-audit-001.yaml (new)
+  commits:
+    - ADL-Nexus: this commit
+  capabilities_added_or_changed:
+    - Classification of Command Center: Web UI/Command Center CLAIMED|IMPLEMENTED; Domain model (company/missions/engine) CLAIMED|IMPLEMENTED; Auth+PGlite persistence CLAIMED|IMPLEMENTED; Tests CLAIMED|IMPLEMENTED (files present). Not VERIFIED (not executed), not INTEGRATED (standalone from Python kernel).
+
+VERIFICATION:
+  tests_run:
+    - none (remote inspection only; no local clone or CI trigger)
+  code_review: NOT_RUN
+  security: NOT_RUN
+  integration: NOT_RUN
+  invariants: PASS (no catalog mutation, RESEARCH classifications preserved, history preserved, no claim elevation, no destructive change)
+  overall: PASS
+
+KNOWLEDGE:
+  confirmed:
+    - ADL_NEXUS_COMMAND_CENTER is a substantial standalone TS/React full-stack app with local PGlite, domain models for company/missions/governance, auth gates, and test files.
+    - Distinct from Python ADL-Nexus kernel; no integration evidence.
+    - Fits RESEARCH claim-capped pattern; not in locked 2026-09-04 catalog.
+  failures:
+    - none
+  decisions:
+    - Classify as CLAIMED|IMPLEMENTED for source-present capabilities; leave VERIFIED/INTEGRATED for future local/CI runs.
+    - Do not expand locked catalog (operator boundary remains).
+    - Next bounded slice: either surface summary of domain.ts key types or inspect open issues/PRs on priority repos, or reconfirm census.
+
+REMAINING:
+  incomplete:
+    - Execution of existing tests (typecheck, node --test)
+    - Integration interfaces between Command Center and Python kernel
+    - Catalog registration of post-lock repos (operator)
+    - Full capability/dependency/authority graphs beyond locked snapshot
+  blockers:
+    - Catalog lock (operator boundary)
+    - No local clones for execution in this remote agent
+  new_gaps:
+    - GAP-COMMAND-CENTER-VERIFY-001: Run typecheck and tests locally or via CI on ADL_NEXUS_COMMAND_CENTER
+    - GAP-KERNEL-UI-INTEGRATION-001: Define and implement bounded interface between Python kernel and Command Center
+
+NEXT:
+  objective_id: GAP-CENSUS-RECONFIRM-001
+  action: Perform live search_repositories total_count reconfirm and note any new repos since parent pass; persist observation without mutation.
+  reason: Highest-value next non-mutating discovery slice; confirms no drift in portfolio size before deeper work; advances continuity.
+  prerequisites:
+    - This pass record committed
+    - GitHub access
+
+PROVENANCE:
+  state_commit: this commit
+  evidence:
+    - GitHub get_repository_tree (src/ filtered), get_file_contents package.json, search_code (no README/AGENTS)
+    - Parent PASS-20261105T200700Z-basilisk-recon-001
+    - This file
