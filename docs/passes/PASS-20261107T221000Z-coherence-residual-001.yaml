@@ -1,0 +1,84 @@
+PASS:
+  id: PASS-20261107T221000Z-coherence-residual-001
+  parent_pass: PASS-20261107T210800Z-census-reconfirm-001
+
+STATE:
+  global_status: RECONSTRUCTED
+  repositories_scanned: 86 (stable)
+  repositories_changed: 1 (ADL-Nexus: this pass record)
+  capabilities_known: prior + coherence-drive residual confirmed
+  capabilities_verified: prior (docs-only)
+  gaps_remaining: many (catalog expansion operator-blocked, deeper verification, residual classifications ongoing)
+
+OBJECTIVE:
+  id: GAP-RESIDUAL-PRIORITY-AUDIT-001
+  description: Bounded non-mutating classification confirmation of coherence-drive as next residual per Governance OPERATOR_QUEUE and parent pass next action.
+  reason_selected: Highest-value next slice from parent census reconfirm; aligns with active Governance residual work; non-mutating discovery advances global model.
+
+DISCOVERY:
+  findings:
+    - coherence-drive: RESEARCH classification, Claim ≤2 (symbolic/Stage-1 freeze index), stranger path Claim-0. RUNNABLE SKETCH — NOT A COMPLETE PRODUCT. experimental_validation=false, thrust_validated=false, energy_extraction_validated=false.
+    - Explicit: not a propulsion engine or physics-closed product. Stale GitHub description noted; file-level claims govern.
+    - Features: Stage-1 freeze docs VERIFIED present, discoveries archive VERIFIED, installable CLI VERIFIED, docs-presence + ledger pytest VERIFIED present. Propulsion simulator ABSENT.
+    - Tests present: test_claims.py, test_docs.py, test_ledger.py.
+    - Satellites listed: m2-renormalization-law, informational-flux-identity, thrust-target-30, etc. Stage 1 freeze unchanged.
+    - No catalog mutation; operator boundary respected. Portfolio total remains 86.
+
+CHANGES:
+  repositories:
+    - beyond-repair/ADL-Nexus
+  files:
+    - docs/passes/PASS-20261107T221000Z-coherence-residual-001.yaml (new)
+  commits:
+    - ADL-Nexus: this commit
+  capabilities_added_or_changed:
+    - Confirmed residual classification for coherence-drive: RESEARCH / Claim ≤2 / Claim-0 sketch. No elevation.
+
+VERIFICATION:
+  tests_run:
+    - none (remote inspection + file create only; tests exist but not executed here)
+  code_review: NOT_RUN
+  security: NOT_RUN
+  integration: NOT_RUN
+  invariants: PASS (no catalog mutation, RESEARCH classifications preserved, history preserved, no claim elevation, no destructive change)
+  overall: PASS
+
+KNOWLEDGE:
+  confirmed:
+    - coherence-drive residual holds as RESEARCH index with locked claim flags false; Stage-1 freeze intact.
+    - Governance OPERATOR_QUEUE continues residual sweeps; next residuals remain (e.g. other satellites).
+    - Persistent memory via pass records in docs/passes/ enables fresh-agent continuity.
+  failures:
+    - none
+  decisions:
+    - Persist this confirmation in Nexus for continuity.
+    - Do not expand locked catalog or elevate claims.
+    - Next bounded slice: another residual or high-value integration gap (e.g. AEGIS/forge alignment).
+
+REMAINING:
+  incomplete:
+    - Catalog registration of post-lock repos (operator)
+    - Full capability/dependency/authority graphs beyond locked snapshot
+    - Execution of existing tests across residuals
+    - Integration interfaces (kernel, graphs, Command Center)
+  blockers:
+    - Catalog lock (operator boundary)
+    - Remote-only inspection; no local execution of tests in this agent
+  new_gaps:
+    - none major; residual classification continues incrementally
+
+NEXT:
+  objective_id: GAP-RESIDUAL-NEXT-001
+  action: Select and perform bounded non-mutating classification confirmation on next residual (e.g. m2-renormalization-law or informational-flux-identity, or forge-aegis alignment check).
+  reason: Continues highest-value incremental residual work aligning with Governance; advances capability graph without mutation.
+  prerequisites:
+    - This pass record committed
+    - GitHub access
+
+PROVENANCE:
+  state_commit: this commit
+  evidence:
+    - GitHub get_file_contents on coherence-drive (CLAIM_STATUS.md, README.md, tests dir)
+    - Parent PASS-20261107T210800Z-census-reconfirm-001
+    - ADL-Governance OPERATOR_QUEUE.md (Sweep-697)
+    - This file
