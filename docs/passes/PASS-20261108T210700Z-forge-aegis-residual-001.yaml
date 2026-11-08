@@ -1,0 +1,84 @@
+PASS:
+  id: PASS-20261108T210700Z-forge-aegis-residual-001
+  parent_pass: PASS-20261107T221000Z-coherence-residual-001
+
+STATE:
+  global_status: RECONSTRUCTED
+  repositories_scanned: 86 (stable from prior census)
+  repositories_changed: 1 (ADL-Nexus: this pass record)
+  capabilities_known: prior + forge-aegis residual confirmed
+  capabilities_verified: prior (docs-only)
+  gaps_remaining: many (catalog expansion operator-blocked, deeper verification, residual classifications ongoing, tag/release for forge-aegis)
+
+OBJECTIVE:
+  id: GAP-RESIDUAL-FORGE-AEGIS-001
+  description: Bounded non-mutating classification confirmation of forge-aegis as next residual per Governance OPERATOR_QUEUE and parent pass next action.
+  reason_selected: Highest-value next slice continuing residual work; forge-aegis is explicitly listed in residuals for v0.1.0 tag/release; non-mutating discovery advances global model.
+
+DISCOVERY:
+  findings:
+    - forge-aegis: ACTIVE lifecycle, software claim / RUNNABLE SKETCH. Offline reference pipeline for FLS/AEGIS v0.1 vertical slice. Python 3.10+, no third-party runtime deps. Tests present (validator 2 passed, pipeline 8 passed). Docs claim-capped: not full host integrity product, not kernel agent, not compiler.
+    - Explicit: not claimed full Nehemiah host, remote attestation, auto-remediation. CLAIM_STATUS.md and README.md govern.
+    - Features: pipeline for hashing/compare/audit, policy baseline, validator. fls/ drafts, schemas, examples present.
+    - No releases listed in this inspection (tool failure on list_releases; residual from Governance confirms tag needed).
+    - No catalog mutation; operator boundary respected. Portfolio total remains 86.
+
+CHANGES:
+  repositories:
+    - beyond-repair/ADL-Nexus
+  files:
+    - docs/passes/PASS-20261108T210700Z-forge-aegis-residual-001.yaml (new)
+  commits:
+    - ADL-Nexus: this commit
+  capabilities_added_or_changed:
+    - Confirmed residual classification for forge-aegis: ACTIVE / software / runnable sketch. No elevation. Tag/release remains operator residual.
+
+VERIFICATION:
+  tests_run:
+    - none (remote inspection + file create only; tests exist but not executed here)
+  code_review: NOT_RUN
+  security: NOT_RUN
+  integration: NOT_RUN
+  invariants: PASS (no catalog mutation, classifications preserved, history preserved, no claim elevation, no destructive change)
+  overall: PASS
+
+KNOWLEDGE:
+  confirmed:
+    - forge-aegis residual holds as ACTIVE runnable sketch with locked claim flags; v0.1 vertical slice intact.
+    - Governance OPERATOR_QUEUE continues residual sweeps including forge-aegis tag.
+    - Persistent memory via pass records in docs/passes/ enables fresh-agent continuity.
+  failures:
+    - list_releases tool failed; residual status inferred from prior Governance docs.
+  decisions:
+    - Persist this confirmation in Nexus for continuity.
+    - Do not expand locked catalog or elevate claims.
+    - Next bounded slice: another residual or high-value integration gap (e.g. next in OPERATOR_QUEUE).
+
+REMAINING:
+  incomplete:
+    - Catalog registration of post-lock repos (operator)
+    - Full capability/dependency/authority graphs beyond locked snapshot
+    - Execution of existing tests across residuals
+    - Integration interfaces (kernel, graphs, Command Center)
+    - forge-aegis v0.1.0 tag/release (operator)
+  blockers:
+    - Catalog lock (operator boundary)
+    - Remote-only inspection; no local execution of tests in this agent
+  new_gaps:
+    - none major; residual classification continues incrementally
+
+NEXT:
+  objective_id: GAP-RESIDUAL-NEXT-001
+  action: Select and perform bounded non-mutating classification confirmation on next residual from OPERATOR_QUEUE (e.g. sovereign-clean-room residual PRs or BlockSwarm tag).
+  reason: Continues highest-value incremental residual work aligning with Governance; advances capability graph without mutation.
+  prerequisites:
+    - This pass record committed
+    - GitHub access
+
+PROVENANCE:
+  state_commit: this commit
+  evidence:
+    - GitHub get_file_contents on forge-aegis (README.md, tree)
+    - Parent PASS-20261107T221000Z-coherence-residual-001
+    - ADL-Governance OPERATOR_QUEUE.md (Sweep-706)
+    - This file
