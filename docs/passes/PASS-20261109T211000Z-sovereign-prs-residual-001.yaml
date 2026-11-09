@@ -1,0 +1,84 @@
+PASS:
+  id: PASS-20261109T211000Z-sovereign-prs-residual-001
+  parent_pass: PASS-20261109T180800Z-basilisk-recon-002
+
+STATE:
+  global_status: RECONSTRUCTED
+  repositories_scanned: 86 (stable)
+  repositories_changed: 1 (ADL-Nexus: this pass record)
+  capabilities_known: prior + sovereign-clean-room PR residuals confirmed
+  capabilities_verified: prior (docs-only)
+  gaps_remaining: many (catalog expansion operator-blocked, deeper verification, residual PR merges, tags/releases)
+
+OBJECTIVE:
+  id: GAP-RESIDUAL-SOVEREIGN-PRS-001
+  description: Bounded non-mutating inspection of open PRs #1 and #3 on beyond-repair/sovereign-clean-room; confirm status against current main and README claims; persist observation.
+  reason_selected: Highest-value next residual slice from parent basilisk recon pass; aligns with OPERATOR_QUEUE residual PRs; non-mutating discovery advances global model.
+
+DISCOVERY:
+  findings:
+    - sovereign-clean-room: ACTIVE lifecycle. README confirms PyNaCl pinned at 1.6.2 on main. VSA completeness UNVERIFIED. network_access=false held.
+    - PR #1 (open, created 2026-09-05, updated same): title "security: pin PyNaCl >=1.6.2 (CVE-2025-69277)". Diff changes requirements.txt from ==1.5.0 to >=1.6.2. mergeable_state: dirty. Combined status: pending (0 statuses). Base SHA outdated relative to current main which already pins ==1.6.2 exactly. Likely superseded by main evolution; residual for operator close or update.
+    - PR #3 (open, created 2026-10-02, updated 2026-10-04): title "Tag ACTIVE claims under ADL-Governance". Adds docs/GOVERNANCE.md and README pointer. Classification ACTIVE held; no constitution amendment, no network_access change. mergeable_state: clean. 163 commits, 13 files changed, large additions (likely data/results). Combined status: pending. Residual for operator review/merge of governance tagging and completion-pass code.
+    - No catalog mutation; operator boundary respected. Portfolio total remains 86. Claims not elevated.
+
+CHANGES:
+  repositories:
+    - beyond-repair/ADL-Nexus
+  files:
+    - docs/passes/PASS-20261109T211000Z-sovereign-prs-residual-001.yaml (new)
+  commits:
+    - ADL-Nexus: this commit
+  capabilities_added_or_changed:
+    - Confirmed residual status of sovereign-clean-room PRs #1 (superseded/dirty) and #3 (clean governance tagging). No elevation.
+
+VERIFICATION:
+  tests_run:
+    - none (remote inspection + file create only)
+  code_review: NOT_RUN
+  security: NOT_RUN
+  integration: NOT_RUN
+  invariants: PASS (no catalog mutation, ACTIVE classification preserved, history preserved, no claim elevation, no destructive change)
+  overall: PASS
+
+KNOWLEDGE:
+  confirmed:
+    - PR #1 pin proposal is outdated; main already has exact ==1.6.2 pin matching README claim.
+    - PR #3 is mergeable and provides governance tagging residual without violating invariants.
+    - Persistent memory via pass records in docs/passes/ enables fresh-agent continuity.
+  failures:
+    - none
+  decisions:
+    - Persist this confirmation in Nexus for continuity.
+    - Do not expand locked catalog or elevate claims. Merges remain operator.
+    - Next bounded slice: another residual from OPERATOR_QUEUE (e.g. BlockSwarm tag residual or next random/classified).
+
+REMAINING:
+  incomplete:
+    - Catalog registration of post-lock repos (operator)
+    - Full capability/dependency/authority graphs beyond locked snapshot
+    - Merge of residual PRs (operator)
+    - Execution of existing tests across residuals
+    - Integration interfaces (kernel, graphs, Command Center)
+  blockers:
+    - Catalog lock (operator boundary)
+    - Remote-only inspection; no local execution of tests in this agent
+    - PR merges operator-gated
+  new_gaps:
+    - none major; residual classification continues incrementally
+
+NEXT:
+  objective_id: GAP-RESIDUAL-NEXT-001
+  action: Select and perform bounded non-mutating classification confirmation on next residual from OPERATOR_QUEUE (e.g. BlockSwarm v0.5.0-sagf tag residual or another RESEARCH satellite).
+  reason: Continues highest-value incremental residual work aligning with Governance; advances capability graph without mutation.
+  prerequisites:
+    - This pass record committed
+    - GitHub access
+
+PROVENANCE:
+  state_commit: this commit
+  evidence:
+    - GitHub list_pull_requests, pull_request_read (get, get_files, get_status), get_file_contents (README.md, requirements.txt) on sovereign-clean-room
+    - Parent PASS-20261109T180800Z-basilisk-recon-002
+    - ADL-Governance OPERATOR_QUEUE.md
+    - This file
