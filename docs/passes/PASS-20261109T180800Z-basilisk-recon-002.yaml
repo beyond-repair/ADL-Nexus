@@ -1,0 +1,85 @@
+PASS:
+  id: PASS-20261109T180800Z-basilisk-recon-002
+  parent_pass: PASS-20261108T210700Z-forge-aegis-residual-001
+
+STATE:
+  global_status: RECONSTRUCTED
+  repositories_scanned: 86 (live search total_count stable)
+  repositories_changed: 1 (ADL-Nexus: this pass record)
+  capabilities_known: prior + residual open PRs on sovereign-clean-room
+  capabilities_verified: prior (docs-only)
+  gaps_remaining: many (catalog expansion operator-blocked, deeper verification, residual PR merges, tags/releases)
+
+OBJECTIVE:
+  id: GAP-ECOSYSTEM-RECON-002
+  description: Reconstruct current GitHub ecosystem from live search and latest pass records; confirm census; select next residual slice.
+  reason_selected: Directive requires reconstruct before change; highest-value first slice for fresh agent continuity after parent residual confirmation.
+
+DISCOVERY:
+  findings:
+    - Authenticated user: beyond-repair (public_repos 81 reported, live search total_count 86 stable).
+    - Latest prior Nexus pass: PASS-20261108T210700Z-forge-aegis-residual-001 confirmed forge-aegis residual ACTIVE runnable sketch.
+    - ADL-Governance latest Sweep-713 (2026-11-09) classified RealityOS as RESEARCH claim ≤1 with CI green.
+    - sovereign-clean-room: ACTIVE, open PRs #1 (PyNaCl pin, older) and #3 (governance tagging). README claims pin at 1.6.2. VSA completeness UNVERIFIED.
+    - Catalog in aegis-repo-graph remains locked at 2026-09-04 snapshot of ~72; expansion operator-gated.
+    - Pass records in docs/passes/ of ADL-Nexus and ADL-Governance constitute persistent memory.
+
+CHANGES:
+  repositories:
+    - beyond-repair/ADL-Nexus
+  files:
+    - docs/passes/PASS-20261109T180800Z-basilisk-recon-002.yaml (new)
+  commits:
+    - ADL-Nexus: this commit
+  capabilities_added_or_changed:
+    - Persisted reconstruction and residual selection for continuity.
+
+VERIFICATION:
+  tests_run:
+    - none (remote inspection + file create only)
+  code_review: NOT_RUN
+  security: NOT_RUN
+  integration: NOT_RUN
+  invariants: PASS (no catalog mutation, RESEARCH/ACTIVE classifications preserved, history preserved, no claim elevation, no destructive change)
+  overall: PASS
+
+KNOWLEDGE:
+  confirmed:
+    - Portfolio census stable at 86.
+    - Residual work continues via Governance sweeps and Nexus pass records.
+    - sovereign-clean-room has actionable open PRs for residual hygiene.
+    - Persistent memory via pass records enables fresh-agent continuity.
+  failures:
+    - none
+  decisions:
+    - Do not expand locked catalog (operator boundary).
+    - Next bounded non-mutating slice is residual confirmation on sovereign-clean-room open PRs.
+    - Classify this as RECONSTRUCT pass.
+
+REMAINING:
+  incomplete:
+    - Catalog registration of post-lock repos (operator)
+    - Full capability/dependency/authority graphs beyond locked snapshot
+    - Merge of residual PRs (operator)
+    - Execution of existing tests across residuals
+    - Integration interfaces (kernel, graphs, Command Center)
+  blockers:
+    - Catalog lock (operator boundary)
+    - Remote-only inspection; no local execution of tests in this agent
+  new_gaps:
+    - GAP-RESIDUAL-SOVEREIGN-PRS-001: Bounded non-mutating classification of open PRs on sovereign-clean-room
+
+NEXT:
+  objective_id: GAP-RESIDUAL-SOVEREIGN-PRS-001
+  action: Perform bounded non-mutating inspection of open PRs #1 and #3 on beyond-repair/sovereign-clean-room; confirm status against current main and README claims; persist observation.
+  reason: Highest-value next residual slice aligning with OPERATOR_QUEUE and parent next action; advances capability graph without mutation or operator gate.
+  prerequisites:
+    - This pass record committed
+    - GitHub access to public repo
+
+PROVENANCE:
+  state_commit: this commit
+  evidence:
+    - GitHub get_me, search_repositories (total_count 86), get_file_contents (latest passes, PORTFOLIO_STATUS_REPORT.md, README.md), list_pull_requests
+    - Parent PASS-20261108T210700Z-forge-aegis-residual-001
+    - This file
