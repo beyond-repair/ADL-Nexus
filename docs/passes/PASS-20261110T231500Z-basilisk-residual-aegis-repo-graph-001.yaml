@@ -1,0 +1,86 @@
+PASS:
+  id: PASS-20261110T231500Z-basilisk-residual-aegis-repo-graph-001
+  parent_pass: PASS-20261110T210800Z-basilisk-discovery-001
+
+STATE:
+  global_status: RECONSTRUCTED_FROM_GITHUB
+  repositories_scanned: 86
+  repositories_changed: 1 (this pass record)
+  capabilities_known: prior + aegis-repo-graph locked catalog
+  capabilities_verified: docs-presence, claim caps honest
+  gaps_remaining: many residuals, full graphs, operator actions
+
+OBJECTIVE:
+  id: GAP-RESIDUAL-AEGIS-REPO-GRAPH-001
+  description: Bounded non-mutating residual audit of beyond-repair/aegis-repo-graph. Confirm lifecycle, claim level, implementation of locked Artifact Graph, and honesty of documentation.
+  reason_selected: Continues residual classification loop from prior NEXT; high-value because it is the FLS-aligned repository graph itself, advancing the capability graph model without mutation.
+
+DISCOVERY:
+  findings:
+    - Repo: beyond-repair/aegis-repo-graph, RESEARCH lifecycle, claim ≤1.
+    - Implements deterministic Artifact Graph of locked 2026-09-04 snapshot: 72 repository artifacts + 1 queue = 73, 21 relationships.
+    - Typed relationships: GOVERNED_BY, SUPERSEDES, COMPATIBLE_WITH, IMPLEMENTS, CLUSTER_PEER.
+    - Validity checks: unique identities, referential integrity, claim caps, allowed cluster/lifecycle, non-empty function list, integer claim 0-5.
+    - Explicitly NOT a live GitHub crawler, NOT FLS compiler, NOT Nehemiah host.
+    - Catalog integer claim:3 is snapshot data, not license for higher claims.
+    - Has graph/engine, tests/, pyproject.toml, requirements.txt, CLAIM_STATUS.md.
+    - Drift witnesses for later name searches (83 names) without expanding the lock.
+    - CI present (from tree); green runs do not raise claim.
+
+CHANGES:
+  repositories:
+    - beyond-repair/ADL-Nexus
+  files:
+    - docs/passes/PASS-20261110T231500Z-basilisk-residual-aegis-repo-graph-001.yaml (new)
+  commits:
+    - this commit
+  capabilities_added_or_changed:
+    - Confirmed aegis-repo-graph as RESEARCH locked Artifact Graph (implemented, docs honest, claim-capped).
+
+VERIFICATION:
+  tests_run:
+    - github___get_file_contents on README.md (honest banners, contract clear)
+    - github___get_repository_tree (graph/, tests/, pyproject.toml present)
+  code_review: NOT_RUN
+  security: NOT_RUN
+  integration: NOT_RUN
+  invariants: PASS (no claim elevation, no lock expansion, history preserved, classifications respected)
+  overall: PASS
+
+KNOWLEDGE:
+  confirmed:
+    - aegis-repo-graph provides the repository-level Artifact Graph under FLS semantics, locked snapshot.
+    - Complements forge-aegis (host/policy) and ADL-Portfolio-Census (tabular).
+    - Residual work remains on expanding lock only by operator.
+  failures:
+    - No local pytest run (remote inspection only).
+  decisions:
+    - Persist this residual audit in ADL-Nexus passes.
+    - Do not expand catalog or elevate claims.
+    - Prefer reuse of locked graph over new crawler.
+
+REMAINING:
+  incomplete:
+    - Live verification of graph.engine output
+    - Full dependency/authority graphs across portfolio
+    - Operator-gated lock expansion
+  blockers:
+    - Remote-only; no local clone/test execution in this session
+  new_gaps:
+    - Need bounded verification of graph validity on the locked catalog
+
+NEXT:
+  objective_id: GAP-RESIDUAL-NEXT-002
+  action: Select next remaining RESEARCH or unaudited satellite (e.g. via portfolio census or random), perform bounded non-mutating audit, persist pass in ADL-Nexus/docs/passes/.
+  reason: Continues highest-value incremental residual work aligning with Basilisk directive and Governance.
+  prerequisites:
+    - This pass committed
+    - GitHub access retained
+
+PROVENANCE:
+  state_commit: this commit
+  evidence:
+    - github___get_file_contents aegis-repo-graph/README.md
+    - github___get_repository_tree aegis-repo-graph
+    - Parent pass PASS-20261110T210800Z-basilisk-discovery-001
+    - This file
