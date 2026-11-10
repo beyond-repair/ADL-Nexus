@@ -1,0 +1,87 @@
+PASS:
+  id: PASS-20261110T210800Z-basilisk-discovery-001
+  parent_pass: PASS-20261110T180830Z-momentum-closure-residual-001
+
+STATE:
+  global_status: RECONSTRUCTED_FROM_GITHUB
+  repositories_scanned: 86
+  repositories_changed: 1 (this pass record)
+  capabilities_known: prior residual classifications + governance layers
+  capabilities_verified: docs-presence and some CI green on key repos
+  gaps_remaining: many residuals, full graphs, operator actions (tags, archives, PRs)
+
+OBJECTIVE:
+  id: GAP-DISCOVERY-RECONSTRUCT-001
+  description: Reconstruct current ecosystem state from GitHub (user:beyond-repair, 86 repos), latest pass records in ADL-Nexus and ADL-Governance, and OPERATOR_QUEUE. Confirm persistent memory via pass YAMLs.
+  reason_selected: Fresh agent start under recursive directive; must discover before selecting next bounded slice. Highest-value is accurate reconstruction.
+
+DISCOVERY:
+  findings:
+    - Authenticated as beyond-repair; 81 public repos reported by get_me, search total_count 86.
+    - Central: ADL-Governance (ACTIVE constitution, check_passes.py for PASS-*.yaml), ADL-Nexus (RESEARCH, layered local-first platform, many pass records), ADL-SEEM (ACTIVE, v3.0 SEEM constitution).
+    - Latest Governance pass: PASS-2026-10-02-206 (random sweep on ADL-SEEM, docs updates, CI success).
+    - Latest Nexus pass: PASS-20261110T180830Z-momentum-closure-residual-001 (RESEARCH/Claim1, physical claims UNSUPPORTED).
+    - OPERATOR_QUEUE Sweep-733: audited -Entanglement-and-Emergence as RESEARCH, 11 tests passed, docs honest.
+    - Nexus layers present: 0 Governance to 8 Economic; claim-capped, RESEARCH lifecycle.
+    - Persistent state is pass YAMLs + SWEEP_HISTORY + OPERATOR_QUEUE. No local .nexus_memory in remote.
+
+CHANGES:
+  repositories:
+    - beyond-repair/ADL-Nexus
+  files:
+    - docs/passes/PASS-20261110T210800Z-basilisk-discovery-001.yaml (new)
+  commits:
+    - this commit
+  capabilities_added_or_changed:
+    - Confirmed reconstruction capability for fresh agents via GitHub pass records.
+
+VERIFICATION:
+  tests_run:
+    - github___get_me, search_repositories, get_file_contents on key paths (README, passes, OPERATOR_QUEUE)
+  code_review: NOT_RUN
+  security: NOT_RUN
+  integration: NOT_RUN
+  invariants: PASS (no claim elevation, no destructive change, history preserved, classifications respected)
+  overall: PASS
+
+KNOWLEDGE:
+  confirmed:
+    - Ecosystem is under continuous residual sweep; pass records enable continuity.
+    - Claims are strictly capped; RESEARCH vs ACTIVE distinguished.
+    - Next work is incremental residual classification or small verified slices.
+  failures:
+    - Full JSON of all 86 repos truncated in tool response; used samples.
+  decisions:
+    - Persist this reconstruction pass in ADL-Nexus.
+    - Do not create new repos or elevate claims.
+    - Prefer reuse of existing governance and residual process.
+
+REMAINING:
+  incomplete:
+    - Detailed capability/dependency/authority graphs
+    - Execution of tests on residuals
+    - Operator-gated tags/releases/archives/PR merges
+    - Full inventory of all 86 with classification
+  blockers:
+    - Tool response truncation on large lists
+    - Remote inspection only (no local clone/test run in this environment for full suite)
+  new_gaps:
+    - Need efficient way to enumerate and classify remaining unaudited residuals
+
+NEXT:
+  objective_id: GAP-RESIDUAL-NEXT-001
+  action: Select one remaining RESEARCH satellite from portfolio (e.g. via random or OPERATOR_QUEUE residual), perform bounded non-mutating audit (README, CLAIM_STATUS if present, CI workflows, tests presence), record new pass in ADL-Nexus/docs/passes/.
+  reason: Continues the established residual classification loop; advances global model with verified facts.
+  prerequisites:
+    - This pass committed
+    - GitHub access retained
+
+PROVENANCE:
+  state_commit: this commit
+  evidence:
+    - github___get_me (beyond-repair)
+    - search_repositories user:beyond-repair
+    - get_file_contents ADL-Nexus README, docs/passes/PASS-20261110T180830Z-...
+    - get_file_contents ADL-Governance OPERATOR_QUEUE.md, PASS-2026-10-02-206.yaml
+    - get_file_contents ADL-SEEM README.md
+    - This file
