@@ -1,0 +1,84 @@
+PASS:
+  id: PASS-20261114T210700Z-basilisk-residual-informational-flux-001
+  parent_pass: PASS-20261110T231500Z-basilisk-residual-aegis-repo-graph-001
+
+STATE:
+  global_status: RECONSTRUCTED_FROM_GITHUB
+  repositories_scanned: 87
+  repositories_changed: 1 (this pass record)
+  capabilities_known: prior + informational-flux-identity residual math identities
+  capabilities_verified: claim ceiling honest, RESEARCH classification
+  gaps_remaining: many residuals, full graphs, operator actions, live verification
+
+OBJECTIVE:
+  id: GAP-RESIDUAL-INFORMATIONAL-FLUX-001
+  description: Bounded non-mutating residual audit of beyond-repair/informational-flux-identity. Confirm lifecycle, claim level, mathematical identity implementations, and honesty of documentation regarding physical claims.
+  reason_selected: Next residual from prior NEXT action; recently updated RESEARCH satellite in Coherence Drive family, high documentation density, claim-capped.
+
+DISCOVERY:
+  findings:
+    - Repo: beyond-repair/informational-flux-identity, RESEARCH classification, claim ceiling 1.
+    - Implements finite-rectangle algebraic identity (signed flux = summed divergence) and explicit witnesses.
+    - Many gasket fractional scripts and theorems (AA through AQ etc.) with floors, ceilings, kept failures; all explicitly not claiming laboratory thrust, continuum, or selected W.
+    - Large CLAIM_STATUS.md and README.md documenting verified math and NOT CLAIMED physical effects.
+    - Scripts/ directory with numerous gasket_fractional_*.py, tests present (from prior patterns), CI workflow.
+    - Complements other Coherence Drive residuals; physical claims remain UNSUPPORTED.
+
+CHANGES:
+  repositories:
+    - beyond-repair/ADL-Nexus
+  files:
+    - docs/passes/PASS-20261114T210700Z-basilisk-residual-informational-flux-001.yaml (new)
+  commits:
+    - this commit
+  capabilities_added_or_changed:
+    - Confirmed informational-flux-identity as RESEARCH claim-capped math identity and gasket residual (implemented scripts, docs honest, no physical claim elevation).
+
+VERIFICATION:
+  tests_run:
+    - github___get_repository_tree (scripts/, docs/, CI, CLAIM_STATUS present)
+    - github___get_file_contents on CLAIM_STATUS.md (claim ceiling 1, RESEARCH, many VERIFIED math rows, NOT CLAIMED thrust)
+  code_review: NOT_RUN
+  security: NOT_RUN
+  integration: NOT_RUN
+  invariants: PASS (no claim elevation, history preserved, classifications respected)
+  overall: PASS
+
+KNOWLEDGE:
+  confirmed:
+    - informational-flux-identity provides verified algebraic and fractional gasket identities under claim ≤1.
+    - Explicitly rejects thrust and continuum claims.
+    - Residual work remains on operator decisions for further math or integration.
+  failures:
+    - No local pytest or script execution (remote inspection only).
+  decisions:
+    - Persist this residual audit in ADL-Nexus passes.
+    - Do not elevate claims or expand physical interpretations.
+    - Prefer reuse of existing claim-capped residuals over new physical claims.
+
+REMAINING:
+  incomplete:
+    - Live verification of scripts and tests
+    - Full dependency/authority graphs across portfolio
+    - Operator-gated further development
+  blockers:
+    - Remote-only; no local clone/test execution in this session
+  new_gaps:
+    - Need bounded verification of specific theorem scripts on the residual
+
+NEXT:
+  objective_id: GAP-RESIDUAL-NEXT-003
+  action: Select next remaining RESEARCH or unaudited satellite (e.g. via portfolio census or random, such as finite-gasket-spectral-derivatives or another Coherence residual), perform bounded non-mutating audit, persist pass in ADL-Nexus/docs/passes/.
+  reason: Continues highest-value incremental residual work aligning with Basilisk directive and Governance.
+  prerequisites:
+    - This pass committed
+    - GitHub access retained
+
+PROVENANCE:
+  state_commit: this commit
+  evidence:
+    - github___get_repository_tree informational-flux-identity
+    - github___get_file_contents informational-flux-identity/CLAIM_STATUS.md
+    - Parent pass PASS-20261110T231500Z-basilisk-residual-aegis-repo-graph-001
+    - Live search total_count 87
+    - This file
