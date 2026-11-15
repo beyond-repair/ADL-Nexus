@@ -1,0 +1,91 @@
+PASS:
+  id: PASS-20261115T200600Z-basilisk-residual-open-energy-fusion-001
+  parent_pass: PASS-20261115T141200Z-basilisk-recon-003
+
+STATE:
+  global_status: RECONSTRUCTED
+  repositories_scanned: 87 (live total_count confirmed)
+  repositories_changed: 1 (ADL-Nexus: this pass record)
+  capabilities_known: prior + Open-Energy-Fusion residual (measurement-first multi-domain energy arbitration simulation)
+  capabilities_verified: prior (docs-only + remote CI observation)
+  gaps_remaining: many (full capability matrix, deeper verification of RESEARCH, residual tags/releases, CI observations on other recent repos)
+
+OBJECTIVE:
+  id: GAP-RESIDUAL-OPEN-ENERGY-FUSION-001
+  description: Bounded non-mutating residual confirmation of Open-Energy-Fusion as listed in OPERATOR_QUEUE (YELLOW INVESTIGATE, RESEARCH, Claim ≤1, remote CI observation).
+  reason_selected: Explicit residual in current OPERATOR_QUEUE (updated 2026-11-15T20:05Z); high-value incremental classification without mutation; advances capability graph for energy arbitration satellite.
+
+DISCOVERY:
+  findings:
+    - Open-Energy-Fusion: RESEARCH classification, Claim ≤1, YELLOW INVESTIGATE gate. Measurement-first multi-domain energy arbitration (graph + net-useful-benefit dispatcher + simulation campaign vs priority EMS).
+    - Explicit NOT CLAIMED: thrust, energy extraction, AGI, production autonomy, hardware results. Provenance: specification + simulation only.
+    - Implements: energy graph, dispatcher, campaign runner (sim/run_campaign.py), tests for physics bounds + campaign invariants. Committed results in sim/results/ checked by tests.
+    - CI workflow present (.github/workflows/ci.yml: pytest + campaign smoke). Remote observation: latest main run #5 (commit 620b994) completed successfully.
+    - Branches: main (620b994), repair/installable-cli. No releases/tags.
+    - Claim cap docs: thermodynamics locked, hardware firmware claim REJECTED, some simulation results falsified/supported under A4 model, no revolutionary claims.
+    - Portfolio total remains 87. Claims not elevated. No catalog mutation.
+
+CHANGES:
+  repositories:
+    - beyond-repair/ADL-Nexus
+  files:
+    - docs/passes/PASS-20261115T200600Z-basilisk-residual-open-energy-fusion-001.yaml (new)
+  commits:
+    - ADL-Nexus: this commit
+  capabilities_added_or_changed:
+    - Confirmed residual classification for Open-Energy-Fusion: RESEARCH / Claim ≤1 / YELLOW INVESTIGATE / physical/hardware claims NOT CLAIMED. CI green observed. No elevation.
+
+VERIFICATION:
+  tests_run:
+    - none (remote inspection + file create only; tests exist and CI green observed remotely)
+  code_review: NOT_RUN
+  security: NOT_RUN
+  integration: NOT_RUN
+  invariants: PASS (no catalog mutation, RESEARCH classifications preserved, history preserved, no claim elevation, no destructive change)
+  overall: PASS
+
+KNOWLEDGE:
+  confirmed:
+    - Open-Energy-Fusion residual holds as RESEARCH with locked Claim ≤1; simulation campaign present; CI green on main; hardware/thrust claims explicitly NOT CLAIMED.
+    - Governance OPERATOR_QUEUE residual for remote CI observation on this repo is now satisfied by this observation.
+    - Persistent memory via pass records in docs/passes/ enables fresh-agent continuity.
+  failures:
+    - none
+  decisions:
+    - Persist this confirmation in Nexus for continuity.
+    - Do not expand locked catalog or elevate claims.
+    - Next bounded slice: another residual from OPERATOR_QUEUE (e.g. observe ADL_Nexas2.0 CI or atomicdreamlabs1.1) or high-activity RESEARCH.
+
+REMAINING:
+  incomplete:
+    - Catalog registration of post-lock repos (operator)
+    - Full capability/dependency/authority graphs beyond locked snapshot
+    - Creation of residual tags/releases (operator)
+    - Merge of residual PRs (operator)
+    - Execution of existing tests across residuals (local)
+    - Integration interfaces (kernel, graphs, Command Center)
+    - Remote CI observation on recent additions (ADL_Nexas2.0, atomicdreamlabs1.1)
+  blockers:
+    - Catalog lock (operator boundary)
+    - Remote-only inspection; no local execution of tests in this agent
+    - Tag/release creation and PR merges operator-gated
+  new_gaps:
+    - none major; residual classification continues incrementally
+
+NEXT:
+  objective_id: GAP-RESIDUAL-NEXT-003
+  action: Select and perform bounded non-mutating confirmation or CI observation on next residual (e.g. observe ADL_Nexas2.0 CI run or audit another high-activity RESEARCH repo from OPERATOR_QUEUE).
+  reason: Continues highest-value incremental residual work aligning with Governance; advances capability graph without mutation.
+  prerequisites:
+    - This pass record committed
+    - GitHub access
+
+PROVENANCE:
+  state_commit: this commit
+  evidence:
+    - GitHub get_file_contents (README.md, CLAIM_CAP.md, ci.yml), list_branches, list_releases, get_repository_tree on Open-Energy-Fusion
+    - Browser observation of https://github.com/beyond-repair/Open-Energy-Fusion/actions (CI #5 success on 620b994)
+    - Parent PASS-20261115T141200Z-basilisk-recon-003
+    - ADL-Governance OPERATOR_QUEUE.md (2026-11-15T20:05Z)
+    - Live search total_count=87
+    - This file
