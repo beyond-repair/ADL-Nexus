@@ -1,0 +1,92 @@
+PASS:
+  id: PASS-20261115T210700Z-basilisk-residual-command-center-ci-001
+  parent_pass: PASS-20261115T200600Z-basilisk-residual-open-energy-fusion-001
+
+STATE:
+  global_status: RECONSTRUCTED
+  repositories_scanned: 87 (live total_count confirmed)
+  repositories_changed: 1 (ADL-Nexus: this pass record)
+  capabilities_known: prior + Command Center residual (Grok App Builder Vite+TanStack+PGLite+Better Auth scaffold)
+  capabilities_verified: prior (docs-only + remote CI observation of failure)
+  gaps_remaining: many (full capability matrix, deeper verification of RESEARCH, residual tags/releases, CI observations on other recent repos, fix of Command Center CI)
+
+OBJECTIVE:
+  id: GAP-RESIDUAL-COMMAND-CENTER-CI-001
+  description: Bounded non-mutating residual remote CI observation of ADL_NEXUS_COMMAND_CENTER as listed in OPERATOR_QUEUE (workflow added, observation pending).
+  reason_selected: Explicit residual in current OPERATOR_QUEUE (updated 2026-11-15T21:02Z); highest-value incremental classification/observation without mutation; advances capability graph for command-center scaffold.
+
+DISCOVERY:
+  findings:
+    - ADL_NEXUS_COMMAND_CENTER: RESEARCH classification, Claim ≤1, Grok App Builder workspace (Vite + TanStack Start + PGLite + Better Auth). Not the Python kernel.
+    - CI workflow present (.github/workflows/ci.yml: npm ci + typecheck + test on Node 22).
+    - Remote observation: both CI runs failed. Latest #2 (e9f6620, docs: add MIT License) failed in 9s (test job 7s) with process exit code 1. #1 also failed.
+    - Annotations: exit code 1; Node.js 20 deprecation notice (forced to 24); ubuntu-latest migration notice. Full logs require sign-in.
+    - Branches: main (e9f6620), dependabot/npm_and_yarn/.... No releases/tags observed.
+    - Tests defined in package.json (node --test on several .mjs/.ts files); typecheck via tsc.
+    - Portfolio total remains 87. Claims not elevated. No catalog mutation.
+
+CHANGES:
+  repositories:
+    - beyond-repair/ADL-Nexus
+  files:
+    - docs/passes/PASS-20261115T210700Z-basilisk-residual-command-center-ci-001.yaml (new)
+  commits:
+    - ADL-Nexus: this commit
+  capabilities_added_or_changed:
+    - Confirmed residual: RESEARCH / Claim ≤1 / CI present but remote runs failed (exit 1). No elevation. Failure documented as knowledge.
+
+VERIFICATION:
+  tests_run:
+    - none (remote inspection + file create only; CI observed failed remotely)
+  code_review: NOT_RUN
+  security: NOT_RUN
+  integration: NOT_RUN
+  invariants: PASS (no catalog mutation, RESEARCH classifications preserved, history preserved, no claim elevation, no destructive change)
+  overall: PASS
+
+KNOWLEDGE:
+  confirmed:
+    - ADL_NEXUS_COMMAND_CENTER residual: RESEARCH, Claim ≤1, CI workflow exists, both observed remote CI runs failed with exit code 1.
+    - Governance OPERATOR_QUEUE residual for remote CI observation on this repo is now satisfied by this observation (failure noted).
+    - Persistent memory via pass records in docs/passes/ enables fresh-agent continuity.
+  failures:
+    - Remote CI runs on main failed (both #1 and #2); exact root cause (npm ci / typecheck / test) not fully extracted without authenticated logs.
+  decisions:
+    - Persist this confirmation/failure observation in Nexus for continuity.
+    - Do not expand locked catalog or elevate claims.
+    - Next bounded slice: investigate/fix Command Center CI failure (or observe next residual such as ADL_Nexas2.0 CI).
+
+REMAINING:
+  incomplete:
+    - Catalog registration of post-lock repos (operator)
+    - Full capability/dependency/authority graphs beyond locked snapshot
+    - Creation of residual tags/releases (operator)
+    - Merge of residual PRs (operator)
+    - Execution of existing tests across residuals (local)
+    - Integration interfaces (kernel, graphs, Command Center)
+    - Remote CI observation on recent additions (ADL_Nexas2.0, atomicdreamlabs1.1)
+    - Root cause and fix for ADL_NEXUS_COMMAND_CENTER CI failure
+  blockers:
+    - Catalog lock (operator boundary)
+    - Remote-only inspection; full CI logs require authentication; no local execution of tests in this agent
+    - Tag/release creation and PR merges operator-gated
+  new_gaps:
+    - Investigate and resolve CI failure in ADL_NEXUS_COMMAND_CENTER (npm ci/typecheck/test exit 1)
+
+NEXT:
+  objective_id: GAP-RESIDUAL-NEXT-004
+  action: Select and perform bounded investigation or fix for Command Center CI failure, or observe remote CI on next residual (e.g. ADL_Nexas2.0 or atomicdreamlabs1.1).
+  reason: Continues highest-value incremental residual work aligning with Governance; advances capability graph and closes documented failure without unnecessary mutation.
+  prerequisites:
+    - This pass record committed
+    - GitHub access
+
+PROVENANCE:
+  state_commit: this commit
+  evidence:
+    - GitHub get_file_contents (README.md, .github/workflows/ci.yml, package.json), list_branches on ADL_NEXUS_COMMAND_CENTER
+    - Browser observation of https://github.com/beyond-repair/ADL_NEXUS_COMMAND_CENTER/actions (CI #2 and #1 failed; run 43761404611 exit 1)
+    - Parent PASS-20261115T200600Z-basilisk-residual-open-energy-fusion-001
+    - ADL-Governance OPERATOR_QUEUE.md (2026-11-15T21:02Z)
+    - Live search total_count=87
+    - This file
