@@ -1,0 +1,87 @@
+PASS:
+  id: PASS-20261115T001126Z-basilisk-residual-finite-gasket-spectral-001
+  parent_pass: PASS-20261114T210700Z-basilisk-residual-informational-flux-001
+
+STATE:
+  global_status: RECONSTRUCTED_FROM_GITHUB
+  repositories_scanned: 87
+  repositories_changed: 1 (this pass record)
+  capabilities_known: prior + finite-gasket spectral derivatives and residue conditions
+  capabilities_verified: claim ceiling honest, RESEARCH classification, kernel CLI tested
+  gaps_remaining: many residuals, full graphs, operator actions, live verification of advanced residue walks
+
+OBJECTIVE:
+  id: GAP-RESIDUAL-FINITE-GASKET-SPECTRAL-001
+  description: Bounded non-mutating residual audit of beyond-repair/finite-gasket-spectral-derivatives. Confirm lifecycle, claim level, mathematical identity implementations for W-derivatives of Gamma_loop on the finite gasket, residue condition checks, and honesty of documentation regarding continuum/selected W/force claims.
+  reason_selected: Next residual from prior NEXT action; recently updated RESEARCH satellite in Coherence Drive family, high documentation density with claim-capped spectral identities and extensive residue work.
+
+DISCOVERY:
+  findings:
+    - Repo: beyond-repair/finite-gasket-spectral-derivatives, RESEARCH classification, claim ceiling ≤1 (finite discrete kernel identities).
+    - Implements Gamma_loop, dGamma/dW, V''(W) on supplied eigenvalues or build_gasket levels; CLI gasket-spectral with required --w (no default selection of W); positive-definiteness guards.
+    - Power series remainder, hypergeometric forms, multiplicity theorems for free Laplacian on gasket (mult(6)=(3^n-3)/2 etc.), and extensive residue condition S_k ≠ 0 checks up to high k (with checkpointed walks, supporting C/Python scripts).
+    - Tests present for spectral derivatives and CLI (unittest); CI observed success; advanced residue claims supported by scripts and logs but not always formal tests.
+    - Explicitly NOT CLAIMED continuum limit, selected W, force, thrust. Geometry dependency on sierpinski-geometry-045.
+    - Complements informational-flux-identity and other Coherence residuals; physical claims remain UNSUPPORTED.
+
+CHANGES:
+  repositories:
+    - beyond-repair/ADL-Nexus
+  files:
+    - docs/passes/PASS-20261115T001126Z-basilisk-residual-finite-gasket-spectral-001.yaml (new)
+  commits:
+    - this commit
+  capabilities_added_or_changed:
+    - Confirmed finite-gasket-spectral-derivatives as RESEARCH claim-capped spectral residual (implemented kernel CLI + tests, extensive prose+script residue/multiplicity identities, docs honest, no physical claim elevation).
+
+VERIFICATION:
+  tests_run:
+    - github___get_repository_tree (scripts/, tests/, CLAIM_STATUS.md, README.md, pyproject.toml present)
+    - github___get_file_contents on README.md (claim ≤1, RESEARCH, formulas for Gamma_loop etc., NOT CLAIMED continuum/selected W/force)
+    - github___get_file_contents on CLAIM_STATUS.md (detailed capability states, IMPLEMENTED+TESTED for kernel, CLAIMED for residues/multiplicities with evidence pointers)
+  code_review: NOT_RUN
+  security: NOT_RUN
+  integration: NOT_RUN
+  invariants: PASS (no claim elevation, history preserved, classifications respected)
+  overall: PASS
+
+KNOWLEDGE:
+  confirmed:
+    - finite-gasket-spectral-derivatives provides verified numerical kernel identities and CLI under claim ≤1.
+    - Extensive documented residue conditions and free multiplicity arguments with supporting computations.
+    - Explicitly rejects continuum, selected W, and force claims.
+    - Residual work remains on operator decisions for further residue extensions or integration.
+  failures:
+    - No local pytest or script execution (remote inspection only); advanced residue walks not re-executed.
+  decisions:
+    - Persist this residual audit in ADL-Nexus passes.
+    - Do not elevate claims or expand physical interpretations.
+    - Prefer reuse of existing claim-capped residuals over new physical claims.
+
+REMAINING:
+  incomplete:
+    - Live verification of residue scripts and long walks
+    - Full dependency/authority graphs across portfolio
+    - Operator-gated further development
+  blockers:
+    - Remote-only; no local clone/test execution in this session
+  new_gaps:
+    - Need bounded verification of specific residue or multiplicity scripts on the residual
+
+NEXT:
+  objective_id: GAP-RESIDUAL-NEXT-004
+  action: Select next remaining RESEARCH or unaudited satellite (e.g. via portfolio census or random, such as m2-renormalization-law or another Coherence residual), perform bounded non-mutating audit, persist pass in ADL-Nexus/docs/passes/.
+  reason: Continues highest-value incremental residual work aligning with Basilisk directive and Governance.
+  prerequisites:
+    - This pass committed
+    - GitHub access retained
+
+PROVENANCE:
+  state_commit: this commit
+  evidence:
+    - github___get_repository_tree finite-gasket-spectral-derivatives
+    - github___get_file_contents finite-gasket-spectral-derivatives/README.md
+    - github___get_file_contents finite-gasket-spectral-derivatives/CLAIM_STATUS.md
+    - Parent pass PASS-20261114T210700Z-basilisk-residual-informational-flux-001
+    - Live search total_count 87
+    - This file
