@@ -1,0 +1,90 @@
+PASS:
+  id: PASS-20261115T141200Z-basilisk-recon-003
+  parent_pass: PASS-20261110T180830Z-momentum-closure-residual-001
+
+STATE:
+  global_status: RECONSTRUCTED
+  repositories_scanned: 87 (live total_count confirmed)
+  repositories_changed: 1 (ADL-Nexus: this pass record)
+  capabilities_known: prior + informational-flux-identity residual confirmed
+  capabilities_verified: prior (docs-only)
+  gaps_remaining: many (full capability matrix, deeper verification of RESEARCH, residual tags/releases, CI observations)
+
+OBJECTIVE:
+  id: GAP-RESIDUAL-INFORMATIONAL-FLUX-001
+  description: Bounded non-mutating classification confirmation of informational-flux-identity as highest-value recent RESEARCH residual.
+  reason_selected: Recently updated (2026-11-12), aligns with residual confirmation loop; advances capability graph without mutation; follows parent momentum-closure residual.
+
+DISCOVERY:
+  findings:
+    - informational-flux-identity: RESEARCH classification, Claim ceiling 1 (finite-rectangle algebraic identity + explicit integer witness).
+    - Explicit VERIFIED: Signed outward flux equals summed cell divergence on finite rectangle (Theorem A, tests/test_flux_identity.py); explicit 16x16 witness with signed net 0; 1D summation-by-parts.
+    - Explicit NOT CLAIMED: Laboratory thrust, selected W, continuum limit, gasket force.
+    - Features: Large CLAIM_STATUS.md with many VERIFIED theorems (fractional energy floors, share factorizations, endpoint identities); scripts/ and tests/ present; pyproject.toml; witness.json; .github present.
+    - Branches: main (b819534), repair/runnable-cli. No releases/tags.
+    - Related to Coherence Drive residual and gasket work. Classical conservation identities held.
+    - Portfolio total remains 87. Claims not elevated. No catalog mutation.
+
+CHANGES:
+  repositories:
+    - beyond-repair/ADL-Nexus
+  files:
+    - docs/passes/PASS-20261115T141200Z-basilisk-recon-003.yaml (new)
+  commits:
+    - ADL-Nexus: this commit
+  capabilities_added_or_changed:
+    - Confirmed residual classification for informational-flux-identity: RESEARCH / Claim 1 / physical/thrust claims NOT CLAIMED. No elevation.
+
+VERIFICATION:
+  tests_run:
+    - none (remote inspection + file create only; tests exist but not executed here)
+  code_review: NOT_RUN
+  security: NOT_RUN
+  integration: NOT_RUN
+  invariants: PASS (no catalog mutation, RESEARCH classifications preserved, history preserved, no claim elevation, no destructive change)
+  overall: PASS
+
+KNOWLEDGE:
+  confirmed:
+    - informational-flux-identity residual holds as RESEARCH with locked Claim 1 algebraic identities; physical claims NOT CLAIMED; extensive documented VERIFIED theorems.
+    - Governance OPERATOR_QUEUE and PORTFOLIO_STATUS_REPORT updated as of 2026-11-15T14:02Z; inventory 87 stable.
+    - Persistent memory via pass records in docs/passes/ enables fresh-agent continuity.
+  failures:
+    - none
+  decisions:
+    - Persist this confirmation in Nexus for continuity.
+    - Do not expand locked catalog or elevate claims.
+    - Next bounded slice: another residual from OPERATOR_QUEUE or high-activity RESEARCH (e.g. observe pending CI on ADL_Nexas2.0 or atomicdreamlabs1.1).
+
+REMAINING:
+  incomplete:
+    - Catalog registration of post-lock repos (operator)
+    - Full capability/dependency/authority graphs beyond locked snapshot
+    - Creation of residual tags/releases (operator)
+    - Merge of residual PRs (operator)
+    - Execution of existing tests across residuals
+    - Integration interfaces (kernel, graphs, Command Center)
+    - Remote CI observation on recent additions (ADL_Nexas2.0, atomicdreamlabs1.1)
+  blockers:
+    - Catalog lock (operator boundary)
+    - Remote-only inspection; no local execution of tests in this agent
+    - Tag/release creation and PR merges operator-gated
+  new_gaps:
+    - none major; residual classification continues incrementally
+
+NEXT:
+  objective_id: GAP-RESIDUAL-NEXT-002
+  action: Select and perform bounded non-mutating confirmation or CI observation on next residual (e.g. observe ADL_Nexas2.0 CI run or audit another high-activity RESEARCH repo).
+  reason: Continues highest-value incremental residual work aligning with Governance; advances capability graph without mutation.
+  prerequisites:
+    - This pass record committed
+    - GitHub access
+
+PROVENANCE:
+  state_commit: this commit
+  evidence:
+    - GitHub get_file_contents (CLAIM_STATUS.md partial, tree), list_branches, list_releases on informational-flux-identity
+    - Parent PASS-20261110T180830Z-momentum-closure-residual-001
+    - ADL-Governance PORTFOLIO_STATUS_REPORT.md and OPERATOR_QUEUE.md (2026-11-15)
+    - Live search total_count=87
+    - This file
