@@ -1,0 +1,89 @@
+PASS:
+  id: PASS-20261116T210600Z-basilisk-recon-004
+  parent_pass: PASS-20261115T210700Z-basilisk-residual-command-center-ci-001
+
+STATE:
+  global_status: RECONSTRUCTED
+  repositories_scanned: 88 (live search total_count confirmed)
+  repositories_changed: 1 (ADL-Nexus: this pass record)
+  capabilities_known: prior + governance sweep updates (SEEM-Cognitive-Microservice SUPERSEDED confirmed 2026-11-16)
+  capabilities_verified: prior (docs-only + remote CI observation of failure)
+  gaps_remaining: many (full capability matrix, deeper verification of RESEARCH, residual tags/releases, CI observations on other recent repos, fix of failing CIs)
+
+OBJECTIVE:
+  id: GAP-RESIDUAL-ATOMICDREAMLABS-CI-001
+  description: Bounded non-mutating residual remote CI observation of atomicdreamlabs1.1 as listed in OPERATOR_QUEUE (test script fix committed, observation pending).
+  reason_selected: Explicit residual in current OPERATOR_QUEUE (updated 2026-11-16T21:00Z); highest-value incremental classification/observation without mutation; advances capability graph for recent RESEARCH scaffold.
+
+DISCOVERY:
+  findings:
+    - Portfolio total remains 88. Governance OPERATOR_QUEUE and SWEEP_HISTORY updated today for SEEM-Cognitive-Microservice SUPERSEDED confirmation.
+    - atomicdreamlabs1.1: CI workflow present (.github/workflows/ci.yml: npm ci + typecheck + test on Node 22.12). Recent commits include test fixes (0464ceb unquote glob).
+    - Remote observation: multiple CI runs failed, including latest #14 (4b35f99) failed in ~55s, and post-fix runs #8+ failed. Dependabot also failed.
+    - No elevation of claims. RESEARCH classification held. No catalog mutation.
+
+CHANGES:
+  repositories:
+    - beyond-repair/ADL-Nexus
+  files:
+    - docs/passes/PASS-20261116T210600Z-basilisk-recon-004.yaml (new)
+  commits:
+    - ADL-Nexus: this commit
+  capabilities_added_or_changed:
+    - Confirmed residual: atomicdreamlabs1.1 CI remains failing post-fix; failure documented as knowledge. No elevation.
+
+VERIFICATION:
+  tests_run:
+    - none (remote inspection + file create only; CI observed failed remotely)
+  code_review: NOT_RUN
+  security: NOT_RUN
+  integration: NOT_RUN
+  invariants: PASS (no catalog mutation, RESEARCH classifications preserved, history preserved, no claim elevation, no destructive change)
+  overall: PASS
+
+KNOWLEDGE:
+  confirmed:
+    - atomicdreamlabs1.1 residual: CI workflow exists, recent remote CI runs (including after test script fix) failed.
+    - Governance OPERATOR_QUEUE residual for remote CI observation on this repo is now satisfied by this observation (failure noted).
+    - Persistent memory via pass records in docs/passes/ enables fresh-agent continuity. Portfolio inventory stable at 88.
+  failures:
+    - Remote CI runs on main failed (multiple, including post-0464ceb); exact root cause not fully extracted without authenticated logs.
+  decisions:
+    - Persist this confirmation/failure observation in Nexus for continuity.
+    - Do not expand locked catalog or elevate claims.
+    - Next bounded slice: investigate/fix atomicdreamlabs1.1 CI failure or observe next residual (e.g. mendthegame, nexuscommand).
+
+REMAINING:
+  incomplete:
+    - Catalog registration of post-lock repos (operator)
+    - Full capability/dependency/authority graphs beyond locked snapshot
+    - Creation of residual tags/releases (operator)
+    - Merge of residual PRs (operator)
+    - Execution of existing tests across residuals (local)
+    - Integration interfaces (kernel, graphs, Command Center)
+    - Remote CI observation on recent additions (mendthegame, nexuscommand, ADL_Nexas2.0)
+    - Root cause and fix for atomicdreamlabs1.1 CI failure (and prior Command Center)
+  blockers:
+    - Catalog lock (operator boundary)
+    - Remote-only inspection; full CI logs require authentication; no local execution of tests in this agent
+    - Tag/release creation and PR merges operator-gated
+  new_gaps:
+    - Investigate and resolve CI failure in atomicdreamlabs1.1 (npm ci/typecheck/test exit 1 post-fix)
+
+NEXT:
+  objective_id: GAP-RESIDUAL-NEXT-005
+  action: Select and perform bounded investigation or fix for atomicdreamlabs1.1 CI failure, or observe remote CI on next residual (e.g. mendthegame or nexuscommand).
+  reason: Continues highest-value incremental residual work aligning with Governance; advances capability graph and closes documented failure without unnecessary mutation.
+  prerequisites:
+    - This pass record committed
+    - GitHub access
+
+PROVENANCE:
+  state_commit: this commit
+  evidence:
+    - GitHub get_file_contents on atomicdreamlabs1.1 .github/workflows/ci.yml
+    - Browser observation of https://github.com/beyond-repair/atomicdreamlabs1.1/actions (multiple CI failed including #14 and post-fix)
+    - ADL-Governance OPERATOR_QUEUE.md and SWEEP_HISTORY.md (2026-11-16 updates)
+    - Parent PASS-20261115T210700Z-basilisk-residual-command-center-ci-001
+    - Live search total_count=88
+    - This file
