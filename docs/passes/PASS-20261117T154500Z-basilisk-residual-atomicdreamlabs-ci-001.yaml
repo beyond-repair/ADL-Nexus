@@ -1,0 +1,89 @@
+PASS:
+  id: PASS-20261117T154500Z-basilisk-residual-atomicdreamlabs-ci-001
+  parent_pass: PASS-20261117T001000Z-basilisk-residual-nexuscommand-001
+
+STATE:
+  global_status: RECONSTRUCTED
+  repositories_scanned: 88 (stable)
+  repositories_changed: 1 (ADL-Nexus: this pass record)
+  capabilities_known: prior + atomicdreamlabs1.1 CI status observed as failing
+  capabilities_verified: prior (docs-only)
+  gaps_remaining: many (full CI root-cause, test restoration, capability matrix)
+
+OBJECTIVE:
+  id: GAP-RESIDUAL-ATOMICDREAMLABS-CI-001
+  description: Bounded non-mutating observation of atomicdreamlabs1.1 CI failure status and recent commit history on main.
+  reason_selected: Explicit next residual suggested in parent (investigate atomicdreamlabs1.1 CI failure); highest-value incremental residual work; advances capability graph without mutation.
+
+DISCOVERY:
+  findings:
+    - atomicdreamlabs1.1 CI workflow (.github/workflows/ci.yml) runs npm ci, typecheck, test on Node 22.12.0 for push/PR to main.
+    - Latest observed workflow runs on main are failing (e.g. run 43791253307 for commit 4b35f99: test job exit code 1 after 55s; prior runs #13-#6 also failed).
+    - Recent commits on main focus on restoring test files (grok-pwa-plugin.test.mjs, migration-plan.test.mjs) from known-good states, fixing auth alignment to better-auth 1.7, and CI script tweaks. Indicates persistent test/typecheck breakage, likely from dependency bumps or code drift.
+    - No full logs accessible without authentication; annotations show process exit 1, Node deprecation notices.
+    - RESEARCH classification preserved; no claim elevation. Portfolio total remains 88.
+
+CHANGES:
+  repositories:
+    - beyond-repair/ADL-Nexus
+  files:
+    - docs/passes/PASS-20261117T154500Z-basilisk-residual-atomicdreamlabs-ci-001.yaml (new)
+  commits:
+    - ADL-Nexus: this commit
+  capabilities_added_or_changed:
+    - Confirmed residual CI failure status for atomicdreamlabs1.1: multiple failing runs on main, test job failing. No fix applied in this pass.
+
+VERIFICATION:
+  tests_run:
+    - none (remote inspection + file create only)
+  code_review: NOT_RUN
+  security: NOT_RUN
+  integration: NOT_RUN
+  invariants: PASS (no catalog mutation, RESEARCH classifications preserved, history preserved, no claim elevation, no destructive change)
+  overall: PASS
+
+KNOWLEDGE:
+  confirmed:
+    - atomicdreamlabs1.1 residual: CI failing on main; recent efforts to restore tests indicate root cause is test or typecheck failure post-dependency changes.
+    - Parent next action partially satisfied by this observation; full root-cause requires log access or local clone.
+    - Persistent memory via pass records in docs/passes/ enables fresh-agent continuity. Portfolio inventory stable at 88.
+  failures:
+    - Full CI log access blocked by authentication requirement for detailed annotations/logs.
+  decisions:
+    - Persist this observation in Nexus for continuity.
+    - Do not expand locked catalog or elevate claims.
+    - Next bounded slice: attempt local clone and test run if possible, or observe next residual (e.g. mendthegame), or request operator for CI log access.
+
+REMAINING:
+  incomplete:
+    - Root cause and fix for atomicdreamlabs1.1 CI failure
+    - Catalog registration of post-lock repos (operator)
+    - Full capability/dependency/authority graphs beyond locked snapshot
+    - Creation of residual tags/releases (operator)
+    - Merge of residual PRs (operator)
+    - Execution of existing tests across residuals (local)
+    - Integration interfaces (kernel, graphs, Command Center)
+    - Remote CI observation on other recent additions
+  blockers:
+    - Catalog lock (operator boundary)
+    - Remote-only inspection; full CI logs require authentication; no local execution of tests in this agent
+    - Tag/release creation and PR merges operator-gated
+  new_gaps:
+    - CI log access method for residual diagnosis
+
+NEXT:
+  objective_id: GAP-RESIDUAL-NEXT-007
+  action: Select and perform bounded investigation for atomicdreamlabs1.1 CI root cause (e.g., inspect package.json, test files via get_file_contents, or clone if feasible) or observe next residual (e.g. mendthegame).
+  reason: Continues highest-value incremental residual work aligning with Governance; advances capability graph and closes documented failure without unnecessary mutation.
+  prerequisites:
+    - This pass record committed
+    - GitHub access
+
+PROVENANCE:
+  state_commit: this commit
+  evidence:
+    - GitHub get_file_contents on atomicdreamlabs1.1/.github/workflows/ci.yml
+    - Browser observation of Actions page: multiple failing runs (e.g. 43791253307)
+    - Parent PASS-20261117T001000Z-basilisk-residual-nexuscommand-001
+    - Live search total_count=88
+    - This file
