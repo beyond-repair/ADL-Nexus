@@ -1,0 +1,86 @@
+PASS:
+  id: PASS-20261117T170900Z-basilisk-recon-005
+  parent_pass: PASS-20261117T154500Z-basilisk-residual-atomicdreamlabs-ci-001
+
+STATE:
+  global_status: RECONSTRUCTED
+  repositories_scanned: 88 (stable)
+  repositories_changed: 1 (ADL-Nexus: this pass record)
+  capabilities_known: prior + current reconstruction of core pillars and residual status
+  capabilities_verified: prior (docs-only)
+  gaps_remaining: many (CI root-cause for atomicdreamlabs1.1, full graphs, local verification)
+
+OBJECTIVE:
+  id: OBJ-RECON-005
+  description: Reconstruct current ecosystem state from GitHub and persistent pass records under ADL-BASILISK recursive directive; confirm latest residual status.
+  reason_selected: Fresh agent invocation requires full reconstruction before selecting next bounded slice; maintains continuity of progressive loop.
+
+DISCOVERY:
+  findings:
+    - Authenticated as beyond-repair; 88 public repositories confirmed via search.
+    - Core: ADL-Nexus (RESEARCH, v0.3.2, CI green historically, claim-capped), ADL-Governance (ACTIVE constitution), nexuscommand (recent), atomicdreamlabs1.1 (CI failing residual).
+    - Latest prior pass: PASS-20261117T154500Z-basilisk-residual-atomicdreamlabs-ci-001 observing atomicdreamlabs1.1 CI failures on main (test job exit 1).
+    - Pass records in docs/passes/ form persistent memory; many residual classifications completed (coherence, forge-aegis, etc.).
+    - Lifecycle distinctions maintained: RESEARCH vs ACTIVE; claim levels capped.
+    - No destructive changes; history preserved.
+
+CHANGES:
+  repositories:
+    - beyond-repair/ADL-Nexus
+  files:
+    - docs/passes/PASS-20261117T170900Z-basilisk-recon-005.yaml (new)
+  commits:
+    - ADL-Nexus: this commit
+  capabilities_added_or_changed:
+    - Confirmed reconstruction of portfolio state as of 2026-11-17T17:09Z. Continuity with prior residual work.
+
+VERIFICATION:
+  tests_run:
+    - none (remote inspection + file create only)
+  code_review: NOT_RUN
+  security: NOT_RUN
+  integration: NOT_RUN
+  invariants: PASS (no catalog mutation, RESEARCH classifications preserved, history preserved, no claim elevation, no destructive change)
+  overall: PASS
+
+KNOWLEDGE:
+  confirmed:
+    - Portfolio inventory stable at 88 public repos.
+    - Persistent pass system operational; latest residual is atomicdreamlabs1.1 CI failure observation.
+    - ADL-Nexus serves as state persistence layer for the recursive engineering loop.
+    - Next highest-value slice remains CI root-cause investigation for atomicdreamlabs1.1 or adjacent residual.
+  failures:
+    - none in reconstruction
+  decisions:
+    - Persist this reconstruction as next pass for fresh-agent continuity.
+    - Do not elevate claims or mutate locked catalogs.
+    - Proceed incrementally with residual diagnosis where remote inspection allows.
+
+REMAINING:
+  incomplete:
+    - Root cause and fix for atomicdreamlabs1.1 CI failure
+    - Full capability/dependency/authority graphs beyond locked snapshots
+    - Local execution of tests across residuals
+    - Integration of Nexus pathways with residual repos
+    - Operator-gated actions (catalog registration, tags, PR merges)
+  blockers:
+    - Remote-only inspection limits full log/test execution
+    - Catalog lock (operator boundary)
+  new_gaps:
+    - none major; residual work continues
+
+NEXT:
+  objective_id: GAP-RESIDUAL-ATOMICDREAMLABS-CI-ROOT-001
+  action: Perform bounded remote inspection of atomicdreamlabs1.1 package.json, test files, and recent diffs to identify CI failure root cause; or clone if feasible for local pytest/npm test.
+  reason: Highest-value next slice from parent pass; closes documented residual without unnecessary mutation.
+  prerequisites:
+    - This pass record committed
+    - GitHub access for further get_file_contents or tree
+
+PROVENANCE:
+  state_commit: this commit
+  evidence:
+    - GitHub search_repositories user:beyond-repair (total_count=88)
+    - get_file_contents on ADL-Nexus README.md, tree, and prior PASS-20261117T154500Z
+    - Directory listing of docs/passes/
+    - This file
