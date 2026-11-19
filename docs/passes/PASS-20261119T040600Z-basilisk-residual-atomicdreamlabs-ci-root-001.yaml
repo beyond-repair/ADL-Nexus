@@ -1,0 +1,86 @@
+PASS:
+  id: PASS-20261119T040600Z-basilisk-residual-atomicdreamlabs-ci-root-001
+  parent_pass: PASS-20261117T170900Z-basilisk-recon-005
+
+STATE:
+  global_status: RECONSTRUCTED
+  repositories_scanned: 88 (stable)
+  repositories_changed: 1 (ADL-Nexus: this pass record)
+  capabilities_known: prior + atomicdreamlabs1.1 CI root-cause candidates identified
+  capabilities_verified: prior (docs-only)
+  gaps_remaining: many (full test restoration, CI green, graphs)
+
+OBJECTIVE:
+  id: GAP-RESIDUAL-ATOMICDREAMLABS-CI-ROOT-001
+  description: Bounded remote inspection of atomicdreamlabs1.1 package.json, CI workflow, and test files to identify CI failure root cause.
+  reason_selected: Explicit next action from parent PASS-20261117T170900Z; highest-value residual closure for documented CI failure.
+
+DISCOVERY:
+  findings:
+    - CI workflow runs npm ci + typecheck + test on Node 22.12.0 for main.
+    - package.json test script runs node --test on scripts/*.test.mjs plus specific TS tests.
+    - scripts/grok-pwa-plugin.test.mjs is truncated in committed state: contains placeholder comment "FULL CONTENT RESTORED FROM d15e4a7e - truncated..." and console.log('restore complete'); actual test body incomplete.
+    - scripts/migration-plan.test.mjs appears complete and syntactically valid.
+    - CLAIM_STATUS.md confirms RESEARCH lifecycle, claim 0-1, experimental Grok App Builder workspace; not canonical.
+    - Prior pass noted multiple failing runs with test job exit 1; incomplete test file is a probable root cause for assertion/import failures.
+    - No local execution performed; remote inspection only.
+
+CHANGES:
+  repositories:
+    - beyond-repair/ADL-Nexus
+  files:
+    - docs/passes/PASS-20261119T040600Z-basilisk-residual-atomicdreamlabs-ci-root-001.yaml (new)
+  commits:
+    - ADL-Nexus: this commit
+  capabilities_added_or_changed:
+    - Identified incomplete/truncated test file (grok-pwa-plugin.test.mjs) as candidate root cause for atomicdreamlabs1.1 CI test failures.
+
+VERIFICATION:
+  tests_run:
+    - none (remote inspection + file create only)
+  code_review: NOT_RUN
+  security: NOT_RUN
+  integration: NOT_RUN
+  invariants: PASS (no catalog mutation, RESEARCH classifications preserved, history preserved, no claim elevation, no destructive change)
+  overall: PASS
+
+KNOWLEDGE:
+  confirmed:
+    - atomicdreamlabs1.1 CI residual: test failures likely due to incomplete restoration of scripts/grok-pwa-plugin.test.mjs (truncated placeholder present in main).
+    - migration-plan.test.mjs and CI config appear intact.
+    - Persistent pass system continues to enable reconstruction.
+  failures:
+    - Full local test execution not performed (remote constraints).
+    - Complete test content not retrieved due to tool truncation in inspection response.
+  decisions:
+    - Persist this root-cause candidate observation.
+    - Do not mutate atomicdreamlabs1.1 in this pass (smallest slice is diagnosis).
+    - Next: restore full test file or observe actual CI logs if accessible.
+
+REMAINING:
+  incomplete:
+    - Restore complete content of grok-pwa-plugin.test.mjs and verify tests pass
+    - Confirm typecheck success
+    - Full capability/dependency/authority graphs
+    - Local verification across residuals
+  blockers:
+    - Remote-only; no full CI log access without deeper auth
+    - Catalog lock (operator)
+  new_gaps:
+    - Need for complete test restoration in atomicdreamlabs1.1
+
+NEXT:
+  objective_id: GAP-RESIDUAL-ATOMICDREAMLABS-TEST-RESTORE-001
+  action: Retrieve known-good version of scripts/grok-pwa-plugin.test.mjs (from prior commit if available) and prepare restoration commit, or document further inspection of other .test.mjs files for similar truncation.
+  reason: Directly closes the identified root-cause candidate for the highest-value residual.
+  prerequisites:
+    - This pass record committed
+    - Access to historical commit content or full file retrieval
+
+PROVENANCE:
+  state_commit: this commit
+  evidence:
+    - GitHub get_file_contents on atomicdreamlabs1.1 package.json, .github/workflows/ci.yml, scripts/grok-pwa-plugin.test.mjs, scripts/migration-plan.test.mjs, CLAIM_STATUS.md
+    - Parent PASS-20261117T170900Z-basilisk-recon-005
+    - Live search total_count=88
+    - This file
