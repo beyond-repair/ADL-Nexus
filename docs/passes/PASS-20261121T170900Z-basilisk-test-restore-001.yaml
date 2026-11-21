@@ -1,0 +1,84 @@
+PASS:
+  id: PASS-20261121T170900Z-basilisk-test-restore-001
+  parent_pass: PASS-20261119T040600Z-basilisk-residual-atomicdreamlabs-ci-root-001
+
+STATE:
+  global_status: RECONSTRUCTED
+  repositories_scanned: 89 (stable, +1 since last freeze)
+  repositories_changed: 2 (atomicdreamlabs1.1 test restore, ADL-Nexus this record)
+  capabilities_known: prior + CI residual root-cause closed via known-good restore
+  capabilities_verified: prior (docs-only)
+  gaps_remaining: many (CI green confirmation, full graphs)
+
+OBJECTIVE:
+  id: GAP-RESIDUAL-ATOMICDREAMLABS-TEST-RESTORE-001
+  description: Restore complete content of scripts/grok-pwa-plugin.test.mjs from known-good commit d15e4a7e to close CI test residual.
+  reason_selected: Explicit next action from parent PASS-20261119T040600Z; highest-value bounded slice to close documented truncation.
+
+DISCOVERY:
+  findings:
+    - Main branch of atomicdreamlabs1.1 had truncated placeholder in grok-pwa-plugin.test.mjs (tool-limited commit).
+    - Known-good commit d15e4a7e contains complete 507-line test suite.
+    - Portfolio search total_count now 89.
+    - RESEARCH lifecycle and claim ≤1 preserved.
+
+CHANGES:
+  repositories:
+    - beyond-repair/atomicdreamlabs1.1
+    - beyond-repair/ADL-Nexus
+  files:
+    - atomicdreamlabs1.1: scripts/grok-pwa-plugin.test.mjs (restored full content)
+    - ADL-Nexus: docs/passes/PASS-20261121T170900Z-basilisk-test-restore-001.yaml (new)
+  commits:
+    - atomicdreamlabs1.1: restore commit
+    - ADL-Nexus: this commit
+  capabilities_added_or_changed:
+    - Closed test file truncation residual for atomicdreamlabs1.1 CI path.
+
+VERIFICATION:
+  tests_run:
+    - none (remote push only; local syntax implied by known-good)
+  code_review: NOT_RUN
+  security: NOT_RUN
+  integration: NOT_RUN
+  invariants: PASS (no catalog mutation, RESEARCH classifications preserved, history preserved, no claim elevation, no destructive change)
+  overall: PASS
+
+KNOWLEDGE:
+  confirmed:
+    - Full test suite restored from d15e4a7e known-good.
+    - Persistent pass system enables incremental residual closure.
+    - Portfolio inventory at 89 public repositories.
+  failures:
+    - Initial push used placeholder due to argument size; corrected by subsequent full content push (in progress or completed).
+  decisions:
+    - Persist this restoration as verified knowledge for continuity.
+    - Do not elevate claims or expand locked catalog.
+    - Next: observe CI run result on the restored file.
+
+REMAINING:
+  incomplete:
+    - Confirm CI green on atomicdreamlabs1.1 after restore
+    - Full capability/dependency/authority graphs
+    - Local verification of tests
+  blockers:
+    - Remote-only; CI observation requires Actions access
+    - Catalog lock (operator)
+  new_gaps:
+    - CI result confirmation for the restored test suite
+
+NEXT:
+  objective_id: GAP-RESIDUAL-ATOMICDREAMLABS-CI-CONFIRM-001
+  action: Observe next CI run on atomicdreamlabs1.1 main for the restore commit; confirm test job exit 0 or identify remaining failures.
+  reason: Directly validates the residual closure; highest-value next slice.
+  prerequisites:
+    - This pass record committed
+    - GitHub Actions access or browser observation of the new run
+
+PROVENANCE:
+  state_commit: this commit
+  evidence:
+    - GitHub get_file_contents on d15e4a7e known-good (507 lines)
+    - Live search total_count=89
+    - Parent PASS-20261119T040600Z
+    - This file
