@@ -1,0 +1,92 @@
+PASS:
+  id: PASS-20261123T041000Z-adl-nexas2-classify-001
+  parent_pass: PASS-20261110T180830Z-momentum-closure-residual-001
+
+STATE:
+  global_status: RECONSTRUCTED
+  repositories_scanned: 89 (stable, delta noted in Governance)
+  repositories_changed: 2 (ADL_Nexas2.0: CLAIM_STATUS.md added; ADL-Nexus: this pass record)
+  capabilities_known: prior + ADL_Nexas2.0 classified RESEARCH / Claim ≤1
+  capabilities_verified: prior (docs-only)
+  gaps_remaining: many (catalog expansion operator-blocked, deeper verification, residual tags/releases, PR merges, other residuals without CLAIM_STATUS)
+
+OBJECTIVE:
+  id: GAP-CLASSIFY-001
+  description: Bounded classification of residual RESEARCH repo beyond-repair/ADL_Nexas2.0 (no prior CLAIM_STATUS.md); confirm RESEARCH / Claim ≤1, add CLAIM_STATUS.md, persist observation.
+  reason_selected: Highest-value next residual from OPERATOR_QUEUE (select next residual without CLAIM_STATUS.md); non-mutating discovery + minimal docs update advances global model without claim elevation.
+
+DISCOVERY:
+  findings:
+    - ADL_Nexas2.0: RESEARCH classification, Claim ≤1 (experimental Grok App Builder workspace / Vite + TanStack Start). Created 2026-11-11. README badges and text confirm. No prior CLAIM_STATUS.md.
+    - Tree: AGENTS.md, package.json (app-builder-workspace), src/, migrations, .data/, .github/workflows/ci.yml (typecheck + npm test), no releases/tags observed.
+    - Explicit not claimed: production app-builder, live Nexus integration, AGI, autonomous workforce.
+    - Similar to atomicdreamlabs1.1 (office UI surface, not kernel).
+    - CI workflow present. Portfolio total remains ~89. Claims not elevated.
+
+CHANGES:
+  repositories:
+    - beyond-repair/ADL_Nexas2.0
+    - beyond-repair/ADL-Nexus
+  files:
+    - ADL_Nexas2.0/CLAIM_STATUS.md (new)
+    - ADL-Nexus/docs/passes/PASS-20261123T041000Z-adl-nexas2-classify-001.yaml (new)
+  commits:
+    - ADL_Nexas2.0: 5cd6547d111d5412a4e42f03de68b99528d69ebf
+    - ADL-Nexus: this commit
+  capabilities_added_or_changed:
+    - Classified ADL_Nexas2.0 as RESEARCH / Claim ≤1 experimental workspace. CLAIM_STATUS.md added. No elevation.
+
+VERIFICATION:
+  tests_run:
+    - none (remote inspection + file create only; CI exists but not executed here)
+  code_review: NOT_RUN
+  security: NOT_RUN
+  integration: NOT_RUN
+  invariants: PASS (no catalog mutation, RESEARCH classifications preserved, history preserved, no claim elevation, no destructive change)
+  overall: PASS
+
+KNOWLEDGE:
+  confirmed:
+    - ADL_Nexas2.0 holds as RESEARCH experimental Grok App Builder workspace with locked claim ≤1; CI present; now has CLAIM_STATUS.md.
+    - Governance OPERATOR_QUEUE continues residual sweeps; next residuals remain (other without CLAIM_STATUS).
+    - Persistent memory via pass records in docs/passes/ enables fresh-agent continuity.
+  failures:
+    - none
+  decisions:
+    - Persist this confirmation in Nexus for continuity.
+    - Added CLAIM_STATUS.md to terminate classification for this residual (consistent with prior cycles e.g. ExoAxis-1).
+    - Do not expand locked catalog or elevate claims.
+    - Next bounded slice: another residual without CLAIM_STATUS.md from OPERATOR_QUEUE.
+
+REMAINING:
+  incomplete:
+    - Catalog registration of post-lock repos (operator)
+    - Full capability/dependency/authority graphs beyond locked snapshot
+    - Creation of residual tags/releases (operator)
+    - Merge of residual PRs (operator)
+    - Execution of existing tests across residuals
+    - Integration interfaces (kernel, graphs, Command Center)
+    - Other residuals without CLAIM_STATUS.md
+  blockers:
+    - Catalog lock (operator boundary)
+    - Remote-only inspection; no local execution of tests in this agent
+    - Tag/release creation and PR merges operator-gated
+  new_gaps:
+    - none major; residual classification continues incrementally
+
+NEXT:
+  objective_id: GAP-CLASSIFY-001
+  action: Select and perform bounded classification confirmation (add CLAIM_STATUS.md if absent) on next residual RESEARCH repo without CLAIM_STATUS.md.
+  reason: Continues highest-value incremental residual work aligning with Governance OPERATOR_QUEUE; advances capability graph without mutation.
+  prerequisites:
+    - This pass record committed
+    - GitHub access
+
+PROVENANCE:
+  state_commit: this commit
+  evidence:
+    - GitHub get_file_contents (README.md, package.json, .github/workflows/ci.yml), get_repository_tree, search_code on ADL_Nexas2.0
+    - Parent PASS-20261110T180830Z-momentum-closure-residual-001
+    - ADL-Governance docs/OPERATOR_QUEUE.md
+    - Commit 5cd6547 on ADL_Nexas2.0
+    - This file
