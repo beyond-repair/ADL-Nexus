@@ -59,3 +59,9 @@ vendor/
 # Local runtime stores written in the cwd
 .nexus_memory/
 .nexus_anchors.json
+
+# Godot (client/godot_nexus_party)
+**/.godot/
+**/android/
+# exported APKs / local builds under client
+client/godot_nexus_party/build/

@@ -4,6 +4,9 @@ extends Node
 signal agent_spoke(agent_id: String, line: String)
 signal party_event(msg: String)
 
+## Seconds between turns. Set to 0.0 in automated smoke for speed.
+var reply_delay: float = 0.35
+
 class Agent:
 	var id: String
 	var display_name: String
@@ -38,20 +41,34 @@ func get_agent(id: String) -> Agent:
 	return agents.get(id)
 
 func handle_user_message(text: String) -> void:
-	var lower := text.to_lower()
-	# Direct @mention
-	for id in agents.keys():
-		if lower.begins_with("{0} ".format(["@" + id])) or lower.begins_with("{0},".format(["@" + id])):
-			var rest := text.substr(id.length() + 1).strip_edges()
-			await _agent_reply(id, rest, true)
-			return
+	var stripped := text.strip_edges()
+	var lower := stripped.to_lower()
+	# Direct @mention: @id | @id rest | @id, rest
+	for raw_id in agents.keys():
+		var id: String = str(raw_id)
+		var tag: String = "@" + id
+		var is_mention: bool = (
+			lower == tag
+			or lower.begins_with(tag + " ")
+			or lower.begins_with(tag + ",")
+			or lower.begins_with(tag + "\t")
+		)
+		if not is_mention:
+			continue
+		var rest: String = stripped.substr(tag.length()).strip_edges()
+		if rest.begins_with(","):
+			rest = rest.substr(1).strip_edges()
+		if rest.is_empty():
+			rest = "Listening."
+		await _agent_reply(id, rest, true)
+		return
 	# Party debate mode — agents respond to each other
 	if "party debate" in lower or "debate" in lower:
-		var topic := text
+		var topic := stripped
 		for key in ["party debate", "debate"]:
 			var idx := lower.find(key)
 			if idx >= 0:
-				topic = text.substr(idx + key.length()).strip_edges()
+				topic = stripped.substr(idx + key.length()).strip_edges()
 				break
 		if topic.is_empty():
 			topic = "the current mission"
@@ -59,9 +76,9 @@ func handle_user_message(text: String) -> void:
 		await _debate(topic)
 		return
 	# Default: manager routes, then one specialist answers, tester may challenge
-	await _agent_reply("manager", text, false)
-	var target := _route(text)
-	await _agent_reply(target, text, false)
+	await _agent_reply("manager", stripped, false)
+	var target := _route(stripped)
+	await _agent_reply(target, stripped, false)
 	if randf() < 0.45:
 		await _agent_reply("tester", "Challenge to %s: how do we verify that?" % agents[target].display_name, false)
 		await _agent_reply(target, _verify_line(target), false)
@@ -96,8 +113,8 @@ func _agent_reply(id: String, user_text: String, direct: bool) -> void:
 		return
 	var a: Agent = agents[id]
 	var line := _compose(a, user_text, direct)
-	# Small delay so multi-agent turns feel conversational
-	await get_tree().create_timer(0.35).timeout
+	if reply_delay > 0.0:
+		await get_tree().create_timer(reply_delay).timeout
 	agent_spoke.emit(id, line)
 
 func _compose(a: Agent, user_text: String, direct: bool) -> String:

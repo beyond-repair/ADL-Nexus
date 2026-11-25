@@ -1,11 +1,14 @@
 extends HBoxContainer
+class_name PartyBar
 ## Pixel-party strip: one portrait slot per agent.
 
 var _slots: Dictionary = {}
 
 func setup(agents: Array) -> void:
+	# Free immediately so a re-setup does not stack with queue_free deferred nodes.
 	for c in get_children():
-		c.queue_free()
+		remove_child(c)
+		c.free()
 	_slots.clear()
 	for a in agents:
 		var panel := PanelContainer.new()
@@ -36,4 +39,10 @@ func pulse(agent_id: String) -> void:
 	var base := r.color
 	r.color = Color(1, 1, 0.6, 1)
 	await get_tree().create_timer(0.15).timeout
+	# Slot may have been rebuilt during await
+	if not is_instance_valid(r):
+		return
 	r.color = base
+
+func slot_count() -> int:
+	return _slots.size()

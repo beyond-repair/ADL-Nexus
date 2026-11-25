@@ -4,10 +4,13 @@ extends Control
 @onready var chat_log: RichTextLabel = $VBox/ChatLog
 @onready var user_input: LineEdit = $VBox/InputRow/UserInput
 @onready var send_button: Button = $VBox/InputRow/SendButton
-@onready var party_bar: HBoxContainer = $VBox/PartyBar
+@onready var party_bar: PartyBar = $VBox/PartyBar
 @onready var status_label: Label = $VBox/Status
 
+const STATUS_READY := "Offline local agents · Layer 3 Workforce preview · claim-capped · ready"
+
 var bus: Node
+var _busy: bool = false
 
 func _ready() -> void:
 	bus = preload("res://scripts/AgentBus.gd").new()
@@ -17,24 +20,39 @@ func _ready() -> void:
 	party_bar.setup(bus.get_agents())
 	send_button.pressed.connect(_on_send)
 	user_input.text_submitted.connect(func(_t): _on_send())
+	status_label.text = STATUS_READY
 	_system("Welcome to ADL Nexus Party. Agents can hear you and each other.")
 	_system("Tip: @engineer / @researcher / @manager or say 'party debate <topic>'")
 	bus.agent_spoke.connect(_on_agent_spoke)
 	bus.party_event.connect(_on_party_event)
 
 func _on_send() -> void:
+	if _busy:
+		return
 	var text := user_input.text.strip_edges()
 	if text.is_empty():
 		return
 	user_input.text = ""
 	_append("You", text, Color(0.7, 0.85, 1.0))
-	bus.handle_user_message(text)
+	_busy = true
+	send_button.disabled = true
+	user_input.editable = false
+	status_label.text = "Party thinking…"
+	await bus.handle_user_message(text)
+	_busy = false
+	send_button.disabled = false
+	user_input.editable = true
+	if is_instance_valid(user_input):
+		user_input.grab_focus()
+	status_label.text = STATUS_READY
 
 func _on_agent_spoke(agent_id: String, line: String) -> void:
 	var a = bus.get_agent(agent_id)
 	var col: Color = a.color if a else Color.WHITE
 	_append(a.display_name if a else agent_id, line, col)
 	party_bar.pulse(agent_id)
+	if a:
+		status_label.text = "%s spoke · claim-capped" % a.display_name
 
 func _on_party_event(msg: String) -> void:
 	_system(msg)
